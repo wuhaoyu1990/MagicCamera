@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MagicCamera</string>
+    <string name="filter_none">Original</string>
+    <string name="filter_amaro">Amaro</string>
+	<string name="filter_brannan">Brannan</string>
+	<string name="filter_brooklyn">Brooklyn</string>
+	<string name="filter_Earlybird">EarlyBird</string>
+	<string name="filter_freud">Freud</string>
+	<string name="filter_hefe">Hefe</string>
+	<string name="filter_hudson">Hudson</string>
+	<string name="filter_inkwell">Inkwell</string>
+	<string name="filter_kevin">Kevin</string>
+	<string name="filter_lomo">Lomo</string>
+	<string name="filter_n1977">1977</string>
+	<string name="filter_nashville">Nashville</string>
+	<string name="filter_pixar">Pixar</string>
+	<string name="filter_rise">Rise</string>
+	<string name="filter_sierra">Sierra</string>
+	<string name="filter_sutro">Sutro</string>
+	<string name="filter_toastero">Toaster2</string>
+	<string name="filter_valencia">Valencia</string>
+	<string name="filter_walden">Walden</string>
+	<string name="filter_xproii">XproII</string>
+	<string name="filter_whitecat">WhiteCat</string>
+	<string name="filter_blackcat">BlackCat</string>
+	<string name="filter_romance">Romance</string>
+	<string name="filter_sakura">Sakura</string>
+	<string name="filter_antique">Antique</string>
+	<string name="filter_beauty">Beauty</string>
+	<string name="filter_calm">Calm</string>
+	<string name="filter_cool">Cool</string>
+	<string name="filter_emerald">Emerald</string>
+	<string name="filter_evergreen">Evergreen</string>
+	<string name="filter_fairytale">Fairytale</string>
+	<string name="filter_healthy">Healthy</string>
+	<string name="filter_latte">Latte</string>
+	<string name="filter_nostalgia">Nostalgia</string>
+	<string name="filter_tender">Tender</string>
+	<string name="filter_warm">Warm</string>
+	<string name="filter_sweets">Sweets</string>
+	<string name="filter_sunrise">Sunrise</string>
+	<string name="filter_sunset">Sunset</string>
+	
+	<string name="edit_filter">Filter</string>
+	<string name="edit_edit">Edit</string>
+	<string name="edit_adds">Adds</string>
+	<string name="edit_frame">Frame</string>
+	<string name="edit_beauty">Beauty</string>
+</resources>

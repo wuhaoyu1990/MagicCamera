@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/take_filter_favorite_btn01_layer00_skin_flat" />
+    <item android:drawable="@drawable/take_filter_favorite_btn01_layer01_skin_flat" />
+    <item android:drawable="@drawable/selector_filter_favorite_btn" />
+</layer-list>

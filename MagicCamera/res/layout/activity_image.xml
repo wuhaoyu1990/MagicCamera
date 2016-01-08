@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    
+	<FrameLayout 
+	    android:id="@+id/image_edit_layout"  
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true">
+	  
+		<RadioGroup 
+		    android:id="@+id/image_edit_radiogroup"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal"
+		    android:layout_gravity="bottom"
+		    android:background="@android:color/background_dark">
+		    
+		    <RadioButton
+		        android:id="@+id/image_edit_adjust"
+		        android:layout_weight="1.0"
+		        android:layout_width="0dip"
+		        android:layout_height="wrap_content"
+		        android:button="@null"
+		        android:drawableTop="@drawable/selector_image_edit"
+		        android:gravity="center"
+		        android:text="@string/edit_edit"
+		        android:textColor="@color/selector_image_edit"/>
+		    
+		    <RadioButton
+		        android:id="@+id/image_edit_beauty"
+		        android:layout_weight="1.0"
+		        android:layout_width="0dip"
+		        android:layout_height="wrap_content"
+		        android:button="@null"
+		        android:drawableTop="@drawable/selector_image_beauty"
+		        android:gravity="center"
+		        android:text="@string/edit_beauty"
+		        android:textColor="@color/selector_image_edit"/>
+		    
+		    <RadioButton
+		        android:id="@+id/image_edit_adds"
+		        android:layout_weight="1.0"
+		        android:layout_width="0dip"
+		        android:layout_height="wrap_content"
+		        android:button="@null"
+		        android:drawableTop="@drawable/selector_image_adds"
+		        android:gravity="center"
+		        android:text="@string/edit_adds"
+		        android:textColor="@color/selector_image_edit"/>
+		    
+		    <RadioButton
+		        android:id="@+id/image_edit_filter"
+		        android:layout_weight="1.0"
+		        android:layout_width="0dip"
+		        android:layout_height="wrap_content"
+		        android:button="@null"
+		        android:drawableTop="@drawable/selector_image_filter"
+		        android:gravity="center"
+		        android:text="@string/edit_filter"
+		        android:textColor="@color/selector_image_edit"/>
+		    
+		    <RadioButton
+		        android:id="@+id/image_edit_frame"
+		        android:layout_weight="1.0"
+		        android:layout_width="0dip"
+		        android:layout_height="wrap_content"
+		        android:button="@null"
+		        android:drawableTop="@drawable/selector_image_frame"
+		        android:gravity="center"
+		        android:text="@string/edit_frame"
+		        android:textColor="@color/selector_image_edit"/>
+	
+		</RadioGroup>
+	    <RelativeLayout 
+	        android:id="@+id/image_edit_fragment_container"  
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:background="@android:color/background_dark">       
+    	</RelativeLayout>
+	</FrameLayout>
+	
+	<RelativeLayout 
+	    android:id="@+id/image_edit_topbar"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:padding="5dp">
+	    <TextView 
+	        android:id="@+id/image_edit_back"
+	        android:layout_alignParentLeft="true"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:drawableLeft="@drawable/selector_image_back"
+	        android:text="美化照片"
+	        android:textColor="@color/selector_image_back"
+	        android:gravity="center"/>
+	    <ImageView 
+	        android:id="@+id/image_edit_save"
+	        android:layout_alignParentRight="true"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:src="@drawable/selector_image_save"/>
+	</RelativeLayout>
+	
+    <android.opengl.GLSurfaceView
+        android:id="@+id/glsurfaceView_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/image_edit_topbar"
+        android:layout_above="@id/image_edit_layout"/>    
+     
+</RelativeLayout>

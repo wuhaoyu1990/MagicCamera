@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout 
+    android:id="@+id/filter_root"
+    android:layout_gravity="center_vertical" 
+    android:orientation="vertical" 
+    android:layout_width="74.0dip" 
+    android:layout_height="84.0dip"
+    android:padding="5dip"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <FrameLayout 
+        android:layout_width="fill_parent" 
+        android:layout_height="64.0dip">
+        <ImageView 
+            android:id="@+id/filter_thumb_image" 
+            android:layout_width="64.0dip" 
+            android:layout_height="64.0dip" 
+            android:src="@drawable/filter_thumb_original" 
+            android:scaleType="centerCrop" />
+        <FrameLayout 
+            android:id="@+id/filter_thumb_selected" 
+            android:visibility="gone" 
+            android:layout_width="fill_parent" 
+            android:layout_height="fill_parent">
+            <View 
+                android:id="@+id/filter_thumb_selected_bg"
+                android:layout_width="fill_parent" 
+            	android:layout_height="fill_parent"/>
+            <ImageView 
+                android:layout_gravity="center" 
+                android:id="@+id/filter_thumb_selected_icon" 
+                android:layout_width="34.0dip" 
+                android:layout_height="34.0dip" 
+                android:src="@drawable/selector_filter_selected" />
+        </FrameLayout>
+        <FrameLayout 
+            android:id="@+id/filter_thumb_favorite_layout" 
+            android:background="@drawable/take_filter_favorite_icon01_skin_flat" 
+            android:layout_width="18.0dip" 
+            android:layout_height="18.0dip">
+            <ImageView 
+                android:id="@+id/filter_thumb_favorite" 
+                android:layout_width="18.0dip" 
+                android:layout_height="18.0dip" 
+                android:src="@drawable/take_filter_favorite_icon02_skin_flat" 
+                android:transformPivotX="4.0dip"
+                android:transformPivotY="4.0dip" />
+        </FrameLayout>
+    </FrameLayout>
+    <TextView 
+        android:textSize="10.0sp" 
+        android:textColor="@android:color/white" 
+        android:gravity="center" 
+        android:layout_gravity="bottom" 
+        android:id="@+id/filter_thumb_name" 
+        android:layout_width="fill_parent" 
+        android:layout_height="20.0dip" 
+        android:text="@string/filter_none" />
+</FrameLayout>
