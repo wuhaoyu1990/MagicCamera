@@ -10,6 +10,10 @@ Log:
 2016-01-08
 First release
 
+2016-01-14
+Fix bugs
+add Bilateral filte before beauty filter
+
 Introduction：
 a Camera APP which inlcudes
 39 kinds of real-time filters 
