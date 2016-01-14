@@ -3,7 +3,6 @@ package com.seu.magicfilter.filter.factory;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.seu.magicfilter.filter.advance.common.MagicAmaroFilter;
 import com.seu.magicfilter.filter.advance.common.MagicAntiqueFilter;
@@ -44,6 +43,7 @@ import com.seu.magicfilter.filter.advance.common.MagicWaldenFilter;
 import com.seu.magicfilter.filter.advance.common.MagicWarmFilter;
 import com.seu.magicfilter.filter.advance.common.MagicWhiteCatFilter;
 import com.seu.magicfilter.filter.advance.common.MagicXproIIFilter;
+import com.seu.magicfilter.filter.base.MagicBilateralFilter;
 import com.seu.magicfilter.filter.base.MagicBaseGroupFilter;
 import com.seu.magicfilter.filter.base.gpuimage.GPUImageFilter;
 import com.seu.magicfilter.filter.helper.MagicFilterType;
@@ -51,136 +51,142 @@ import com.seu.magicfilter.filter.helper.MagicFilterType;
 public class MagicFilterFactory extends MagicBaseGroupFilter{
 	
 	private static int mFilterType = MagicFilterType.NONE;
+	private Context mContext;
 	
-	public MagicFilterFactory(int type,Context context) {
-		super(initFilters(type,context));
+	public MagicFilterFactory(Context context) {
+		super();
+		this.mContext = context;
+		setFilters(MagicFilterType.NONE);
 	}
 	
-	private static ArrayList<GPUImageFilter> initFilters(int type,Context context){
+	public void setFilters(int type){
+		if(mFilters == null)
+			mFilters = new ArrayList<GPUImageFilter>();
+		else
+			mFilters.clear();
 		mFilterType = type;
-		ArrayList<GPUImageFilter> filters = new ArrayList<GPUImageFilter>();
 		switch (type) {
 		case MagicFilterType.WHITECAT:
-			filters.add(new MagicWhiteCatFilter(context));
+			addFilter(new MagicWhiteCatFilter(mContext));
 			break;
 		case MagicFilterType.BLACKCAT:
-			filters.add(new MagicBlackCatFilter(context));
+			addFilter(new MagicBlackCatFilter(mContext));
 			break;
 		case MagicFilterType.BEAUTY:
-			filters.add(new MagicBeautyFilter(context));
+			addFilter(new MagicBilateralFilter(mContext));
+			addFilter(new MagicBeautyFilter(mContext));
 			break;
 		case MagicFilterType.ROMANCE:
-			filters.add(new MagicRomanceFilter(context));
+			addFilter(new MagicRomanceFilter(mContext));
 			break;
 		case MagicFilterType.SAKURA:
-			filters.add(new MagicSakuraFilter(context));
+			addFilter(new MagicSakuraFilter(mContext));
 			break;
 		case MagicFilterType.AMARO:
-			filters.add(new MagicAmaroFilter(context));
+			addFilter(new MagicAmaroFilter(mContext));
 			break;
 		case MagicFilterType.WALDEN:
-			filters.add(new MagicWaldenFilter(context));
+			addFilter(new MagicWaldenFilter(mContext));
 			break;
 		case MagicFilterType.ANTIQUE:
-			filters.add(new MagicAntiqueFilter(context));
+			addFilter(new MagicAntiqueFilter(mContext));
 			break;
 		case MagicFilterType.CALM:
-			filters.add(new MagicCalmFilter(context));
+			addFilter(new MagicCalmFilter(mContext));
 			break;
 		case MagicFilterType.BRANNAN:
-			filters.add(new MagicBrannanFilter(context));
+			addFilter(new MagicBrannanFilter(mContext));
 			break;
 		case MagicFilterType.BROOKLYN:
-			filters.add(new MagicBrooklynFilter(context));
+			addFilter(new MagicBrooklynFilter(mContext));
 			break;
 		case MagicFilterType.EARLYBIRD:
-			filters.add(new MagicEarlyBirdFilter(context));
+			addFilter(new MagicEarlyBirdFilter(mContext));
 			break;
 		case MagicFilterType.FREUD:
-			filters.add(new MagicFreudFilter(context));
+			addFilter(new MagicFreudFilter(mContext));
 			break;
 		case MagicFilterType.HEFE:
-			filters.add(new MagicHefeFilter(context));
+			addFilter(new MagicHefeFilter(mContext));
 			break;
 		case MagicFilterType.HUDSON:
-			filters.add(new MagicHudsonFilter(context));
+			addFilter(new MagicHudsonFilter(mContext));
 			break;
 		case MagicFilterType.INKWELL:
-			filters.add(new MagicInkwellFilter(context));
+			addFilter(new MagicInkwellFilter(mContext));
 			break;
 		case MagicFilterType.KEVIN:
-			filters.add(new MagicKevinFilter(context));
+			addFilter(new MagicKevinFilter(mContext));
 			break;
 		case MagicFilterType.LOMO:
-			filters.add(new MagicLomoFilter(context));
+			addFilter(new MagicLomoFilter(mContext));
 			break;
 		case MagicFilterType.N1977:
-			filters.add(new MagicN1977Filter(context));
+			addFilter(new MagicN1977Filter(mContext));
 			break;
 		case MagicFilterType.NASHVILLE:
-			filters.add(new MagicNashvilleFilter(context));
+			addFilter(new MagicNashvilleFilter(mContext));
 			break;
 		case MagicFilterType.PIXAR:
-			filters.add(new MagicPixarFilter(context));
+			addFilter(new MagicPixarFilter(mContext));
 			break;
 		case MagicFilterType.RISE:
-			filters.add(new MagicRiseFilter(context));
+			addFilter(new MagicRiseFilter(mContext));
 			break;
 		case MagicFilterType.SIERRA:
-			filters.add(new MagicSierraFilter(context));
+			addFilter(new MagicSierraFilter(mContext));
 			break;
 		case MagicFilterType.SUTRO:
-			filters.add(new MagicSutroFilter(context));
+			addFilter(new MagicSutroFilter(mContext));
 			break;
 		case MagicFilterType.TOASTER2:
-			filters.add(new MagicToasterFilter(context));
+			addFilter(new MagicToasterFilter(mContext));
 			break;
 		case MagicFilterType.VALENCIA:
-			filters.add(new MagicValenciaFilter(context));
+			addFilter(new MagicValenciaFilter(mContext));
 			break;
 		case MagicFilterType.XPROII:
-			filters.add(new MagicXproIIFilter(context));
+			addFilter(new MagicXproIIFilter(mContext));
 			break;
 		case MagicFilterType.EVERGREEN:
-			filters.add(new MagicEvergreenFilter(context));
+			addFilter(new MagicEvergreenFilter(mContext));
 			break;
 		case MagicFilterType.HEALTHY:
-			filters.add(new MagicHealthyFilter(context));
+			addFilter(new MagicHealthyFilter(mContext));
 			break;
 		case MagicFilterType.COOL:
-			filters.add(new MagicCoolFilter(context));
+			addFilter(new MagicCoolFilter(mContext));
 			break;
 		case MagicFilterType.EMERALD:
-			filters.add(new MagicEmeraldFilter(context));
+			addFilter(new MagicEmeraldFilter(mContext));
 			break;
 		case MagicFilterType.LATTE:
-			filters.add(new MagicLatteFilter(context));
+			addFilter(new MagicLatteFilter(mContext));
 			break;
 		case MagicFilterType.WARM:
-			filters.add(new MagicWarmFilter(context));
+			addFilter(new MagicWarmFilter(mContext));
 			break;
 		case MagicFilterType.TENDER:
-			filters.add(new MagicTenderFilter(context));
+			addFilter(new MagicTenderFilter(mContext));
 			break;
 		case MagicFilterType.SWEETS:
-			filters.add(new MagicSweetsFilter(context));
+			addFilter(new MagicSweetsFilter(mContext));
 			break;
 		case MagicFilterType.NOSTALGIA:
-			filters.add(new MagicNostalgiaFilter(context));
+			addFilter(new MagicNostalgiaFilter(mContext));
 			break;
 		case MagicFilterType.FAIRYTALE:
-			filters.add(new MagicFairytaleFilter(context));
+			addFilter(new MagicFairytaleFilter(mContext));
 			break;
 		case MagicFilterType.SUNRISE:
-			filters.add(new MagicSunriseFilter(context));
+			addFilter(new MagicSunriseFilter(mContext));
 			break;
 		case MagicFilterType.SUNSET:
-			filters.add(new MagicSunsetFilter(context));
+			addFilter(new MagicSunsetFilter(mContext));
 			break;
 		default:
 			break;
 		}
-		return filters;
 	}
 	
 	public int getFilterType(){

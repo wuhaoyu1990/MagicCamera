@@ -19,10 +19,14 @@ package com.seu.magicfilter.filter.base.gpuimage;
 import android.graphics.PointF;
 import android.opengl.GLES20;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.util.LinkedList;
 
 import com.seu.magicfilter.utils.OpenGLUtils;
+import com.seu.magicfilter.utils.Rotation;
+import com.seu.magicfilter.utils.TextureRotationUtil;
 
 public class GPUImageFilter {
     public static final String NO_FILTER_VERTEX_SHADER = "" +
@@ -57,7 +61,9 @@ public class GPUImageFilter {
     protected int mOutputWidth;
     protected int mOutputHeight;
     protected boolean mIsInitialized;
-
+    protected FloatBuffer mGLCubeBuffer;
+    protected FloatBuffer mGLTextureBuffer;
+    
     public GPUImageFilter() {
         this(NO_FILTER_VERTEX_SHADER, NO_FILTER_FRAGMENT_SHADER);
     }
@@ -66,6 +72,16 @@ public class GPUImageFilter {
         mRunOnDraw = new LinkedList<Runnable>();
         mVertexShader = vertexShader;
         mFragmentShader = fragmentShader;
+        
+        mGLCubeBuffer = ByteBuffer.allocateDirect(TextureRotationUtil.CUBE.length * 4)
+                .order(ByteOrder.nativeOrder())
+                .asFloatBuffer();
+        mGLCubeBuffer.put(TextureRotationUtil.CUBE).position(0);
+
+        mGLTextureBuffer = ByteBuffer.allocateDirect(TextureRotationUtil.TEXTURE_NO_ROTATION.length * 4)
+                .order(ByteOrder.nativeOrder())
+                .asFloatBuffer();
+        mGLTextureBuffer.put(TextureRotationUtil.getRotation(Rotation.NORMAL, false, true)).position(0);
     }
 
     public final void init() {
@@ -131,7 +147,35 @@ public class GPUImageFilter {
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
         return OpenGLUtils.ON_DRAWN;
     }
-
+    
+    public int onDrawFrame(final int textureId) {
+		GLES20.glUseProgram(mGLProgId);
+		runPendingOnDrawTasks();
+		if (!mIsInitialized) {
+		 return OpenGLUtils.NOT_INIT;
+		}
+		
+		mGLCubeBuffer.position(0);
+		GLES20.glVertexAttribPointer(mGLAttribPosition, 2, GLES20.GL_FLOAT, false, 0, mGLCubeBuffer);
+		GLES20.glEnableVertexAttribArray(mGLAttribPosition);
+		mGLTextureBuffer.position(0);
+		GLES20.glVertexAttribPointer(mGLAttribTextureCoordinate, 2, GLES20.GL_FLOAT, false, 0,
+		     mGLTextureBuffer);
+		GLES20.glEnableVertexAttribArray(mGLAttribTextureCoordinate);
+		if (textureId != OpenGLUtils.NO_TEXTURE) {
+		 GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+		 GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
+		 GLES20.glUniform1i(mGLUniformTexture, 0);
+		}
+		onDrawArraysPre();
+		GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
+		GLES20.glDisableVertexAttribArray(mGLAttribPosition);
+		GLES20.glDisableVertexAttribArray(mGLAttribTextureCoordinate);
+		onDrawArraysAfter();
+		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
+		return OpenGLUtils.ON_DRAWN;
+	}
+    
     protected void onDrawArraysPre() {}
     protected void onDrawArraysAfter() {}
     

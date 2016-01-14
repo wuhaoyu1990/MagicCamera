@@ -4,59 +4,67 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLSurfaceView.Renderer;
 
-import com.seu.magicfilter.filter.base.MagicBaseGroupFilter;
 import com.seu.magicfilter.filter.base.MagicFrameBuffer;
+import com.seu.magicfilter.filter.factory.MagicFilterFactory;
+import com.seu.magicfilter.filter.helper.MagicFilterType;
 import com.seu.magicfilter.filter.helper.SaveTask;
 import com.seu.magicfilter.utils.OpenGLUtils;
 import com.seu.magicfilter.utils.TextureRotationUtil;
 
 public abstract class MagicDisplay implements Renderer{
-	/*
+	/**
 	 * 所选择的滤镜，类型为MagicBaseGroupFilter
 	 * 1.mCameraInputFilter将SurfaceTexture中YUV数据绘制到FrameBuffer
 	 * 2.mFilters将FrameBuffer中的纹理绘制到屏幕中
 	 */
-	protected MagicBaseGroupFilter mFilters;
+	protected final MagicFilterFactory mFilters;
 	
-	/*
+	/**
 	 * FrameBuffer，作为相机预览画面和滤镜后画面中间层
 	 */
 	protected final MagicFrameBuffer mFrameBuffer;
 	
-	/*
+	/**
 	 * 所有预览数据绘制画面
 	 */
 	protected final GLSurfaceView mGLSurfaceView;
 	
-	/*
+	/**
 	 * SurfaceTexure纹理id
 	 */
 	protected int mTextureId = OpenGLUtils.NO_TEXTURE;
 	
-	/*
+	/**
 	 * 顶点坐标
 	 */
 	protected final FloatBuffer mGLCubeBuffer;
 	
-	/*
+	/**
 	 * 纹理坐标
 	 */
 	protected final FloatBuffer mGLTextureBuffer;
 	
-	/*
+	/**
 	 * 拍照保存
 	 */
 	protected SaveTask mSaveTask;
-	/*
+	
+	/**
 	 * GLSurfaceView的宽高
 	 */
-	protected int mSurfaceWidth,mSurfaceHeight;
+	protected int mSurfaceWidth, mSurfaceHeight;
+	
+	/**
+	 * 图像宽高
+	 */
+	protected int mImageWidth, mImageHeight;
 	
 	protected Context mContext;
 	
@@ -65,6 +73,8 @@ public abstract class MagicDisplay implements Renderer{
 		mGLSurfaceView = glSurfaceView;  
 		
 		mFrameBuffer = MagicFrameBuffer.getInstance();
+		
+		mFilters = new MagicFilterFactory(context);
 		
 		mGLCubeBuffer = ByteBuffer.allocateDirect(TextureRotationUtil.CUBE.length * 4)
                 .order(ByteOrder.nativeOrder())
@@ -81,10 +91,29 @@ public abstract class MagicDisplay implements Renderer{
 		mGLSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 	}
 	
-	/*
-	 * 设置滤镜，传入滤镜类型
+	/**
+	 * 设置滤镜
+	 * @param 参数类型
 	 */
-	public abstract void setFilter(int filterType);
+	public void setFilter(final int filterType) {
+		mGLSurfaceView.queueEvent(new Runnable() {
+       		
+            @Override
+            public void run() {
+            	if(mFilters != null)
+            		mFilters.destroy();
+            	mFilters.setFilters(filterType);;
+            	mFilters.onInit();
+            	onSizeChanged();
+            }
+        });
+		mGLSurfaceView.requestRender();
+    }
+	
+	protected void onSizeChanged(){
+		mFilters.onOutputSizeChanged(mImageWidth, mImageHeight);
+    	mFrameBuffer.onInit(mImageWidth, mImageHeight, mFilters.getFilterCount());
+	}
 	
 	protected void onResume(){
 		
@@ -99,8 +128,8 @@ public abstract class MagicDisplay implements Renderer{
 		
 	}
 	
-	protected boolean isSetFilters(){
-		return mFilters != null && mFilters.getFilterCount() != 0 ? true : false;
+	protected boolean isFilterSet(){
+		return mFilters.getFilterType() != MagicFilterType.NONE;
 	}
 	
 	protected void getBitmapFromGL(final Bitmap bitmap,final boolean newTexture){
@@ -112,8 +141,7 @@ public abstract class MagicDisplay implements Renderer{
 				int width = bitmap.getWidth();
 				int height = bitmap.getHeight();
 				
-				GLES20.glViewport(0, 0, width, height);
-				
+				GLES20.glViewport(0, 0, width, height);			
 				mFilters.onOutputSizeChanged(width, height);
             	mFrameBuffer.onInit(width, height, mFilters.getFilterCount());
             	int textureId = OpenGLUtils.NO_TEXTURE;
@@ -133,8 +161,8 @@ public abstract class MagicDisplay implements Renderer{
                 GLES20.glViewport(0, 0, mSurfaceWidth, mSurfaceHeight);
                 mFilters.destroy();
             	mFilters.onInit();
-            	mFilters.onOutputSizeChanged(mSurfaceWidth, mSurfaceHeight);
-            	mFrameBuffer.onInit(mSurfaceWidth, mSurfaceHeight, mFilters.getFilterCount());
+            	mFilters.onOutputSizeChanged(mImageWidth, mImageHeight);
+            	mFrameBuffer.onInit(mImageWidth, mImageHeight, mFilters.getFilterCount());
             	onGetBitmapFromGL(mBitmap);
 			}
 		});

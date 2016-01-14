@@ -11,8 +11,8 @@ import android.opengl.GLSurfaceView;
 import android.os.Handler;
 import android.os.Message;
 
-import com.seu.magicfilter.filter.base.MagicImageInputFilter;
-import com.seu.magicfilter.filter.factory.MagicFilterFactory;
+import com.seu.magicfilter.filter.base.MagicFrameBuffer;
+import com.seu.magicfilter.filter.base.gpuimage.GPUImageFilter;
 import com.seu.magicfilter.filter.helper.MagicFilterType;
 import com.seu.magicfilter.filter.helper.SaveTask;
 import com.seu.magicfilter.filter.helper.SaveTask.onPictureSaveListener;
@@ -21,12 +21,9 @@ import com.seu.magicfilter.utils.OpenGLUtils;
 import com.seu.magicfilter.utils.TextureRotationUtil;
 
 public class MagicImageDisplay extends MagicDisplay{
-	private final MagicImageInputFilter mImageInput;
+	private final GPUImageFilter mImageInput;
    
     private final MagicSDK mMagicSDK;
-    
-    private int mImageWidth = 0;
-    private int mImageHeight = 0;
     
     private boolean isChanged = false;
     
@@ -42,8 +39,7 @@ public class MagicImageDisplay extends MagicDisplay{
 			switch (msg.what) {
 			case MagicSDK.MESSAGE_OPERATION_END:
 				isChanged = true;
-				deleteTextures();
-				mGLSurfaceView.requestRender();
+				refreshDisplay();
 				break;
 			default:
 				break;
@@ -55,7 +51,7 @@ public class MagicImageDisplay extends MagicDisplay{
     
     public MagicImageDisplay(Context context, GLSurfaceView glSurfaceView){
     	super(context, glSurfaceView);
-    	mImageInput = new MagicImageInputFilter();
+    	mImageInput = new GPUImageFilter();
     	mMagicSDK = MagicSDK.getInstance();
 		mMagicSDK.setMagicSDKHandler(new MagicSDKHandler());
     }      
@@ -75,6 +71,10 @@ public class MagicImageDisplay extends MagicDisplay{
 		mSurfaceWidth = width;
 		mSurfaceHeight = height;
 		adjustImageDisplaySize();
+		if(isFilterSet()){
+			onSizeChanged();
+		}
+		mFilters.onDisplaySizeChanged(width, height);
 	}
 
 	@Override
@@ -83,10 +83,15 @@ public class MagicImageDisplay extends MagicDisplay{
 		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 		if(mTextureId == OpenGLUtils.NO_TEXTURE)
 			mTextureId = OpenGLUtils.loadTexture(mMagicSDK.getBitmap(), OpenGLUtils.NO_TEXTURE);
-		if(isSetFilters())
-			mFilters.onDrawFrame(mTextureId, mGLCubeBuffer, mGLTextureBuffer);
-		else
+		if(!isFilterSet()){
 			mImageInput.onDrawFrame(mTextureId, mGLCubeBuffer, mGLTextureBuffer);
+		}else{
+			GLES20.glViewport(0, 0, mImageWidth, mImageHeight);
+			GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, MagicFrameBuffer.getFrameBuffers()[0]);
+			mImageInput.onDrawFrame(mTextureId);
+			GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
+			mFilters.onDrawFrame(MagicFrameBuffer.getFrameBufferTextures()[0], mGLCubeBuffer, mGLTextureBuffer);
+		}
 	}
 	
 	public void setImageBitmap(Bitmap bitmap) {
@@ -95,30 +100,15 @@ public class MagicImageDisplay extends MagicDisplay{
 		mImageWidth = bitmap.getWidth();
 		mImageHeight = bitmap.getHeight();
 		mOriginBitmap = bitmap;
+		adjustImageDisplaySize();
 		mMagicSDK.storeBitmap(mOriginBitmap, false);
+		refreshDisplay();
+	}
+	
+	private void refreshDisplay(){
 		deleteTextures();
 		mGLSurfaceView.requestRender();
 	}
-	
-	public void setFilter(int filterType){
-		final MagicFilterFactory filter = new MagicFilterFactory(filterType,mContext);
-		mGLSurfaceView.queueEvent(new Runnable() {
-       		
-            @Override
-            public void run() {
-            	if(mFilters != null)
-            		mFilters.destroy();
-            	mFilters = null;
-            	mFilters = filter;
-            	mFilters.onInit();
-            	mFilters.onOutputSizeChanged(mImageWidth, mImageHeight);
-            	if(mFilters.getFilterCount() >= 1)
-            		mFrameBuffer.onInit(mImageWidth, mImageHeight, mFilters.getFilterCount()-1);
-            	isChanged = ((MagicFilterFactory) mFilters).getFilterType() == MagicFilterType.NONE ? false : true;
-            }
-        });
-		mGLSurfaceView.requestRender();
-    }
 	
 	public void onResume(){
 		super.onResume();
@@ -135,35 +125,33 @@ public class MagicImageDisplay extends MagicDisplay{
 	}
 	
 	private void adjustImageDisplaySize() {
-		if(mImageWidth > 0 && mImageHeight > 0){
-			float ratio1 = (float)mSurfaceWidth / mImageWidth;
-	        float ratio2 = (float)mSurfaceHeight / mImageHeight;
-	        float ratioMax = Math.max(ratio1, ratio2);
-	        int imageWidthNew = Math.round(mImageWidth * ratioMax);
-	        int imageHeightNew = Math.round(mImageHeight * ratioMax);
-	
-	        float ratioWidth = imageWidthNew / (float)mSurfaceWidth;
-	        float ratioHeight = imageHeightNew / (float)mSurfaceHeight;
-	
-	        float[] cube = new float[]{
-	        		TextureRotationUtil.CUBE[0] / ratioHeight, TextureRotationUtil.CUBE[1] / ratioWidth,
-	        		TextureRotationUtil.CUBE[2] / ratioHeight, TextureRotationUtil.CUBE[3] / ratioWidth,
-	        		TextureRotationUtil.CUBE[4] / ratioHeight, TextureRotationUtil.CUBE[5] / ratioWidth,
-	        		TextureRotationUtil.CUBE[6] / ratioHeight, TextureRotationUtil.CUBE[7] / ratioWidth,
-	        };
-	        mGLCubeBuffer.clear();
-	        mGLCubeBuffer.put(cube).position(0);
-		}
+		float ratio1 = (float)mSurfaceWidth / mImageWidth;
+        float ratio2 = (float)mSurfaceHeight / mImageHeight;
+        float ratioMax = Math.max(ratio1, ratio2);
+        int imageWidthNew = Math.round(mImageWidth * ratioMax);
+        int imageHeightNew = Math.round(mImageHeight * ratioMax);
+
+        float ratioWidth = imageWidthNew / (float)mSurfaceWidth;
+        float ratioHeight = imageHeightNew / (float)mSurfaceHeight;
+
+        float[] cube = new float[]{
+        		TextureRotationUtil.CUBE[0] / ratioHeight, TextureRotationUtil.CUBE[1] / ratioWidth,
+        		TextureRotationUtil.CUBE[2] / ratioHeight, TextureRotationUtil.CUBE[3] / ratioWidth,
+        		TextureRotationUtil.CUBE[4] / ratioHeight, TextureRotationUtil.CUBE[5] / ratioWidth,
+        		TextureRotationUtil.CUBE[6] / ratioHeight, TextureRotationUtil.CUBE[7] / ratioWidth,
+        };
+        mGLCubeBuffer.clear();
+        mGLCubeBuffer.put(cube).position(0);
     }
 	
 	public boolean isChanged(){
-		return isChanged;
+		return isChanged || isFilterSet();
 	}
 	
 	protected void onGetBitmapFromGL(Bitmap bitmap){
 		mOriginBitmap = bitmap;
 		if(mIsSaving){
-			mSaveTask.execute(mMagicSDK.getBitmap());
+			mSaveTask.execute(mOriginBitmap);
 			mIsSaving = false;
 		}else{
 			mMagicSDK.storeBitmap(mOriginBitmap, false);
@@ -172,7 +160,7 @@ public class MagicImageDisplay extends MagicDisplay{
 	
 	//还原
 	public void restore(){
-		if(isSetFilters()){
+		if(isFilterSet()){
 			setFilter(MagicFilterType.NONE);
 		}else{
 			setImageBitmap(mOriginBitmap);
@@ -181,7 +169,7 @@ public class MagicImageDisplay extends MagicDisplay{
 
 	//应用
 	public void commit(){
-		if(isSetFilters()){
+		if(isFilterSet()){
 			getBitmapFromGL(mOriginBitmap, false);
 			deleteTextures();
 			setFilter(MagicFilterType.NONE);
@@ -194,7 +182,7 @@ public class MagicImageDisplay extends MagicDisplay{
 	public void savaImage(onPictureSaveListener l){
 		mSaveTask = new SaveTask(mContext, l);
 		mIsSaving = true;
-		if(isSetFilters())
+		if(isFilterSet())
 			getBitmapFromGL(mOriginBitmap, false);
 		else
 			onGetBitmapFromGL(mOriginBitmap);
