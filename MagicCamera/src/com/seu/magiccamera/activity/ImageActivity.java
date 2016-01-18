@@ -18,6 +18,7 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.seu.magiccamera.R;
+import com.seu.magiccamera.common.utils.Constants;
 import com.seu.magiccamera.common.view.edit.ImageEditFragment;
 import com.seu.magiccamera.common.view.edit.ImageEditFragment.onHideListener;
 import com.seu.magiccamera.common.view.edit.adds.ImageEditAddsView;
@@ -59,7 +60,7 @@ public class ImageActivity extends Activity{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				mMagicImageDisplay.savaImage(new onPictureSaveListener() {
+				mMagicImageDisplay.savaImage(Constants.getOutputMediaFile(), new onPictureSaveListener() {
 					
 					@Override
 					public void onSaved(String result) {

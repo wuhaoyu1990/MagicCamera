@@ -18,7 +18,7 @@ import android.util.Log;
 
 public class OpenGLUtils {
 	public static final int NO_TEXTURE = -1;
-	public static final int NOT_INIT = -2;	
+	public static final int NOT_INIT = -1;	
 	public static final int ON_DRAWN = 1;
 	
 	public static int loadTexture(final Bitmap img, final int usedTexId) {

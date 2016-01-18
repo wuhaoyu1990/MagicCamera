@@ -28,6 +28,8 @@ public class FilterLayoutUtils{
 	private List<FilterInfo> filterInfos;
 	private List<FilterInfo> favouriteFilterInfos;
 	
+	private int mFilterType = MagicFilterType.NONE;
+	
 	public FilterLayoutUtils(Context context,MagicDisplay magicDisplay) {
 		mContext = context;	
 		mMagicDisplay = magicDisplay;
@@ -75,6 +77,7 @@ public class FilterLayoutUtils{
 			int Type = filterInfos.get(position).getFilterType();//获取类型
 			FilterLayoutUtils.this.position = position;
 			mMagicDisplay.setFilter(filterType);
+			mFilterType = filterType;
 			if(position != 0)
 				btn_Favourite.setVisibility(View.VISIBLE);
 			else
@@ -208,5 +211,9 @@ public class FilterLayoutUtils{
 		}
 		editor.putString("favourite_filter_list", str);
 		editor.commit();
+	}
+	
+	public int getFilterType(){
+		return mFilterType;
 	}
 }

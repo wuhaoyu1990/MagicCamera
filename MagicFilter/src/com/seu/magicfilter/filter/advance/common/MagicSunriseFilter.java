@@ -25,13 +25,15 @@ public class MagicSunriseFilter extends GPUImageFilter{
 		mContext = context;
 	}
 	
-	public void onDestroy(){
+	protected void onDestroy(){
 		super.onDestroy();
-	    GLES20.glDeleteTextures(1, new int[]{mToneCurveTexture[0], mMaskGrey1TextureId,
-	    		mMaskGrey2TextureId,mMaskGrey3TextureId }, 0);
+	    GLES20.glDeleteTextures(1, mToneCurveTexture, 0);
 	    mToneCurveTexture[0] = -1;
+	    GLES20.glDeleteTextures(1, new int[]{mMaskGrey1TextureId}, 0);
 	    mMaskGrey1TextureId = -1;
+	    GLES20.glDeleteTextures(1, new int[]{mMaskGrey2TextureId}, 0);
 	    mMaskGrey2TextureId = -1;
+	    GLES20.glDeleteTextures(1, new int[]{mMaskGrey3TextureId}, 0);
 	    mMaskGrey3TextureId = -1;
 	}
 	  
@@ -81,20 +83,9 @@ public class MagicSunriseFilter extends GPUImageFilter{
 	    }
 	}
 	  
-	public void onInit(){
+	protected void onInit(){
 		super.onInit();
 	    mToneCurveTextureUniformLocation = GLES20.glGetUniformLocation(mGLProgId, "curve");
-	    GLES20.glActiveTexture(GLES20.GL_TEXTURE3);
-	    GLES20.glGenTextures(1, mToneCurveTexture, 0);
-	    GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mToneCurveTexture[0]);
-	    GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
-                GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
-                GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
-                GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
-                GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
         mMaskGrey1UniformLocation = GLES20.glGetUniformLocation(getProgram(), "grey1Frame");
         mMaskGrey2UniformLocation = GLES20.glGetUniformLocation(getProgram(), "grey2Frame");
         mMaskGrey3UniformLocation = GLES20.glGetUniformLocation(getProgram(), "grey3Frame");
@@ -104,7 +95,17 @@ public class MagicSunriseFilter extends GPUImageFilter{
 		super.onInitialized();
 	    runOnDraw(new Runnable(){
 		    public void run(){
-		    	GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mToneCurveTexture[0]);
+		    	GLES20.glActiveTexture(GLES20.GL_TEXTURE3);
+		    	GLES20.glGenTextures(1, mToneCurveTexture, 0);
+			    GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mToneCurveTexture[0]);
+			    GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
+		                GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+		        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
+		                GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
+		        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
+		                GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
+		        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
+		                GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
 		        byte[] arrayOfByte = new byte[2048];
 		        int[] arrayOfInt1 = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17, 18, 19, 20, 21, 22, 23, 25, 26, 27, 28, 30, 31, 32, 34, 35, 36, 38, 39, 41, 42, 44, 45, 47, 49, 50, 52, 54, 55, 57, 59, 61, 63, 65, 67, 69, 71, 73, 75, 77, 79, 81, 83, 85, 87, 89, 92, 94, 96, 98, 101, 103, 105, 107, 110, 111, 113, 115, 118, 120, 122, 124, 126, 129, 131, 133, 135, 137, 139, 141, 143, 145, 147, 149, 150, 152, 154, 156, 158, 159, 161, 162, 164, 166, 167, 169, 170, 172, 173, 174, 176, 177, 178, 180, 181, 182, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 200, 201, 202, 203, 203, 204, 205, 205, 207, 208, 208, 209, 209, 210, 210, 211, 211, 212, 212, 213, 213, 213, 214, 214, 215, 215, 215, 216, 216, 216, 216, 217, 217, 217, 218, 218, 218, 218, 219, 219, 219, 219, 219, 220, 220, 220, 220, 220, 220, 221, 221, 221, 221, 221, 222, 222, 222, 222, 222, 223, 223, 223, 223, 223, 224, 224, 224, 224, 224, 225, 225, 225, 225, 226, 226, 226, 227, 227, 227, 228, 228, 228, 229, 229, 230, 230, 230, 231, 231, 232, 232, 233, 233, 234, 234, 235, 235, 236, 236, 237, 238, 238, 239, 239, 241, 241, 242, 243, 243, 244, 245, 245, 246, 246, 247, 248, 248, 249, 250, 250, 251, 252, 252, 253, 254, 254, 255 };
 		        int[] arrayOfInt2 = { 0, 1, 3, 4, 5, 7, 8, 10, 11, 12, 14, 15, 17, 18, 19, 21, 22, 24, 25, 27, 28, 30, 31, 33, 34, 36, 37, 39, 40, 42, 44, 45, 47, 48, 50, 52, 54, 55, 57, 59, 61, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 82, 83, 85, 87, 90, 92, 94, 96, 98, 101, 103, 105, 107, 110, 111, 113, 115, 117, 119, 122, 124, 126, 128, 130, 132, 134, 136, 138, 140, 142, 143, 145, 147, 149, 150, 152, 154, 155, 157, 158, 160, 161, 163, 164, 165, 167, 168, 169, 171, 172, 173, 174, 175, 176, 177, 179, 180, 181, 182, 183, 184, 184, 185, 186, 187, 188, 189, 190, 190, 191, 192, 193, 193, 194, 195, 195, 196, 197, 197, 198, 198, 199, 199, 200, 200, 201, 201, 202, 202, 203, 203, 204, 204, 205, 205, 205, 207, 207, 208, 208, 208, 209, 209, 210, 210, 210, 211, 211, 211, 212, 212, 212, 213, 213, 213, 214, 214, 214, 215, 215, 215, 216, 216, 216, 217, 217, 217, 218, 218, 219, 219, 219, 220, 220, 220, 221, 221, 222, 222, 222, 223, 223, 224, 224, 225, 225, 225, 226, 226, 227, 227, 228, 228, 228, 229, 229, 230, 230, 231, 231, 232, 232, 233, 233, 234, 234, 235, 235, 236, 236, 236, 237, 237, 238, 238, 239, 239, 241, 241, 242, 242, 243, 244, 244, 245, 245, 246, 246, 247, 247, 248, 248, 249, 249, 250, 250, 251, 251, 252, 252, 253, 253, 254, 254, 255 };
@@ -127,8 +128,11 @@ public class MagicSunriseFilter extends GPUImageFilter{
 		          arrayOfByte[(3 + (1024 + j * 4))] = ((byte)arrayOfInt8[j]);
 		        }
 		        GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, 256, 2, 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, ByteBuffer.wrap(arrayOfByte));
+		        GLES20.glActiveTexture(GLES20.GL_TEXTURE4);
 		        mMaskGrey1TextureId = OpenGLUtils.loadTexture(mContext, "filter/amaro_mask1.jpg");
+		        GLES20.glActiveTexture(GLES20.GL_TEXTURE5);
 		        mMaskGrey2TextureId = OpenGLUtils.loadTexture(mContext, "filter/amaro_mask2.jpg");
+		        GLES20.glActiveTexture(GLES20.GL_TEXTURE6);
 		        mMaskGrey3TextureId = OpenGLUtils.loadTexture(mContext, "filter/toy_mask1.jpg");
 		    }
 	    });

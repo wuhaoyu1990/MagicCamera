@@ -1,5 +1,7 @@
 package com.seu.magicfilter.display;
 
+import java.io.File;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -17,7 +19,6 @@ import android.opengl.GLSurfaceView;
 
 import com.seu.magicfilter.camera.CameraEngine;
 import com.seu.magicfilter.filter.base.MagicCameraInputFilter;
-import com.seu.magicfilter.filter.base.MagicFrameBuffer;
 import com.seu.magicfilter.filter.helper.SaveTask;
 import com.seu.magicfilter.filter.helper.SaveTask.onPictureSaveListener;
 import com.seu.magicfilter.utils.OpenGLUtils;
@@ -59,28 +60,22 @@ public class MagicCameraDisplay extends MagicDisplay{
 		GLES20.glViewport(0, 0, width, height);
 		mSurfaceWidth = width;
 		mSurfaceHeight = height;
-		if(isFilterSet()){
-			onSizeChanged();
-		}
-		mFilters.onDisplaySizeChanged(width, height);
+		onFilterChanged();
 	}
 
 	@Override
 	public void onDrawFrame(GL10 gl) {
 		GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
-		
+		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);	
 		mSurfaceTexture.updateTexImage();
 		float[] mtx = new float[16];
 		mSurfaceTexture.getTransformMatrix(mtx);
 		mCameraInputFilter.setTextureTransformMatrix(mtx);
-		if(!isFilterSet()){
+		if(mFilters == null){
 			mCameraInputFilter.onDrawFrame(mTextureId, mGLCubeBuffer, mGLTextureBuffer);
 		}else{
-			GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, MagicFrameBuffer.getFrameBuffers()[0]);
-			mCameraInputFilter.onDrawFrame(mTextureId);
-			GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
-			mFilters.onDrawFrame(MagicFrameBuffer.getFrameBufferTextures()[0], mGLCubeBuffer, mGLTextureBuffer);
+			int textureID = mCameraInputFilter.onDrawToTexture(mTextureId);	
+			mFilters.onDrawFrame(textureID, mGLCubeBuffer, mGLTextureBuffer);
 		}
 	}
 	
@@ -103,10 +98,29 @@ public class MagicCameraDisplay extends MagicDisplay{
         			mSurfaceTexture = new SurfaceTexture(mTextureId);
     				mSurfaceTexture.setOnFrameAvailableListener(mOnFrameAvailableListener);   
             	}
+            	Size size = CameraEngine.getPreviewSize();
+    			int orientation = CameraEngine.getOrientation();
+    			if(orientation == 90 || orientation == 270){
+    				mImageWidth = size.height;
+    				mImageHeight = size.width;
+    			}else{
+    				mImageWidth = size.width;
+    				mImageHeight = size.height;
+    			} 
+    			mCameraInputFilter.onOutputSizeChanged(mImageWidth, mImageHeight);
             	CameraEngine.startPreview(mSurfaceTexture);
             }
         });
     }
+	
+	protected void onFilterChanged(){
+		super.onFilterChanged();
+		mCameraInputFilter.onDisplaySizeChanged(mSurfaceWidth, mSurfaceHeight);
+		if(mFilters != null)
+			mCameraInputFilter.initCameraFrameBuffer(mImageWidth, mImageHeight);
+		else
+			mCameraInputFilter.destroyFramebuffers();
+	}
 	
 	public void onResume(){
 		super.onResume();
@@ -115,15 +129,6 @@ public class MagicCameraDisplay extends MagicDisplay{
 		if(CameraEngine.getCamera() != null){
 			boolean flipHorizontal = CameraEngine.isFlipHorizontal();
 			adjustPosition(CameraEngine.getOrientation(),flipHorizontal,!flipHorizontal);
-			Size size = CameraEngine.getPreviewSize();
-			int orientation = CameraEngine.getOrientation();
-			if(orientation == 90 || orientation == 270){
-				mImageWidth = size.height;
-				mImageHeight = size.width;
-			}else{
-				mImageWidth = size.width;
-				mImageHeight = size.height;
-			}
 		}
 		setUpCamera();
 	}
@@ -137,9 +142,9 @@ public class MagicCameraDisplay extends MagicDisplay{
 		super.onDestroy();
 	}
 
-	public void onTakePicture(onPictureSaveListener listener,ShutterCallback shutterCallback){
+	public void onTakePicture(File file, onPictureSaveListener listener,ShutterCallback shutterCallback){
 		CameraEngine.setRotation(90);
-		mSaveTask = new SaveTask(mContext, listener);
+		mSaveTask = new SaveTask(mContext, file, listener);
 		CameraEngine.takePicture(shutterCallback, null, mPictureCallback);
 	}
 	
@@ -148,7 +153,7 @@ public class MagicCameraDisplay extends MagicDisplay{
 		@Override
 		public void onPictureTaken(final byte[] data,Camera camera) {
 			Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-			if(isFilterSet()){
+			if(mFilters != null){
 				getBitmapFromGL(bitmap, true);
 			}else{
 				mSaveTask.execute(bitmap);   

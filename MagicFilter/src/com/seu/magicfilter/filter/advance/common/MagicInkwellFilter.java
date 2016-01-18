@@ -42,14 +42,14 @@ public class MagicInkwellFilter extends GPUImageFilter{
 		}
 	}
 	
-	public void onInit(){
+	protected void onInit(){
 		super.onInit();
 		for(int i=0; i < inputTextureUniformLocations.length; i++){
 			inputTextureUniformLocations[i] = GLES20.glGetUniformLocation(getProgram(), "inputImageTexture"+(2+i));
 		}
 	}
 	
-	public void onInitialized(){
+	protected void onInitialized(){
 		super.onInitialized();
 	    runOnDraw(new Runnable(){
 		    public void run(){

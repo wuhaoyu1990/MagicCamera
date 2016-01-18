@@ -17,9 +17,9 @@ public class MagicEarlyBirdFilter extends GPUImageFilter{
 		mContext = context;
 	}
 	
-	public void onDestroy() {
+	protected void onDestroy() {
         super.onDestroy();
-        GLES20.glDeleteTextures(1, inputTextureHandles, 0);
+        GLES20.glDeleteTextures(inputTextureHandles.length, inputTextureHandles, 0);
         for(int i = 0; i < inputTextureHandles.length; i++)
         	inputTextureHandles[i] = -1;
     }
@@ -42,14 +42,14 @@ public class MagicEarlyBirdFilter extends GPUImageFilter{
 		}
 	}
 	
-	public void onInit(){
+	protected void onInit(){
 		super.onInit();
 		for(int i=0; i < inputTextureUniformLocations.length; i++){
 			inputTextureUniformLocations[i] = GLES20.glGetUniformLocation(getProgram(), "inputImageTexture"+(2+i));
 		}
 	}
 	
-	public void onInitialized(){
+	protected void onInitialized(){
 		super.onInitialized();
 	    runOnDraw(new Runnable(){
 		    public void run(){

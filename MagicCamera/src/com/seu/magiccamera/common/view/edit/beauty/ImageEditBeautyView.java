@@ -1,10 +1,7 @@
 package com.seu.magiccamera.common.view.edit.beauty;
 
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +27,8 @@ public class ImageEditBeautyView extends ImageEditFragment{
 	private RelativeLayout mSkinColorView;
 	private BubbleSeekBar mSmoothBubbleSeekBar;
 	private BubbleSeekBar mWhiteBubbleSeekBar;
-	
+	private boolean mIsSmoothed = false;
+	private boolean mIsWhiten = false;
 	public ImageEditBeautyView(Context context, MagicImageDisplay mMagicDisplay) {
 		super(context, mMagicDisplay);
 	}
@@ -120,6 +118,10 @@ public class ImageEditBeautyView extends ImageEditFragment{
 					if(level < 0)
 						level = 0;
 					mMagicSDK.onStartSkinSmooth(level);
+					if(seekBar.getProgress() != 0)
+						mIsSmoothed = true;
+					else
+						mIsSmoothed = false;
 				}
 			}).start();
 		}
@@ -143,6 +145,10 @@ public class ImageEditBeautyView extends ImageEditFragment{
 			if(level < 1)
 				level = 1;
 			mMagicSDK.onStartWhiteSkin(level);
+			if(seekBar.getProgress() != 0)
+				mIsWhiten = true;
+			else
+				mIsWhiten = false;
 		}
 		
 		@Override
@@ -163,33 +169,15 @@ public class ImageEditBeautyView extends ImageEditFragment{
 			
 		}
 	};
-	
-	public void onHide(){
-		if(mMagicDisplay.isChanged()){
-			AlertDialog.Builder builder = new Builder(mContext);
-			builder.setTitle("提示").setMessage("是否应用修改？").setNegativeButton("是", new OnClickListener() {
-				
-				@Override
-				public void onClick(DialogInterface dialog, int which) {	
-					mMagicSDK.uninitMagicBeauty();
-					mMagicDisplay.commit();
-					if(mOnHideListener != null)
-						mOnHideListener.onHide();
-					dialog.dismiss();
-				}
-			}).setPositiveButton("否", new OnClickListener() {
-				
-				@Override
-				public void onClick(DialogInterface dialog, int which) {					
-					mMagicSDK.uninitMagicBeauty();
-					mMagicDisplay.restore();
-					if(mOnHideListener != null)
-						mOnHideListener.onHide();
-					dialog.dismiss();
-				}
-			}).create().show();
-		}else{
-			mOnHideListener.onHide();
-		}
+
+	@Override
+	protected boolean isChanged() {
+		return mIsWhiten || mIsSmoothed;
+	}
+
+	@Override
+	protected void onDialogButtonClick(DialogInterface dialog) {
+		mMagicSDK.uninitMagicBeauty();
+		super.onDialogButtonClick(dialog);
 	}
 }

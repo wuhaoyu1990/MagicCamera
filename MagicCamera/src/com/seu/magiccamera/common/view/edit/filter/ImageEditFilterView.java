@@ -1,10 +1,7 @@
 package com.seu.magiccamera.common.view.edit.filter;
 
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,13 +11,14 @@ import com.seu.magiccamera.R;
 import com.seu.magiccamera.common.view.FilterLayoutUtils;
 import com.seu.magiccamera.common.view.edit.ImageEditFragment;
 import com.seu.magicfilter.display.MagicImageDisplay;
+import com.seu.magicfilter.filter.helper.MagicFilterType;
 
 public class ImageEditFilterView extends ImageEditFragment{
 	
 	private FilterLayoutUtils mFilterLayoutUtils;
 	
-	public ImageEditFilterView(Context context, MagicImageDisplay mMagicDisplay) {
-		super(context, mMagicDisplay);
+	public ImageEditFilterView(Context context, MagicImageDisplay magicDisplay) {
+		super(context, magicDisplay);
 	}
 
 	@Override
@@ -40,35 +38,10 @@ public class ImageEditFilterView extends ImageEditFragment{
 	public void onHiddenChanged(boolean hidden) {
 		if(!hidden)
 			mFilterLayoutUtils.init(getView());
-		super.onHiddenChanged(hidden);
 	}
-	
-	public void onHide(){
-		if(mMagicDisplay.isChanged()){
-			AlertDialog.Builder builder = new Builder(mContext);
-			builder.setTitle("提示").setMessage("是否应用修改？").setNegativeButton("是", new OnClickListener() {
-				
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					mMagicDisplay.commit();
-					dialog.dismiss();
-					if(mOnHideListener != null)
-						mOnHideListener.onHide();
-				}
-			}).setPositiveButton("否", new OnClickListener() {
-				
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					mMagicDisplay.restore();
-					dialog.dismiss();
-					if(mOnHideListener != null)
-						mOnHideListener.onHide();
-				}
-			}).create().show();
-		}else{
-			mOnHideListener.onHide();
-		}
+
+	@Override
+	protected boolean isChanged() {
+		return mFilterLayoutUtils.getFilterType() != MagicFilterType.NONE;
 	}
 }

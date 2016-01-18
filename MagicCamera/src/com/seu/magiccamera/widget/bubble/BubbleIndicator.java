@@ -27,9 +27,9 @@ public class BubbleIndicator {
     Point screenSize = new Point();
 	private Floater mPopupView;
 	
-	public BubbleIndicator(Context context, AttributeSet attrs, int defStyleAttr, String maxValue) {
+	public BubbleIndicator(Context context) {
         mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        mPopupView = new Floater(context, attrs, defStyleAttr, maxValue);
+        mPopupView = new Floater(context);
    
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         screenSize.set(displayMetrics.widthPixels, displayMetrics.heightPixels);
@@ -129,7 +129,7 @@ public class BubbleIndicator {
         public TextView mMarker;
         private int mOffset;
 
-        public Floater(Context context, AttributeSet attrs, int defStyleAttr, String maxValue) {
+        public Floater(Context context) {
             super(context);
             mMarker = new TextView(context);
             mMarker.setText("0%");

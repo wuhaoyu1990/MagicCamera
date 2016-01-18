@@ -11,8 +11,9 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLSurfaceView.Renderer;
 
-import com.seu.magicfilter.filter.base.MagicFrameBuffer;
+import com.seu.magicfilter.filter.base.gpuimage.GPUImageFilter;
 import com.seu.magicfilter.filter.factory.MagicFilterFactory;
+import com.seu.magicfilter.filter.helper.MagicFilterAdjuster;
 import com.seu.magicfilter.filter.helper.MagicFilterType;
 import com.seu.magicfilter.filter.helper.SaveTask;
 import com.seu.magicfilter.utils.OpenGLUtils;
@@ -24,12 +25,7 @@ public abstract class MagicDisplay implements Renderer{
 	 * 1.mCameraInputFilter将SurfaceTexture中YUV数据绘制到FrameBuffer
 	 * 2.mFilters将FrameBuffer中的纹理绘制到屏幕中
 	 */
-	protected final MagicFilterFactory mFilters;
-	
-	/**
-	 * FrameBuffer，作为相机预览画面和滤镜后画面中间层
-	 */
-	protected final MagicFrameBuffer mFrameBuffer;
+	protected GPUImageFilter mFilters;
 	
 	/**
 	 * 所有预览数据绘制画面
@@ -68,13 +64,14 @@ public abstract class MagicDisplay implements Renderer{
 	
 	protected Context mContext;
 	
+	private MagicFilterAdjuster mFilterAdjust;
+	
 	public MagicDisplay(Context context, GLSurfaceView glSurfaceView){
 		mContext = context;
 		mGLSurfaceView = glSurfaceView;  
 		
-		mFrameBuffer = MagicFrameBuffer.getInstance();
-		
-		mFilters = new MagicFilterFactory(context);
+		mFilters = MagicFilterFactory.getFilters(MagicFilterType.NONE, context);
+		mFilterAdjust = new MagicFilterAdjuster(mFilters);
 		
 		mGLCubeBuffer = ByteBuffer.allocateDirect(TextureRotationUtil.CUBE.length * 4)
                 .order(ByteOrder.nativeOrder())
@@ -102,17 +99,22 @@ public abstract class MagicDisplay implements Renderer{
             public void run() {
             	if(mFilters != null)
             		mFilters.destroy();
-            	mFilters.setFilters(filterType);;
-            	mFilters.onInit();
-            	onSizeChanged();
+            	mFilters = null;
+            	mFilters = MagicFilterFactory.getFilters(filterType, mContext);
+            	if(mFilters != null)
+	            	mFilters.init();
+            	onFilterChanged();
+            	mFilterAdjust = new MagicFilterAdjuster(mFilters);
             }
         });
 		mGLSurfaceView.requestRender();
     }
 	
-	protected void onSizeChanged(){
+	protected void onFilterChanged(){
+		if(mFilters == null)
+			return;
+		mFilters.onDisplaySizeChanged(mSurfaceWidth, mSurfaceHeight);
 		mFilters.onOutputSizeChanged(mImageWidth, mImageHeight);
-    	mFrameBuffer.onInit(mImageWidth, mImageHeight, mFilters.getFilterCount());
 	}
 	
 	protected void onResume(){
@@ -128,10 +130,6 @@ public abstract class MagicDisplay implements Renderer{
 		
 	}
 	
-	protected boolean isFilterSet(){
-		return mFilters.getFilterType() != MagicFilterType.NONE;
-	}
-	
 	protected void getBitmapFromGL(final Bitmap bitmap,final boolean newTexture){
 		mGLSurfaceView.queueEvent(new Runnable() {
 			
@@ -140,16 +138,32 @@ public abstract class MagicDisplay implements Renderer{
 				// TODO Auto-generated method stub
 				int width = bitmap.getWidth();
 				int height = bitmap.getHeight();
-				
+				int[] mFrameBuffers = new int[1];
+				int[] mFrameBufferTextures = new int[1];
+				GLES20.glGenFramebuffers(1, mFrameBuffers, 0);	            
+	            GLES20.glGenTextures(1, mFrameBufferTextures, 0);
+	            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mFrameBufferTextures[0]);
+	            GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, width, height, 0,
+	                    GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, null);
+	            GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
+	                    GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+	            GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
+	                    GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
+	            GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
+	                    GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
+	            GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
+	                    GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
+	            GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, mFrameBuffers[0]);
+	            GLES20.glFramebufferTexture2D(GLES20.GL_FRAMEBUFFER, GLES20.GL_COLOR_ATTACHMENT0,
+	                    GLES20.GL_TEXTURE_2D, mFrameBufferTextures[0], 0);
 				GLES20.glViewport(0, 0, width, height);			
 				mFilters.onOutputSizeChanged(width, height);
-            	mFrameBuffer.onInit(width, height, mFilters.getFilterCount());
+				mFilters.onDisplaySizeChanged(mImageWidth, mImageHeight);
             	int textureId = OpenGLUtils.NO_TEXTURE;
             	if(newTexture)
 	            	textureId = OpenGLUtils.loadTexture(bitmap, OpenGLUtils.NO_TEXTURE, true);
             	else
             		textureId = mTextureId;
-            	GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, MagicFrameBuffer.getFrameBuffers()[0]);
             	mFilters.onDrawFrame(textureId);
             	IntBuffer ib = IntBuffer.allocate(width * height);
                 GLES20.glReadPixels(0, 0, width, height, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, ib);
@@ -157,12 +171,12 @@ public abstract class MagicDisplay implements Renderer{
                 mBitmap.copyPixelsFromBuffer(IntBuffer.wrap(ib.array()));
                 if(newTexture)
                 	GLES20.glDeleteTextures(1, new int[]{textureId}, 0); 
-            	GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0); 
+                GLES20.glDeleteFramebuffers(1, mFrameBuffers, 0);
+                GLES20.glDeleteTextures(1, mFrameBufferTextures, 0);
                 GLES20.glViewport(0, 0, mSurfaceWidth, mSurfaceHeight);
                 mFilters.destroy();
-            	mFilters.onInit();
+            	mFilters.init();
             	mFilters.onOutputSizeChanged(mImageWidth, mImageHeight);
-            	mFrameBuffer.onInit(mImageWidth, mImageHeight, mFilters.getFilterCount());
             	onGetBitmapFromGL(mBitmap);
 			}
 		});
@@ -185,4 +199,18 @@ public abstract class MagicDisplay implements Renderer{
 	            }
 	        });
     }
+	
+	public void adjustFilter(int percentage){
+		if(mFilterAdjust != null && mFilterAdjust.canAdjust()){
+			mFilterAdjust.adjust(percentage);
+			mGLSurfaceView.requestRender();
+		}
+	}
+	
+	public void adjustFilter(int percentage, int type){
+		if(mFilterAdjust != null && mFilterAdjust.canAdjust()){
+			mFilterAdjust.adjust(percentage, type);
+			mGLSurfaceView.requestRender();
+		}
+	}
 }

@@ -58,14 +58,14 @@ public class MagicBilateralFilter extends GPUImageFilter {
 	}
 	
 	@Override
-	public void onInit() {
+	protected void onInit() {
 		super.onInit();
 		mDisFactorLocation = GLES20.glGetUniformLocation(getProgram(), "distanceNormalizationFactor");
 		mSingleStepOffsetLocation = GLES20.glGetUniformLocation(getProgram(), "singleStepOffset");
 	}
 	
 	@Override
-	public void onInitialized() {
+	protected void onInitialized() {
 		super.onInitialized();
 		setDistanceNormalizationFactor(mDistanceNormalizationFactor);
 	}

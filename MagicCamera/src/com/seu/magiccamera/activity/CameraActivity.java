@@ -73,7 +73,7 @@ public class CameraActivity extends Activity{
 		
 		@Override
 		public void onClick(View v) {
-			mMagicCameraDisplay.onTakePicture(null,null);
+			mMagicCameraDisplay.onTakePicture(Constants.getOutputMediaFile(), null, null);
 		}
 	};
 	

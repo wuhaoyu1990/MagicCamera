@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector
   xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true" android:drawable="@drawable/ic_ab_back_light_pressed" />
-    <item android:drawable="@drawable/ic_ab_back_light_normal" />
+    <item android:state_pressed="true" android:drawable="@drawable/mix_gallery_bottom_back_click" />
+    <item android:state_enabled="false" android:drawable="@drawable/mix_gallery_bottom_back_click" />
+    <item android:drawable="@drawable/mix_gallery_bottom_back_normal" />
 </selector>

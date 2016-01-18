@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:gravity="center">
+        
+        <com.seu.magiccamera.widget.bubble.BubbleSeekBar
+	        android:id="@+id/fragment_adjust_seekbar"
+	        android:layout_width="202dip"
+	        android:layout_height="wrap_content"
+	        android:visibility="gone"
+	        style="@style/SeekBar.Light">
+	        
+	    </com.seu.magiccamera.widget.bubble.BubbleSeekBar>
+    </RelativeLayout>
+    <HorizontalScrollView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+        <RadioGroup 
+            android:id="@+id/fragment_adjust_radiogroup"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal"
+		    android:padding="10dp">
+		    
+		    <RadioButton 
+		        android:id="@+id/fragment_radio_contrast"  
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:button="@null"
+		        android:drawableTop="@drawable/selector_image_edit_adjust_contrast"
+		        android:text="@string/edit_contrast"
+		        android:textColor="@color/selector_image_edit_yellow"
+		        android:gravity="center"
+		        android:padding="10dp"/>
+		    
+		    <RadioButton 
+		        android:id="@+id/fragment_radio_exposure"  
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:button="@null"
+		        android:drawableTop="@drawable/selector_image_edit_adjust_exposure"
+		        android:text="@string/edit_exposure"
+		        android:textColor="@color/selector_image_edit_yellow"
+		        android:gravity="center"
+		        android:padding="10dp"/>
+		    
+		    <RadioButton 
+		        android:id="@+id/fragment_radio_saturation"  
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:button="@null"
+		        android:drawableTop="@drawable/selector_image_edit_adjust_saturation"
+		        android:text="@string/edit_saturation"
+		        android:textColor="@color/selector_image_edit_yellow"
+		        android:gravity="center"
+		        android:padding="10dp"/>
+		    
+		    <RadioButton 
+		        android:id="@+id/fragment_radio_sharpness"  
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:button="@null"
+		        android:drawableTop="@drawable/selector_image_edit_adjust_sharpness"
+		        android:text="@string/edit_sharpness"
+		        android:textColor="@color/selector_image_edit_yellow"
+		        android:gravity="center"
+		        android:padding="10dp"/>
+		    
+		    <RadioButton 
+		        android:id="@+id/fragment_radio_bright"  
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:button="@null"
+		        android:drawableTop="@drawable/selector_image_edit_adjust_bright"
+		        android:text="@string/edit_brightness"
+		        android:textColor="@color/selector_image_edit_yellow"
+		        android:gravity="center"
+		        android:padding="10dp"/>
+		    
+		    <RadioButton 
+		        android:id="@+id/fragment_radio_hue"  
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:button="@null"
+		        android:drawableTop="@drawable/selector_image_edit_adjust_hue"
+		        android:text="@string/edit_hue"
+		        android:textColor="@color/selector_image_edit_yellow"
+		        android:gravity="center"
+		        android:padding="10dp"/>
+		</RadioGroup>
+    </HorizontalScrollView>
+</LinearLayout>

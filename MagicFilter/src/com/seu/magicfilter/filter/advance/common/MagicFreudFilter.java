@@ -19,7 +19,7 @@ public class MagicFreudFilter extends GPUImageFilter{
 		mContext = context;
 	}
 	
-	public void onDestroy() {
+	protected void onDestroy() {
         super.onDestroy();
         GLES20.glDeleteTextures(1, inputTextureHandles, 0);
         for(int i = 0; i < inputTextureHandles.length; i++)
@@ -44,7 +44,7 @@ public class MagicFreudFilter extends GPUImageFilter{
 		}
 	}
 	
-	public void onInit(){
+	protected void onInit(){
 		super.onInit();
 		inputTextureUniformLocations[0] = GLES20.glGetUniformLocation(getProgram(), "inputImageTexture2");
 		
@@ -52,7 +52,7 @@ public class MagicFreudFilter extends GPUImageFilter{
         mTexelHeightUniformLocation = GLES20.glGetUniformLocation(getProgram(), "inputImageTextureHeight");
 	}
 	
-	public void onInitialized(){
+	protected void onInitialized(){
 		super.onInitialized();
 	    runOnDraw(new Runnable(){
 		    public void run(){

@@ -63,6 +63,7 @@ public class GPUImageFilter {
     protected boolean mIsInitialized;
     protected FloatBuffer mGLCubeBuffer;
     protected FloatBuffer mGLTextureBuffer;
+    protected int mSurfaceWidth, mSurfaceHeight;
     
     public GPUImageFilter() {
         this(NO_FILTER_VERTEX_SHADER, NO_FILTER_FRAGMENT_SHADER);
@@ -84,13 +85,13 @@ public class GPUImageFilter {
         mGLTextureBuffer.put(TextureRotationUtil.getRotation(Rotation.NORMAL, false, true)).position(0);
     }
 
-    public final void init() {
+    public void init() {
         onInit();
         mIsInitialized = true;
         onInitialized();
     }
 
-    public void onInit() {
+    protected void onInit() {
         mGLProgId = OpenGLUtils.loadProgram(mVertexShader, mFragmentShader);
         mGLAttribPosition = GLES20.glGetAttribLocation(mGLProgId, "position");
         mGLUniformTexture = GLES20.glGetUniformLocation(mGLProgId, "inputImageTexture");
@@ -101,7 +102,7 @@ public class GPUImageFilter {
         mIsInitialized = true;
     }
 
-    public void onInitialized() {
+    protected void onInitialized() {
     	setFloat(mGLStrengthLocation, 1.0f);
     }
 
@@ -111,7 +112,7 @@ public class GPUImageFilter {
         onDestroy();
     }
 
-    public void onDestroy() {
+    protected void onDestroy() {
     }
 
     public void onOutputSizeChanged(final int width, final int height) {
@@ -151,9 +152,8 @@ public class GPUImageFilter {
     public int onDrawFrame(final int textureId) {
 		GLES20.glUseProgram(mGLProgId);
 		runPendingOnDrawTasks();
-		if (!mIsInitialized) {
-		 return OpenGLUtils.NOT_INIT;
-		}
+		if (!mIsInitialized) 
+			return OpenGLUtils.NOT_INIT;
 		
 		mGLCubeBuffer.position(0);
 		GLES20.glVertexAttribPointer(mGLAttribPosition, 2, GLES20.GL_FLOAT, false, 0, mGLCubeBuffer);
@@ -306,4 +306,8 @@ public class GPUImageFilter {
         }
     }
 
+    public void onDisplaySizeChanged(final int width, final int height) {
+    	mSurfaceWidth = width;
+    	mSurfaceHeight = height;
+    }
 }

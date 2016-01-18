@@ -11,7 +11,8 @@ public class MagicFilterType {
 	public static final int BLACKCAT = WHITECAT + 1;
 	
 	public static final int BEAUTY = BLACKCAT + 1;
-	public static final int HEALTHY = BEAUTY + 1;
+	public static final int SKINWHITEN = BEAUTY + 1;
+	public static final int HEALTHY = SKINWHITEN + 1;
 	
 	public static final int SWEETS = HEALTHY + 1;
 	
@@ -53,4 +54,13 @@ public class MagicFilterType {
 	public static final int XPROII = WALDEN + 1;
 	
 	public static final int FILTER_COUNT = XPROII - NONE;
+	
+	public static final int CONTRAST = XPROII + 1;
+	public static final int BRIGHTNESS = CONTRAST + 1;
+	public static final int EXPOSURE = BRIGHTNESS + 1;
+	public static final int HUE = EXPOSURE + 1;
+	public static final int SATURATION = HUE + 1;
+	public static final int SHARPEN = SATURATION + 1;
+	
+	public static final int IMAGE_ADJUST = SHARPEN + 1;
 }

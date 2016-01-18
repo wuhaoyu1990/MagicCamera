@@ -19,7 +19,7 @@ public class MagicSutroFilter extends GPUImageFilter{
 	
 	public void onDestroy() {
         super.onDestroy();
-        GLES20.glDeleteTextures(1, inputTextureHandles, 0);
+        GLES20.glDeleteTextures(inputTextureHandles.length, inputTextureHandles, 0);
         for(int i = 0; i < inputTextureHandles.length; i++)
         	inputTextureHandles[i] = -1;
     }

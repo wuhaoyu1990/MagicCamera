@@ -11,6 +11,9 @@ public class BubbleSeekBar extends SeekBar{
 	private BubbleIndicator mBubbleIndicator;
 	private boolean mIsListenerSet = false;
 	private OnBubbleSeekBarChangeListener mOnBubbleSeekBarChangeListener;
+	private int start = 0;
+	private int	end= 100;
+	
 	public BubbleSeekBar(Context context) {
 		this(context, null);
 	}
@@ -21,7 +24,7 @@ public class BubbleSeekBar extends SeekBar{
 
 	public BubbleSeekBar(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
-		mBubbleIndicator = new BubbleIndicator(context, attrs, defStyleAttr, "100");
+		mBubbleIndicator = new BubbleIndicator(context);
 		setOnSeekBarChangeListener(mOnSeekBarChangeListener);
 	}
 	
@@ -30,7 +33,16 @@ public class BubbleSeekBar extends SeekBar{
         super.setThumb(thumb);
         mThumbDrawable = thumb;
     }
-	  
+	
+    public void setRange(int start, int end){
+    	this.start = start;
+    	this.end = end;
+    }
+    
+    public void setMax(){
+    	super.setMax(100);
+    }
+    
 	private OnSeekBarChangeListener mOnSeekBarChangeListener = new OnSeekBarChangeListener() {
 		
 		@Override
@@ -49,9 +61,9 @@ public class BubbleSeekBar extends SeekBar{
 		
 		@Override
 		public void onProgressChanged(SeekBar seekBar, int progress,
-				boolean fromUser) {
+				boolean fromUser) {			
 			if(fromUser)
-				mBubbleIndicator.moveIndicator(mThumbDrawable.getBounds(), progress);
+				mBubbleIndicator.moveIndicator(mThumbDrawable.getBounds(), start + (int) ((end - start) * progress / 100.0f));
 			if(mOnBubbleSeekBarChangeListener != null)
 				mOnBubbleSeekBarChangeListener.onProgressChanged(seekBar, progress, fromUser);
 		}

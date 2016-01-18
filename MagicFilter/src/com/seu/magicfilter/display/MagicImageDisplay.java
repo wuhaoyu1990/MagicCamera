@@ -1,5 +1,7 @@
 package com.seu.magicfilter.display;
 
+import java.io.File;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -11,7 +13,6 @@ import android.opengl.GLSurfaceView;
 import android.os.Handler;
 import android.os.Message;
 
-import com.seu.magicfilter.filter.base.MagicFrameBuffer;
 import com.seu.magicfilter.filter.base.gpuimage.GPUImageFilter;
 import com.seu.magicfilter.filter.helper.MagicFilterType;
 import com.seu.magicfilter.filter.helper.SaveTask;
@@ -21,11 +22,10 @@ import com.seu.magicfilter.utils.OpenGLUtils;
 import com.seu.magicfilter.utils.TextureRotationUtil;
 
 public class MagicImageDisplay extends MagicDisplay{
+	
 	private final GPUImageFilter mImageInput;
    
     private final MagicSDK mMagicSDK;
-    
-    private boolean isChanged = false;
     
     private Bitmap mOriginBitmap;
     
@@ -38,7 +38,6 @@ public class MagicImageDisplay extends MagicDisplay{
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case MagicSDK.MESSAGE_OPERATION_END:
-				isChanged = true;
 				refreshDisplay();
 				break;
 			default:
@@ -71,10 +70,7 @@ public class MagicImageDisplay extends MagicDisplay{
 		mSurfaceWidth = width;
 		mSurfaceHeight = height;
 		adjustImageDisplaySize();
-		if(isFilterSet()){
-			onSizeChanged();
-		}
-		mFilters.onDisplaySizeChanged(width, height);
+		onFilterChanged();
 	}
 
 	@Override
@@ -83,14 +79,10 @@ public class MagicImageDisplay extends MagicDisplay{
 		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 		if(mTextureId == OpenGLUtils.NO_TEXTURE)
 			mTextureId = OpenGLUtils.loadTexture(mMagicSDK.getBitmap(), OpenGLUtils.NO_TEXTURE);
-		if(!isFilterSet()){
+		if(mFilters == null){
 			mImageInput.onDrawFrame(mTextureId, mGLCubeBuffer, mGLTextureBuffer);
 		}else{
-			GLES20.glViewport(0, 0, mImageWidth, mImageHeight);
-			GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, MagicFrameBuffer.getFrameBuffers()[0]);
-			mImageInput.onDrawFrame(mTextureId);
-			GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
-			mFilters.onDrawFrame(MagicFrameBuffer.getFrameBufferTextures()[0], mGLCubeBuffer, mGLTextureBuffer);
+			mFilters.onDrawFrame(mTextureId, mGLCubeBuffer, mGLTextureBuffer);
 		}
 	}
 	
@@ -144,10 +136,6 @@ public class MagicImageDisplay extends MagicDisplay{
         mGLCubeBuffer.put(cube).position(0);
     }
 	
-	public boolean isChanged(){
-		return isChanged || isFilterSet();
-	}
-	
 	protected void onGetBitmapFromGL(Bitmap bitmap){
 		mOriginBitmap = bitmap;
 		if(mIsSaving){
@@ -160,7 +148,7 @@ public class MagicImageDisplay extends MagicDisplay{
 	
 	//还原
 	public void restore(){
-		if(isFilterSet()){
+		if(mFilters != null){
 			setFilter(MagicFilterType.NONE);
 		}else{
 			setImageBitmap(mOriginBitmap);
@@ -169,7 +157,7 @@ public class MagicImageDisplay extends MagicDisplay{
 
 	//应用
 	public void commit(){
-		if(isFilterSet()){
+		if(mFilters != null){
 			getBitmapFromGL(mOriginBitmap, false);
 			deleteTextures();
 			setFilter(MagicFilterType.NONE);
@@ -179,10 +167,10 @@ public class MagicImageDisplay extends MagicDisplay{
 		}
 	}
 	
-	public void savaImage(onPictureSaveListener l){
-		mSaveTask = new SaveTask(mContext, l);
+	public void savaImage(File output, onPictureSaveListener listener){
+		mSaveTask = new SaveTask(mContext, output, listener);
 		mIsSaving = true;
-		if(isFilterSet())
+		if(mFilters != null)
 			getBitmapFromGL(mOriginBitmap, false);
 		else
 			onGetBitmapFromGL(mOriginBitmap);

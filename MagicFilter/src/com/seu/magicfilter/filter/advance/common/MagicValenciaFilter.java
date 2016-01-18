@@ -42,6 +42,13 @@ public class MagicValenciaFilter extends GPUImageFilter{
 		}
 	}
 	
+	public void onDestroy() {
+        super.onDestroy();
+        GLES20.glDeleteTextures(inputTextureHandles.length, inputTextureHandles, 0);
+        for(int i = 0; i < inputTextureHandles.length; i++)
+        	inputTextureHandles[i] = -1;
+    }
+	
 	public void onInitialized(){
 		super.onInitialized();
 	    runOnDraw(new Runnable(){

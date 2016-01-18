@@ -17,14 +17,14 @@ public class MagicEmeraldFilter extends GPUImageFilter{
 		super(NO_FILTER_VERTEX_SHADER,OpenGLUtils.readShaderFromRawResource(context, R.raw.emerald));
 	}
 	
-	public void onDestroy(){
+	protected void onDestroy(){
 		super.onDestroy();
 	    GLES20.glDeleteTextures(1, mToneCurveTexture, 0);
-	    this.mToneCurveTexture[0] = -1;
+	    mToneCurveTexture[0] = -1;
 	}
 	  
 	protected void onDrawArraysAfter(){
-		if (this.mToneCurveTexture[0] != -1){
+		if (mToneCurveTexture[0] != -1){
 			GLES20.glActiveTexture(GLES20.GL_TEXTURE3);
 			GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
 			GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
@@ -32,34 +32,32 @@ public class MagicEmeraldFilter extends GPUImageFilter{
 	}
 	  
 	protected void onDrawArraysPre(){
-		if (this.mToneCurveTexture[0] != -1){
+		if (mToneCurveTexture[0] != -1){
 			GLES20.glActiveTexture(GLES20.GL_TEXTURE3);
 			GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mToneCurveTexture[0]);
-			GLES20.glUniform1i(this.mToneCurveTextureUniformLocation, 3);
+			GLES20.glUniform1i(mToneCurveTextureUniformLocation, 3);
 	    }
 	}
 	  
-	public void onInit(){
+	protected void onInit(){
 		super.onInit();
-	    this.mToneCurveTextureUniformLocation = GLES20.glGetUniformLocation(mGLProgId, "curve");
-	    GLES20.glActiveTexture(GLES20.GL_TEXTURE3);
-	    GLES20.glGenTextures(1, this.mToneCurveTexture, 0);
-	    GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, this.mToneCurveTexture[0]);
-	    GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
-                GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
-                GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
-                GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
-                GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
+	    mToneCurveTextureUniformLocation = GLES20.glGetUniformLocation(mGLProgId, "curve");
 	}
 	  
-	public void onInitialized(){
+	protected void onInitialized(){
 		super.onInitialized();
 	    runOnDraw(new Runnable(){
 		    public void run(){
-		        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mToneCurveTexture[0]);						
+			    GLES20.glGenTextures(1, mToneCurveTexture, 0);
+			    GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mToneCurveTexture[0]);
+			    GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
+		                GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+		        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
+		                GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
+		        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
+		                GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
+		        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
+		                GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);			
 		        byte[] arrayOfByte = new byte[2048];
 		        int[] arrayOfInt1 = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 4, 7, 8, 9, 10, 12, 13, 14, 17, 18, 19, 21, 22, 23, 25, 26, 29, 30, 31, 32, 34, 35, 36, 39, 40, 41, 43, 44, 45, 46, 48, 50, 51, 53, 54, 55, 56, 58, 60, 61, 62, 64, 65, 66, 67, 69, 70, 72, 73, 75, 76, 77, 78, 79, 81, 82, 84, 85, 87, 88, 89, 90, 91, 92, 94, 96, 97, 98, 99, 101, 102, 103, 104, 105, 106, 107, 110, 111, 112, 113, 114, 115, 116, 117, 119, 120, 121, 122, 123, 125, 126, 127, 128, 129, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 173, 174, 175, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 184, 185, 186, 187, 188, 189, 190, 191, 191, 192, 193, 194, 195, 196, 197, 197, 198, 199, 200, 201, 201, 202, 203, 204, 205, 206, 206, 207, 208, 209, 210, 210, 211, 212, 213, 213, 214, 215, 216, 216, 217, 218, 219, 220, 220, 221, 222, 223, 223, 224, 225, 226, 226, 227, 228, 228, 229, 230, 231, 231, 232, 233, 234, 234, 235, 236, 236, 237, 237, 238, 239, 239, 240, 241, 242, 242, 243, 244, 244, 245, 246, 247, 247, 248, 249, 249, 250, 251, 251, 252, 253, 254, 254, 255 };
 		        int[] arrayOfInt2 = { 0, 0, 0, 0, 0, 0, 1, 3, 4, 5, 7, 8, 9, 10, 12, 13, 14, 16, 18, 19, 21, 22, 23, 25, 26, 27, 29, 30, 31, 32, 34, 35, 36, 37, 39, 40, 41, 43, 44, 45, 46, 48, 50, 51, 53, 54, 55, 56, 58, 59, 60, 61, 62, 64, 65, 66, 67, 69, 70, 71, 72, 73, 75, 76, 77, 78, 79, 82, 83, 84, 85, 87, 88, 89, 90, 91, 92, 94, 95, 96, 97, 98, 99, 101, 102, 103, 104, 105, 106, 107, 109, 111, 112, 113, 114, 115, 116, 117, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 131, 132, 133, 134, 135, 136, 137, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 184, 185, 186, 188, 189, 190, 191, 191, 192, 193, 194, 195, 196, 197, 197, 198, 199, 200, 201, 201, 202, 203, 204, 205, 206, 206, 207, 209, 210, 210, 211, 212, 213, 213, 214, 215, 216, 216, 217, 218, 219, 220, 220, 221, 222, 223, 223, 224, 225, 226, 226, 227, 228, 229, 230, 231, 231, 232, 233, 234, 234, 235, 236, 237, 237, 238, 239, 239, 240, 241, 242, 242, 243, 244, 244, 245, 247, 247, 248, 249, 249, 250, 251, 251, 252, 253, 254, 254, 255, 255, 255, 255, 255, 255 };

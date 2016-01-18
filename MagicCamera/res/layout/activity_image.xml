@@ -86,22 +86,28 @@
 	    android:id="@+id/image_edit_topbar"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:padding="5dp">
-	    <TextView 
+	    android:padding="5dp"
+	    android:background="@android:color/black">
+	    <ImageView 
 	        android:id="@+id/image_edit_back"
 	        android:layout_alignParentLeft="true"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:drawableLeft="@drawable/selector_image_back"
-	        android:text="美化照片"
-	        android:textColor="@color/selector_image_back"
-	        android:gravity="center"/>
+	        android:src="@drawable/selector_image_back"
+	        android:layout_centerVertical="true"/>
 	    <ImageView 
 	        android:id="@+id/image_edit_save"
 	        android:layout_alignParentRight="true"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:src="@drawable/selector_image_save"/>
+	    
+	    <TextView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="修改图片"
+	        android:textColor="@android:color/white"
+	        android:layout_centerInParent="true"/>
 	</RelativeLayout>
 	
     <android.opengl.GLSurfaceView

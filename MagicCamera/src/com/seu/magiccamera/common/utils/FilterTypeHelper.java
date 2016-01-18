@@ -51,6 +51,7 @@ public class FilterTypeHelper {
 			case MagicFilterType.NOSTALGIA:
 				return R.color.filter_color_green_dark;
 			case MagicFilterType.BEAUTY:
+			case MagicFilterType.SKINWHITEN:
 			case MagicFilterType.HEALTHY:
 				return R.color.filter_color_red;
 			case MagicFilterType.SWEETS:
@@ -119,6 +120,7 @@ public class FilterTypeHelper {
 		case MagicFilterType.ANTIQUE:
 			return R.drawable.filter_thumb_antique;
 		case MagicFilterType.BEAUTY:
+		case MagicFilterType.SKINWHITEN:
 			return R.drawable.filter_thumb_beauty;
 		case MagicFilterType.CALM:
 			return R.drawable.filter_thumb_calm;
@@ -233,6 +235,8 @@ public class FilterTypeHelper {
 			return R.string.filter_sunrise;
 		case MagicFilterType.SUNSET:
 			return R.string.filter_sunset;
+		case MagicFilterType.SKINWHITEN:
+			return R.string.filter_skinwhiten;
 		default:
 			return R.string.filter_none;
 		}

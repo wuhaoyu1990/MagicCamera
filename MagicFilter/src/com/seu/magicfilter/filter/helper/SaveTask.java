@@ -20,10 +20,11 @@ public class SaveTask extends AsyncTask<Bitmap, Integer, String>{
 	
 	private onPictureSaveListener mListener;
 	private Context mContext;
-	
-	public SaveTask(Context context, onPictureSaveListener listener){
+	private File mFile;
+	public SaveTask(Context context, File file, onPictureSaveListener listener){
 		this.mContext = context;
 		this.mListener = listener;
+		this.mFile = file;
 	}
 	
 	@Override
@@ -50,21 +51,22 @@ public class SaveTask extends AsyncTask<Bitmap, Integer, String>{
 	@Override
 	protected String doInBackground(Bitmap... params) {
 		// TODO Auto-generated method stub
+		if(mFile == null)
+			return null;
 		return saveBitmap(params[0]);
 	}
 	
 	private String saveBitmap(Bitmap bitmap) {
-		File file = getOutputMediaFile();
-		if (file.exists()) {
-			file.delete();
+		if (mFile.exists()) {
+			mFile.delete();
 		}
 		try {
-			FileOutputStream out = new FileOutputStream(file);
+			FileOutputStream out = new FileOutputStream(mFile);
 			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
 			out.flush();
 			out.close();
 			bitmap.recycle();
-			return file.toString();
+			return mFile.toString();
 		} catch (FileNotFoundException e) {
 		   // TODO Auto-generated catch block
 		   e.printStackTrace();
@@ -78,29 +80,4 @@ public class SaveTask extends AsyncTask<Bitmap, Integer, String>{
 	public interface onPictureSaveListener{
 		void onSaved(String result);
 	}
-	
-	private File getOutputMediaFile() {
-        // To be safe, you should check that the SDCard is mounted
-        // using Environment.getExternalStorageState() before doing this.
-
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "MagicCamera");
-        // This location works best if you want the created images to be shared
-        // between applications and persist after your app has been uninstalled.
-
-        // Create the storage directory if it does not exist
-        if (!mediaStorageDir.exists()) {
-            if (!mediaStorageDir.mkdirs()) {
-                Log.d("MyCameraApp", "failed to create directory");
-                return null;
-            }
-        }
-
-        // Create a media file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",Locale.CHINESE).format(new Date());
-        File mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    "IMG_" + timeStamp + ".jpg");
-
-        return mediaFile;
-    }
 }
