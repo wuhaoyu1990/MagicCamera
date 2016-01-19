@@ -10,13 +10,13 @@
 	    android:padding="20dp"
 	    android:background="@android:color/black"
 	    android:gravity="center">
-	    <com.seu.magiccamera.widget.bubble.BubbleSeekBar
+	    <com.seu.magiccamera.widget.BubbleSeekBar
 	        android:id="@+id/fragment_beauty_skin_seekbar"
 	        android:layout_width="202dip"
 	        android:layout_height="wrap_content"
 	        style="@style/SeekBar.Light">
 	        
-	    </com.seu.magiccamera.widget.bubble.BubbleSeekBar>
+	    </com.seu.magiccamera.widget.BubbleSeekBar>
 	</RelativeLayout>
 	<RelativeLayout 
 	    android:id="@+id/fragment_beauty_color"
@@ -26,13 +26,13 @@
 	    android:background="@android:color/black"
 	    android:gravity="center"
 	    android:visibility="gone">
-	    <com.seu.magiccamera.widget.bubble.BubbleSeekBar
+	    <com.seu.magiccamera.widget.BubbleSeekBar
 	        android:id="@+id/fragment_beauty_white_seekbar"
 	        android:layout_width="202dip"
 	        android:layout_height="wrap_content"
 	        style="@style/SeekBar.Light">
 	        
-	    </com.seu.magiccamera.widget.bubble.BubbleSeekBar>
+	    </com.seu.magiccamera.widget.BubbleSeekBar>
 	</RelativeLayout>
     <RadioGroup 
 	    android:id="@+id/fragment_beauty_radiogroup"

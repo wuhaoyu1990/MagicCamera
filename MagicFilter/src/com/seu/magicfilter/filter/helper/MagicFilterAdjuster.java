@@ -107,7 +107,7 @@ public class MagicFilterAdjuster {
     	    	
         @Override
         public void adjust(final int percentage) {
-            getFilter().setBrightness(range(percentage, -0.75f, 0.75f));
+            getFilter().setBrightness(range(percentage, -0.5f, 0.5f));
         }
     }
     
@@ -149,7 +149,7 @@ public class MagicFilterAdjuster {
 				getFilter().setExposure(range(percentage, -2.0f, 2.0f));
 				break;
 			case MagicFilterType.BRIGHTNESS:
-				getFilter().setBrightness(range(percentage, -0.75f, 0.75f));
+				getFilter().setBrightness(range(percentage, -0.5f, 0.5f));
 				break;
 			case MagicFilterType.HUE:
 				getFilter().setHue(range(percentage, 0.0f, 360.0f));

@@ -20,58 +20,33 @@
 		    
 		    <RadioButton
 		        android:id="@+id/image_edit_adjust"
-		        android:layout_weight="1.0"
-		        android:layout_width="0dip"
-		        android:layout_height="wrap_content"
-		        android:button="@null"
 		        android:drawableTop="@drawable/selector_image_edit"
-		        android:gravity="center"
-		        android:text="@string/edit_edit"
-		        android:textColor="@color/selector_image_edit"/>
+		        android:text="@string/edit_edit"	        
+		        style="@style/ImageEditor_radiobutton"/>
 		    
 		    <RadioButton
 		        android:id="@+id/image_edit_beauty"
-		        android:layout_weight="1.0"
-		        android:layout_width="0dip"
-		        android:layout_height="wrap_content"
-		        android:button="@null"
 		        android:drawableTop="@drawable/selector_image_beauty"
-		        android:gravity="center"
 		        android:text="@string/edit_beauty"
-		        android:textColor="@color/selector_image_edit"/>
+		        style="@style/ImageEditor_radiobutton"/>
 		    
 		    <RadioButton
 		        android:id="@+id/image_edit_adds"
-		        android:layout_weight="1.0"
-		        android:layout_width="0dip"
-		        android:layout_height="wrap_content"
-		        android:button="@null"
 		        android:drawableTop="@drawable/selector_image_adds"
-		        android:gravity="center"
 		        android:text="@string/edit_adds"
-		        android:textColor="@color/selector_image_edit"/>
+		        style="@style/ImageEditor_radiobutton"/>
 		    
 		    <RadioButton
 		        android:id="@+id/image_edit_filter"
-		        android:layout_weight="1.0"
-		        android:layout_width="0dip"
-		        android:layout_height="wrap_content"
-		        android:button="@null"
 		        android:drawableTop="@drawable/selector_image_filter"
-		        android:gravity="center"
 		        android:text="@string/edit_filter"
-		        android:textColor="@color/selector_image_edit"/>
+		        style="@style/ImageEditor_radiobutton"/>
 		    
 		    <RadioButton
 		        android:id="@+id/image_edit_frame"
-		        android:layout_weight="1.0"
-		        android:layout_width="0dip"
-		        android:layout_height="wrap_content"
-		        android:button="@null"
 		        android:drawableTop="@drawable/selector_image_frame"
-		        android:gravity="center"
 		        android:text="@string/edit_frame"
-		        android:textColor="@color/selector_image_edit"/>
+		        style="@style/ImageEditor_radiobutton"/>
 	
 		</RadioGroup>
 	    <RelativeLayout 
@@ -111,7 +86,7 @@
 	</RelativeLayout>
 	
     <android.opengl.GLSurfaceView
-        android:id="@+id/glsurfaceView_image"
+        android:id="@+id/glsurfaceview_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/image_edit_topbar"

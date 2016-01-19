@@ -25,42 +25,20 @@ JNIEXPORT void JNICALL Java_com_seu_magicfilter_utils_MagicSDK_jniInitMagicBeaut
 	MagicBeauty::getInstance()->initMagicBeauty(jniBitmap);
 }
 
-JNIEXPORT void JNICALL Java_com_seu_magicfilter_utils_MagicSDK_jniInitWhiteSkin(
-	JNIEnv * env, jobject obj, jfloat whiteLevel){
-	MagicBeauty::getInstance()->initWhiteSkin();
-}
-
 JNIEXPORT void JNICALL Java_com_seu_magicfilter_utils_MagicSDK_jniStartWhiteSkin(
 	JNIEnv * env, jobject obj, jfloat whiteLevel){
 	MagicBeauty::getInstance()->startWhiteSkin(whiteLevel);
 }
 
-JNIEXPORT void JNICALL Java_com_seu_magicfilter_utils_MagicSDK_jniInitSkinSmooth(
-	JNIEnv * env, jobject obj){
-	MagicBeauty::getInstance()->initSkinSmooth();
-}
-
 JNIEXPORT void JNICALL Java_com_seu_magicfilter_utils_MagicSDK_jniStartSkinSmooth(
 	JNIEnv * env, jobject obj, jfloat DenoiseLevel){
-	MagicBeauty* mMagicBeauty = MagicBeauty::getInstance();
-	if (mMagicBeauty == NULL){
-		LOGE("MagicBeauty is not init or failed");
-		return;
-	}
 	float sigema = 10 + DenoiseLevel * DenoiseLevel * 5;
-	mMagicBeauty->startSkinSmooth(sigema);
+	MagicBeauty::getInstance()->startSkinSmooth(sigema);
 }
 
-//UnInitSkinSmooth
 JNIEXPORT void JNICALL Java_com_seu_magicfilter_utils_MagicSDK_jniUninitMagicBeauty(
 	JNIEnv * env, jobject obj){
-	MagicBeauty* mMagicBeauty = MagicBeauty::getInstance();
-	if (mMagicBeauty == NULL){
-		LOGE("MagicBeauty is not init or failed");
-		return;
-	}
-	mMagicBeauty->unInitMagicBeauty();
-	delete mMagicBeauty;
+	MagicBeauty::getInstance()->unInitMagicBeauty();
 }
 
 JNIEXPORT jobject JNICALL Java_com_seu_magicfilter_utils_MagicSDK_jniStoreBitmapData(
@@ -68,7 +46,7 @@ JNIEXPORT jobject JNICALL Java_com_seu_magicfilter_utils_MagicSDK_jniStoreBitmap
 	return BitmapOperation::jniStoreBitmapData(env, obj, bitmap);
 }
 
-/**free bitmap*/ //
+/**free bitmap*/
 JNIEXPORT void JNICALL Java_com_seu_magicfilter_utils_MagicSDK_jniFreeBitmapData(
 	JNIEnv * env, jobject obj, jobject handle){
 	BitmapOperation::jniFreeBitmapData(env, obj, handle);

@@ -9,14 +9,13 @@
         android:padding="10dp"
         android:gravity="center">
         
-        <com.seu.magiccamera.widget.bubble.BubbleSeekBar
+        <com.seu.magiccamera.widget.BubbleSeekBar
 	        android:id="@+id/fragment_adjust_seekbar"
 	        android:layout_width="202dip"
 	        android:layout_height="wrap_content"
 	        android:visibility="gone"
-	        style="@style/SeekBar.Light">
-	        
-	    </com.seu.magiccamera.widget.bubble.BubbleSeekBar>
+	        style="@style/SeekBar.Light">	        
+	    </com.seu.magiccamera.widget.BubbleSeekBar>
     </RelativeLayout>
     <HorizontalScrollView 
         android:layout_width="wrap_content"
@@ -31,69 +30,39 @@
 		    
 		    <RadioButton 
 		        android:id="@+id/fragment_radio_contrast"  
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:button="@null"
 		        android:drawableTop="@drawable/selector_image_edit_adjust_contrast"
 		        android:text="@string/edit_contrast"
-		        android:textColor="@color/selector_image_edit_yellow"
-		        android:gravity="center"
-		        android:padding="10dp"/>
+		        style="@style/ImageEditor_adjust_radiobutton"/>
 		    
 		    <RadioButton 
 		        android:id="@+id/fragment_radio_exposure"  
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:button="@null"
 		        android:drawableTop="@drawable/selector_image_edit_adjust_exposure"
 		        android:text="@string/edit_exposure"
-		        android:textColor="@color/selector_image_edit_yellow"
-		        android:gravity="center"
-		        android:padding="10dp"/>
+		        style="@style/ImageEditor_adjust_radiobutton"/>
 		    
 		    <RadioButton 
 		        android:id="@+id/fragment_radio_saturation"  
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:button="@null"
 		        android:drawableTop="@drawable/selector_image_edit_adjust_saturation"
 		        android:text="@string/edit_saturation"
-		        android:textColor="@color/selector_image_edit_yellow"
-		        android:gravity="center"
-		        android:padding="10dp"/>
+		        style="@style/ImageEditor_adjust_radiobutton"/>
 		    
 		    <RadioButton 
 		        android:id="@+id/fragment_radio_sharpness"  
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:button="@null"
 		        android:drawableTop="@drawable/selector_image_edit_adjust_sharpness"
 		        android:text="@string/edit_sharpness"
-		        android:textColor="@color/selector_image_edit_yellow"
-		        android:gravity="center"
-		        android:padding="10dp"/>
+		        style="@style/ImageEditor_adjust_radiobutton"/>
 		    
 		    <RadioButton 
 		        android:id="@+id/fragment_radio_bright"  
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:button="@null"
 		        android:drawableTop="@drawable/selector_image_edit_adjust_bright"
 		        android:text="@string/edit_brightness"
-		        android:textColor="@color/selector_image_edit_yellow"
-		        android:gravity="center"
-		        android:padding="10dp"/>
+		        style="@style/ImageEditor_adjust_radiobutton"/>
 		    
 		    <RadioButton 
 		        android:id="@+id/fragment_radio_hue"  
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:button="@null"
 		        android:drawableTop="@drawable/selector_image_edit_adjust_hue"
 		        android:text="@string/edit_hue"
-		        android:textColor="@color/selector_image_edit_yellow"
-		        android:gravity="center"
-		        android:padding="10dp"/>
+		        style="@style/ImageEditor_adjust_radiobutton"/>
 		</RadioGroup>
     </HorizontalScrollView>
 </LinearLayout>

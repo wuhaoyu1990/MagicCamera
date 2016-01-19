@@ -175,7 +175,7 @@ public class ImageActivity extends Activity{
 	}
 	
 	private void initMagicPreview(){
-		GLSurfaceView glSurfaceView = (GLSurfaceView)findViewById(R.id.glsurfaceView_image);
+		GLSurfaceView glSurfaceView = (GLSurfaceView)findViewById(R.id.glsurfaceview_image);
 		mMagicImageDisplay = new MagicImageDisplay(this, glSurfaceView);
 
 		Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);

@@ -6,13 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
-import android.widget.SeekBar;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.SeekBar;
 
 import com.seu.magiccamera.R;
 import com.seu.magiccamera.common.view.edit.ImageEditFragment;
-import com.seu.magiccamera.widget.bubble.BubbleSeekBar;
-import com.seu.magiccamera.widget.bubble.BubbleSeekBar.OnBubbleSeekBarChangeListener;
+import com.seu.magiccamera.widget.BubbleSeekBar;
+import com.seu.magiccamera.widget.BubbleSeekBar.OnBubbleSeekBarChangeListener;
 import com.seu.magicfilter.display.MagicImageDisplay;
 import com.seu.magicfilter.filter.helper.MagicFilterType;
 

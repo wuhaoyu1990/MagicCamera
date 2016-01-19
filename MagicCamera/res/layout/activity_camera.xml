@@ -5,7 +5,7 @@
     tools:context="com.seu.magiccamera.activity.CameraActivity" >
 
     <android.opengl.GLSurfaceView
-        android:id="@+id/glsurfaceView"
+        android:id="@+id/glsurfaceview_camera"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>    
         
@@ -56,60 +56,4 @@
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:layout_gravity="bottom"/>
-<!-- 	<RelativeLayout  -->
-<!-- 	    android:id="@+id/layout_filter" -->
-<!-- 	    android:layout_gravity="bottom" -->
-<!-- 	    android:layout_width="match_parent" -->
-<!-- 	    android:layout_height="match_parent" -->
-<!-- 	    android:visibility="invisible"> -->
-<!-- 	    <LinearLayout  -->
-<!-- 	        android:id="@+id/layout_filter_tab" -->
-<!-- 	        android:layout_alignParentBottom="true" -->
-<!-- 	        android:layout_width="match_parent" -->
-<!-- 	        android:layout_height="wrap_content" -->
-<!-- 	        android:orientation="vertical" -->
-<!-- 	        android:background="@android:color/white"> -->
-		    
-<!-- 		    <android.support.v7.widget.RecyclerView -->
-<!-- 		        android:id="@+id/filter_listView" -->
-<!-- 		        android:layout_width="match_parent" -->
-<!-- 		        android:layout_height="94.0dip" -->
-<!-- 		        android:padding="5.0dip" -->
-<!-- 		        android:scrollbars="none"/>        -->
-<!-- 	        <View  -->
-<!-- 	            android:layout_width="match_parent" -->
-<!-- 	            android:layout_height="1px" -->
-<!-- 	            android:background="@android:color/black"/> -->
-<!-- 	        <ImageView -->
-<!-- 	            android:id="@+id/btn_camera_closefilter"  -->
-<!-- 	            android:layout_width="50.0dip"  -->
-<!-- 	            android:layout_height="40dip"  -->
-<!-- 	            android:scaleType="center" -->
-<!-- 	            android:layout_gravity="center_horizontal" -->
-<!-- 	            android:src="@drawable/btn_layout_filters_bar_close" /> -->
-<!-- 	    </LinearLayout> -->
-<!-- 	    <TextView  -->
-<!--             android:id="@+id/textview_camera_filtername" -->
-<!--             android:layout_above="@id/layout_filter_tab" -->
-<!-- 	        android:layout_width="150dp" -->
-<!-- 	        android:gravity="center" -->
-<!-- 	        android:layout_height="wrap_content" -->
-<!-- 	        android:text="@string/filter_none" -->
-<!-- 	        android:textStyle="bold" -->
-<!-- 	        android:textSize="30sp" -->
-<!-- 	        android:layout_marginBottom="20dp" -->
-<!-- 	        android:layout_alignParentRight="true" -->
-<!-- 	        android:textColor="#ebe7d6" -->
-<!-- 	        android:visibility="invisible"/> -->
-<!-- 	    <ImageView -->
-<!-- 	        android:id="@+id/btn_camera_favourite" -->
-<!-- 	        android:layout_width="wrap_content" -->
-<!-- 	        android:layout_height="wrap_content" -->
-<!-- 	        android:layout_above="@id/layout_filter_tab" -->
-<!-- 	        android:layout_alignParentLeft="true" -->
-<!-- 	        android:layout_marginLeft="10dp" -->
-<!-- 	        android:layout_marginBottom="10dp" -->
-<!-- 	        android:src="@drawable/take_filter_favorite_btn"  -->
-<!-- 	  		android:visibility="gone"/> -->
-<!-- 	</RelativeLayout> -->
 </FrameLayout>

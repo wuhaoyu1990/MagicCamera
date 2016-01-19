@@ -41,7 +41,7 @@ public class CameraActivity extends Activity{
 	}
 	
 	private void initMagicPreview(){
-		GLSurfaceView glSurfaceView = (GLSurfaceView)findViewById(R.id.glsurfaceView);
+		GLSurfaceView glSurfaceView = (GLSurfaceView)findViewById(R.id.glsurfaceview_camera);
 		FrameLayout.LayoutParams params = new LayoutParams(Constants.mScreenWidth, Constants.mScreenHeight);
 		glSurfaceView.setLayoutParams(params);	
 		mMagicCameraDisplay = new MagicCameraDisplay(this, glSurfaceView);

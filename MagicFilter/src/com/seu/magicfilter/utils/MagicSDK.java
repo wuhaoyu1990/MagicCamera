@@ -39,14 +39,6 @@ public class MagicSDK {
 			this.mHandler = handler;
 	}
 	
-	public void initSkinSmooth(){
-		if( _bitmapHandler == null)
-			return;
-		jniInitSkinSmooth();
-		if(mMagicSDKListeners != null)
-			mMagicSDKListeners.onEnd();
-	}
-	
 	public void onStartSkinSmooth(float level){
 		if(_bitmapHandler == null)
 			return;
@@ -67,7 +59,6 @@ public class MagicSDK {
 			Log.e("MagicSDK","Skin white level must in [1,5]");
 			return;
 		}
-		jniInitWhiteSkin();
 		jniStartWhiteSkin(level);
 		mHandler.sendEmptyMessage(MESSAGE_OPERATION_END);
 		if(mMagicSDKListeners != null)
@@ -140,10 +131,8 @@ public class MagicSDK {
 	
 	//局部均方差磨皮
 	private native void jniStartSkinSmooth(float DenoiseLevel);	
-	private native void jniInitSkinSmooth();	
 	
 	//log曲线美白
-	private native void jniInitWhiteSkin();	
 	private native void jniStartWhiteSkin(float WhiteLevel);	
 	
 	//Bitmap操作

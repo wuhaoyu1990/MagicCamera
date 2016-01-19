@@ -7,14 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
-import android.widget.SeekBar;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 
 import com.seu.magiccamera.R;
 import com.seu.magiccamera.common.view.edit.ImageEditFragment;
-import com.seu.magiccamera.widget.bubble.BubbleSeekBar;
-import com.seu.magiccamera.widget.bubble.BubbleSeekBar.OnBubbleSeekBarChangeListener;
+import com.seu.magiccamera.widget.BubbleSeekBar;
+import com.seu.magiccamera.widget.BubbleSeekBar.OnBubbleSeekBarChangeListener;
 import com.seu.magicfilter.display.MagicImageDisplay;
 import com.seu.magicfilter.utils.MagicSDK;
 import com.seu.magicfilter.utils.MagicSDK.MagicSDKListener;
@@ -58,13 +58,6 @@ public class ImageEditBeautyView extends ImageEditFragment{
 				case R.id.fragment_beauty_btn_skinsmooth:
 					mSkinSmoothView.setVisibility(View.VISIBLE);
 					mSkinColorView.setVisibility(View.GONE);
-					new Thread(new Runnable() {
-						
-						@Override
-						public void run() {
-							mMagicSDK.initSkinSmooth();
-						}
-					}).start();
 					break;
 				case R.id.fragment_beauty_btn_skincolor:
 					mSkinColorView.setVisibility(View.VISIBLE);
@@ -76,12 +69,12 @@ public class ImageEditBeautyView extends ImageEditFragment{
 			}
 		});
 		mMagicSDK = MagicSDK.getInstance();
-		mMagicSDK.setMagicSDKListener(mMagicSDKListener);
-		init();
+		mMagicSDK.setMagicSDKListener(mMagicSDKListener);	
 		mSmoothBubbleSeekBar = (BubbleSeekBar) view.findViewById(R.id.fragment_beauty_skin_seekbar);
 		mSmoothBubbleSeekBar.setOnBubbleSeekBarChangeListener(mOnSmoothBubbleSeekBarChangeListener);
 		mWhiteBubbleSeekBar = (BubbleSeekBar) view.findViewById(R.id.fragment_beauty_white_seekbar);
 		mWhiteBubbleSeekBar.setOnBubbleSeekBarChangeListener(mOnColorBubbleSeekBarChangeListener);
+		init();
 		super.onViewCreated(view, savedInstanceState);
 	}
 	
@@ -91,7 +84,6 @@ public class ImageEditBeautyView extends ImageEditFragment{
 			@Override
 			public void run() {
 				mMagicSDK.initMagicBeauty();
-				mMagicSDK.initSkinSmooth();
 			}
 		}).start();
 	}
@@ -99,10 +91,12 @@ public class ImageEditBeautyView extends ImageEditFragment{
 	@Override
 	public void onHiddenChanged(boolean hidden) {
 		super.onHiddenChanged(hidden);
-		if(!hidden){
-			init();
+		if(!hidden){			
 			mSmoothBubbleSeekBar.setProgress(0);
 			mWhiteBubbleSeekBar.setProgress(0);
+			init();
+		}else{
+			mMagicSDK.uninitMagicBeauty();
 		}
 	}
 
