@@ -10,25 +10,34 @@ Idea from:android-gpuimage
 #Log:
 
 2016-01-08
+
 First release
 
 2016-01-14
+
 1.Fix bugs
+
 2.Add Bilateral filte before beauty filter
 
 2016-01-18
+
 1.Fix bugs
+
 2.Add real time face beautify 
+
 3.Add ImageAdjustFilter(Hue,Contrast,Sharpenness,Saturation,Exposure,Brightness)
 
 #Introduction：
-a Camera APP which inlcudes
-39 kinds of real time filters 
-Image editor with face beauty(skin smooth and white)
 
-This project is still in coding and will be updated later
+a Camera APP which inlcudes：
 
-#Click "star" if this is helpful for you!
+40 kinds of real-time filters 
+
+Image editor with face beauty(Smooth Skin and White skin)
+
+This project is still under coding and will be updated later,only used eclipse because my computer too poor to run AS T-T
+
+#Click "Star" if this is helpful for you!
 
 #1.相机预览模式
 示例见：com.seu.magiccamera.activity.CameraActivity
