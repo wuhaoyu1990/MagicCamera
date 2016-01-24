@@ -3,7 +3,8 @@
 Idea from:android-gpuimage
 
 #ScreenShot
-![alt text](https://github.com/wuhaoyu1990/MagicCamera/blob/master/screenshot_1.png)![alt text](https://github.com/wuhaoyu1990/MagicCamera/blob/master/screenshot_2.png)![alt text](https://github.com/wuhaoyu1990/MagicCamera/blob/master/screenshot_3.png)![alt text](https://github.com/wuhaoyu1990/MagicCamera/blob/master/screenshot_4.png)
+
+![alt text](https://github.com/wuhaoyu1990/MagicCamera/blob/master/Screenshot_1.png)![alt text](https://github.com/wuhaoyu1990/MagicCamera/blob/master/Screenshot_2.png)![alt text](https://github.com/wuhaoyu1990/MagicCamera/blob/master/Screenshot_3.png)![alt text](https://github.com/wuhaoyu1990/MagicCamera/blob/master/Screenshot_4.png)
 
 
 
