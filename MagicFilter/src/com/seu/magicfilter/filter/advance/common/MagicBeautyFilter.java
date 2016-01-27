@@ -13,7 +13,7 @@ public class MagicBeautyFilter extends GPUImageFilter {
 	private int mParamsLocation;
 	
     public MagicBeautyFilter(Context context) {
-    	super(OpenGLUtils.readShaderFromRawResource(context, R.raw.beautify_vertex),
+    	super(NO_FILTER_VERTEX_SHADER,
     			OpenGLUtils.readShaderFromRawResource(context, R.raw.beautify_fragment));
     }
     

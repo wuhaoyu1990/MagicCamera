@@ -1,6 +1,6 @@
 precision highp float;
 uniform sampler2D inputImageTexture;
-
+uniform vec2 singleStepOffset; 
 varying highp vec2 textureCoordinate;
 varying highp vec2 blurCoordinates[20];
 
@@ -26,6 +26,28 @@ float hardlight(float color)
 }
 
 void main(){
+	vec2 blurCoordinates[20];
+	blurCoordinates[0] = textureCoordinate.xy + singleStepOffset * vec2(0.0, -10.0);
+	blurCoordinates[1] = textureCoordinate.xy + singleStepOffset * vec2(5.0, -8.0);
+	blurCoordinates[2] = textureCoordinate.xy + singleStepOffset * vec2(8.0, -5.0);
+	blurCoordinates[3] = textureCoordinate.xy + singleStepOffset * vec2(10.0, 0.0);
+	blurCoordinates[4] = textureCoordinate.xy + singleStepOffset * vec2(8.0, 5.0);
+	blurCoordinates[5] = textureCoordinate.xy + singleStepOffset * vec2(5.0, 8.0);
+	blurCoordinates[6] = textureCoordinate.xy + singleStepOffset * vec2(0.0, 10.0);
+	blurCoordinates[7] = textureCoordinate.xy + singleStepOffset * vec2(-5.0, 8.0);
+	blurCoordinates[8] = textureCoordinate.xy + singleStepOffset * vec2(-8.0, 5.0);
+	blurCoordinates[9] = textureCoordinate.xy + singleStepOffset * vec2(-10.0, 0.0);
+	blurCoordinates[10] = textureCoordinate.xy + singleStepOffset * vec2(-8.0, -5.0);
+	blurCoordinates[11] = textureCoordinate.xy + singleStepOffset * vec2(-5.0, -8.0);
+	blurCoordinates[12] = textureCoordinate.xy + singleStepOffset * vec2(0.0, -6.0);
+	blurCoordinates[13] = textureCoordinate.xy + singleStepOffset * vec2(-4.0, -4.0);
+	blurCoordinates[14] = textureCoordinate.xy + singleStepOffset * vec2(-6.0, 0.0);
+	blurCoordinates[15] = textureCoordinate.xy + singleStepOffset * vec2(-4.0, 4.0);
+	blurCoordinates[16] = textureCoordinate.xy + singleStepOffset * vec2(0.0, 6.0);
+	blurCoordinates[17] = textureCoordinate.xy + singleStepOffset * vec2(4.0, 4.0);
+	blurCoordinates[18] = textureCoordinate.xy + singleStepOffset * vec2(6.0, 0.0);
+	blurCoordinates[19] = textureCoordinate.xy + singleStepOffset * vec2(4.0, -4.0);
+
 	float sampleColor = texture2D(inputImageTexture, textureCoordinate).g * 22.0;
 	sampleColor += texture2D(inputImageTexture, blurCoordinates[0]).g;
 	sampleColor += texture2D(inputImageTexture, blurCoordinates[1]).g;

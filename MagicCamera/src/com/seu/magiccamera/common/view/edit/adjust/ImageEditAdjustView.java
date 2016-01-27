@@ -2,30 +2,39 @@ package com.seu.magiccamera.common.view.edit.adjust;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.seu.magiccamera.R;
 import com.seu.magiccamera.common.view.edit.ImageEditFragment;
 import com.seu.magiccamera.widget.BubbleSeekBar;
 import com.seu.magiccamera.widget.BubbleSeekBar.OnBubbleSeekBarChangeListener;
+import com.seu.magiccamera.widget.TwoLineSeekBar;
+import com.seu.magiccamera.widget.TwoLineSeekBar.OnSeekChangeListener;
 import com.seu.magicfilter.display.MagicImageDisplay;
 import com.seu.magicfilter.filter.helper.MagicFilterType;
 
 public class ImageEditAdjustView extends ImageEditFragment{
-	private BubbleSeekBar mSeekBar;
-	private int contrast = 25;
-	private int exposure = 50; 
-	private int saturation = 50;
-	private int sharpness = 50;
-	private int brightness = 50;
-	private int hue = 0;
+	private TwoLineSeekBar mSeekBar;
+	private float contrast = -50.0f;
+	private float exposure = 0.0f; 
+	private float saturation = 0.0f;
+	private float sharpness = 0.0f;
+	private float brightness = 0.0f;
+	private float hue = 0.0f;
 	private RadioGroup mRadioGroup;
 	private int type = MagicFilterType.NONE;
+	private ImageView mLabel;
+	private TextView mVal;
+	private LinearLayout mLinearLayout;
 	
 	public ImageEditAdjustView(Context context, MagicImageDisplay mMagicDisplay) {
 		super(context, mMagicDisplay);
@@ -47,45 +56,58 @@ public class ImageEditAdjustView extends ImageEditFragment{
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				// TODO Auto-generated method stub
 				if(checkedId != -1)
-				mSeekBar.setVisibility(View.VISIBLE);
+				mLinearLayout.setVisibility(View.VISIBLE);
 				switch (checkedId) {
 				case R.id.fragment_radio_contrast:
 					type = MagicFilterType.CONTRAST;
-					mSeekBar.setRange(0, 100);
-					mSeekBar.setProgress(contrast);				
+					mSeekBar.reset();
+					mSeekBar.setSeekLength(-100, 100, -50, 1);
+					mSeekBar.setValue(contrast);
+					mLabel.setBackgroundResource(R.drawable.selector_image_edit_adjust_contrast);
 					break;
 				case R.id.fragment_radio_exposure:
-					type = MagicFilterType.EXPOSURE;
-					mSeekBar.setRange(-100, 100);
-					mSeekBar.setProgress(exposure);					
+					type = MagicFilterType.EXPOSURE;		
+					mSeekBar.reset();
+					mSeekBar.setSeekLength(-100, 100, 0, 1);
+					mSeekBar.setValue(exposure);		
+					mLabel.setBackgroundResource(R.drawable.selector_image_edit_adjust_exposure);
 					break;
 				case R.id.fragment_radio_saturation:
-					type = MagicFilterType.SATURATION;
-					mSeekBar.setRange(-100, 100);
-					mSeekBar.setProgress(saturation);					
+					type = MagicFilterType.SATURATION;			
+					mSeekBar.reset();
+					mSeekBar.setSeekLength(-100, 100, 0, 1);
+					mSeekBar.setValue(saturation);		
+					mLabel.setBackgroundResource(R.drawable.selector_image_edit_adjust_saturation);
 					break;
 				case R.id.fragment_radio_sharpness:
-					type = MagicFilterType.SHARPEN;
-					mSeekBar.setRange(-100, 100);
-					mSeekBar.setProgress(sharpness);				
+					type = MagicFilterType.SHARPEN;			
+					mSeekBar.reset();
+					mSeekBar.setSeekLength(-100, 100, 0, 1);
+					mSeekBar.setValue(sharpness);	
+					mLabel.setBackgroundResource(R.drawable.selector_image_edit_adjust_saturation);
 					break;
 				case R.id.fragment_radio_bright:
-					type = MagicFilterType.BRIGHTNESS;
-					mSeekBar.setRange(-100, 100);
-					mSeekBar.setProgress(brightness);					
+					type = MagicFilterType.BRIGHTNESS;			
+					mSeekBar.reset();
+					mSeekBar.setSeekLength(-100, 100, 0, 1);
+					mSeekBar.setValue(brightness);						
 					break;
 				case R.id.fragment_radio_hue:
-					type = MagicFilterType.HUE;
-					mSeekBar.setRange(0, 100);
-					mSeekBar.setProgress(hue);					
+					type = MagicFilterType.HUE;		
+					mSeekBar.reset();
+					mSeekBar.setSeekLength(0, 360, 0, 1);
+					mSeekBar.setValue(hue);								
 					break;
 				default:
 					break;
 				}
 			}
 		});
-		mSeekBar = (BubbleSeekBar)view.findViewById(R.id.fragment_adjust_seekbar);
-		mSeekBar.setOnBubbleSeekBarChangeListener(mOnColorBubbleSeekBarChangeListener);
+		mSeekBar = (TwoLineSeekBar)view.findViewById(R.id.item_seek_bar);
+		mSeekBar.setOnSeekChangeListener(mOnSeekChangeListener);
+		mVal = (TextView)view.findViewById(R.id.item_val);
+		mLabel = (ImageView)view.findViewById(R.id.item_label);
+		mLinearLayout = (LinearLayout)view.findViewById(R.id.seek_bar_item_menu);
 		mMagicDisplay.setFilter(MagicFilterType.IMAGE_ADJUST);
 	}
 	
@@ -93,15 +115,15 @@ public class ImageEditAdjustView extends ImageEditFragment{
 	public void onHiddenChanged(boolean hidden) {
 		super.onHiddenChanged(hidden);
 		if(hidden){
-			contrast = 25;
-			exposure = 50; 
-			saturation = 50;
-			sharpness = 50;
-			brightness = 50;
-			hue = 0;
+			contrast = -50.0f;
+			exposure = 0.0f; 
+			saturation = 0.0f;
+			sharpness = 0.0f;
+			brightness = 0.0f;
+			hue = 0.0f;
 			mRadioGroup.clearCheck();
 			mMagicDisplay.setFilter(MagicFilterType.NONE);
-			mSeekBar.setVisibility(View.GONE);
+			mLinearLayout.setVisibility(View.INVISIBLE);
 			type = MagicFilterType.NONE;
 		}else{
 			mMagicDisplay.setFilter(MagicFilterType.IMAGE_ADJUST);
@@ -109,52 +131,49 @@ public class ImageEditAdjustView extends ImageEditFragment{
 	}
 	
 	protected boolean isChanged(){
-		return contrast != 25 || exposure != 50 || saturation != 50
-				|| sharpness != 50 || brightness != 50 || hue != 0;
+		return contrast != 0.0f || exposure != 0.0f || saturation != 0.0f
+				|| sharpness != 0.0f || brightness != 0.0f || hue != 0.0f;
 	}
 	
-	private void saveProgress(int progress){
+	private int convertToProgress(float value){
 		switch (mRadioGroup.getCheckedRadioButtonId()) {
-		case R.id.fragment_radio_contrast:
-			contrast = progress;
-			break;
-		case R.id.fragment_radio_exposure:
-			exposure = progress;
-			break;
-		case R.id.fragment_radio_saturation:
-			saturation = progress;
-			break;
-		case R.id.fragment_radio_sharpness:
-			sharpness = progress;
-			break;
-		case R.id.fragment_radio_bright:
-			brightness = progress;
-			break;
-		case R.id.fragment_radio_hue:
-			hue = brightness;
-			break;
-		default:
-			break;
+			case R.id.fragment_radio_contrast:
+				contrast = value;	
+				return (int) Math.round((value + 100) / 2);
+			case R.id.fragment_radio_exposure:
+				exposure = value;
+				return (int) Math.round((value + 100) / 2);
+			case R.id.fragment_radio_saturation:
+				saturation = value;
+				return (int) Math.round((value + 100) / 2);
+			case R.id.fragment_radio_sharpness:
+				sharpness = value;
+				return (int) Math.round((value + 100) / 2);
+			case R.id.fragment_radio_bright:
+				brightness = value;
+				return (int) Math.round((value + 100) / 2);
+			case R.id.fragment_radio_hue:
+				hue = value;
+				return (int) Math.round(100 * value / 360.0f);
+			default:
+				return 0;
 		}
 	}
 	
-	private OnBubbleSeekBarChangeListener mOnColorBubbleSeekBarChangeListener = new OnBubbleSeekBarChangeListener() {
+	private OnSeekChangeListener mOnSeekChangeListener = new OnSeekChangeListener() {
 		
 		@Override
-		public void onStopTrackingTouch(SeekBar seekBar) {
+		public void onSeekStopped(float value, float step) {
+			// TODO Auto-generated method stub
 
 		}
 		
 		@Override
-		public void onStartTrackingTouch(SeekBar seekBar) {
-			
-		}
-		
-		@Override
-		public void onProgressChanged(SeekBar seekBar, int progress,
-				boolean fromUser) {
-			saveProgress(progress);
-			mMagicDisplay.adjustFilter(progress, type);
+		public void onSeekChanged(float value, float step) {
+			// TODO Auto-generated method stub
+			mVal.setText(""+value);
+			mLabel.setPressed(value != 0.0f);
+			mMagicDisplay.adjustFilter(convertToProgress(value), type);
 		}
 	};
 }

@@ -443,8 +443,8 @@ public class TwoLineSeekBar extends View {
     
     public static abstract interface OnSeekChangeListener{
     	
-    	public abstract void onSeekChanged(float paramFloat1, float paramFloat2);
+    	public abstract void onSeekChanged(float value, float step);
       
-    	public abstract void onSeekStopped(float paramFloat1, float paramFloat2);
+    	public abstract void onSeekStopped(float value, float step);
     }
 }

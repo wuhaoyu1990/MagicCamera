@@ -3,20 +3,35 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
-    <RelativeLayout 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:gravity="center">
-        
-        <com.seu.magiccamera.widget.BubbleSeekBar
-	        android:id="@+id/fragment_adjust_seekbar"
-	        android:layout_width="202dip"
-	        android:layout_height="wrap_content"
-	        android:visibility="gone"
-	        style="@style/SeekBar.Light">	        
-	    </com.seu.magiccamera.widget.BubbleSeekBar>
-    </RelativeLayout>
+    <LinearLayout 
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_vertical" 
+        android:orientation="horizontal" 
+        android:id="@+id/seek_bar_item_menu" 
+        android:visibility="invisible" 
+        android:layout_width="fill_parent" 
+        android:layout_height="fill_parent" >
+       <ImageView 
+           android:id="@+id/item_label" 
+           android:layout_width="25.0dip" 
+           android:layout_height="25.0dip" 
+           android:layout_marginLeft="20.0dip" 
+           android:layout_marginRight="20.0dip" />
+       <com.seu.magiccamera.widget.TwoLineSeekBar
+           android:id="@+id/item_seek_bar" 
+           android:layout_width="0.0dip" 
+           android:layout_height="fill_parent" 
+           android:layout_weight="1.0" />
+       <TextView 
+           android:textColor="#ffffffff" 
+           android:id="@+id/item_val" 
+           android:layout_width="wrap_content" 
+           android:layout_height="wrap_content" 
+           android:layout_marginLeft="15.0dip" 
+           android:layout_marginRight="15.0dip"
+           android:minWidth="40.0dip" />
+    </LinearLayout>
+
     <HorizontalScrollView 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

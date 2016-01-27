@@ -1,9 +1,9 @@
 precision highp float;
 uniform sampler2D inputImageTexture;
 varying vec2 textureCoordinate;
-varying vec2 blurCoordinates[17];
-uniform float distanceNormalizationFactor;
 
+uniform float distanceNormalizationFactor;
+uniform vec2 singleStepOffset; 
 void main()
 {
 	vec4 centralColor;
@@ -12,7 +12,28 @@ void main()
 	vec4 sampleColor;
 	float distanceFromCentralColor;
 	float gaussianWeight;
-
+	
+	vec2 blurCoordinates[17];
+	vec2 blurStep;   
+	         
+    blurCoordinates[0] = textureCoordinate.xy + singleStepOffset * vec2(-4.,-4.);
+    blurCoordinates[1] = textureCoordinate.xy + singleStepOffset * vec2(4.,-4.);
+    blurCoordinates[2] = textureCoordinate.xy + singleStepOffset * vec2(-4.,4.);
+    blurCoordinates[3] = textureCoordinate.xy + singleStepOffset * vec2(4.,4.);	        	        
+    blurCoordinates[4] = textureCoordinate.xy + singleStepOffset * vec2(-3.,-3.);
+    blurCoordinates[5] = textureCoordinate.xy + singleStepOffset * vec2(3.,-3.);
+    blurCoordinates[6] = textureCoordinate.xy + singleStepOffset * vec2(-3.,3.);
+    blurCoordinates[7] = textureCoordinate.xy + singleStepOffset * vec2(3.,3.);	      	        
+    blurCoordinates[8] = textureCoordinate.xy + singleStepOffset * vec2(-2.,-2.);
+    blurCoordinates[9] = textureCoordinate.xy + singleStepOffset * vec2(2.,-2.);
+    blurCoordinates[10] = textureCoordinate.xy + singleStepOffset * vec2(2.,2.);
+    blurCoordinates[11] = textureCoordinate.xy + singleStepOffset * vec2(-2.,2.);	        	        
+    blurCoordinates[12] = textureCoordinate.xy + singleStepOffset * vec2(1.,1.);
+    blurCoordinates[13] = textureCoordinate.xy + singleStepOffset * vec2(1.,-1.);
+    blurCoordinates[14] = textureCoordinate.xy + singleStepOffset * vec2(-1.,1.);
+    blurCoordinates[15] = textureCoordinate.xy + singleStepOffset * vec2(-1.,-1.);	                
+    blurCoordinates[16] = textureCoordinate.xy;
+	
 	centralColor = texture2D(inputImageTexture, blurCoordinates[16]);
 	if(centralColor.r > 0.078431 && centralColor.g > 0.156862 && centralColor.b > 0.196078)
 	{

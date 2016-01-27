@@ -60,7 +60,7 @@ public class CameraEngine {
             parameters.setFocusMode(Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
         }
 		Size previewSize = getLargePreviewSize();
-		parameters.setPreviewSize(previewSize.width, previewSize.height);
+		parameters.setPreviewSize(1280, 720);
 		Size pictureSize = getLargePictureSize();
 		parameters.setPictureSize(pictureSize.width, pictureSize.height);
 		mCamera.setParameters(parameters);
