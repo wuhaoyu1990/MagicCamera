@@ -28,6 +28,10 @@ First release
 
 3.Add ImageAdjustFilter(Hue,Contrast,Sharpenness,Saturation,Exposure,Brightness)
 
+2016-01-28
+
+1.Try to fix beauty filter by reduce sampling point in low performance GPU and remove bilateral filter temporarily,if it's still lag please set MagicFilterParam.mGPUPower to 0
+
 #Introduction：
 
 a Camera APP which inlcudes：
