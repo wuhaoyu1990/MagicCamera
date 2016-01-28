@@ -63,7 +63,7 @@ void main() {
 	greenCurveValue = min(1.0, greenCurveValue + strength); 
 	blueCurveValue = min(1.0, blueCurveValue + strength); 
 
-    mediump vec4 overlay = blurColor;//vec4(redCurveValue, greenCurveValue, blueCurveValue, 1.0); 
+    mediump vec4 overlay = blurColor;
 
 	mediump vec4 base = vec4(redCurveValue, greenCurveValue, blueCurveValue, 1.0); 
     //gl_FragColor = overlay; 

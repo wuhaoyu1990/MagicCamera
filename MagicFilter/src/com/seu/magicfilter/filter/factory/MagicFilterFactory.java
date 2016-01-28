@@ -71,10 +71,11 @@ public class MagicFilterFactory{
 		case MagicFilterType.BEAUTY:
 			return new MagicBeautyFilter(mContext);
 		case MagicFilterType.SKINWHITEN:
-			List<GPUImageFilter> filters = new ArrayList<GPUImageFilter>();	
-			filters.add(new MagicBilateralFilter(mContext));
-			filters.add(new MagicSkinWhitenFilter(mContext));
-			return new MagicBaseGroupFilter(filters);
+			//List<GPUImageFilter> filters = new ArrayList<GPUImageFilter>();	
+			//filters.add(new MagicBilateralFilter(mContext));
+			//filters.add(new MagicSkinWhitenFilter(mContext));
+			//return new MagicBaseGroupFilter(filters);
+			return new MagicSkinWhitenFilter(mContext);
 		case MagicFilterType.ROMANCE:
 			return new MagicRomanceFilter(mContext);
 		case MagicFilterType.SAKURA:

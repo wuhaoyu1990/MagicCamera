@@ -14,12 +14,13 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.seu.magicfilter.filter.base.gpuimage.GPUImageFilter;
+import com.seu.magicfilter.filter.helper.MagicFilterParam;
 import com.seu.magicfilter.filter.helper.MagicFilterType;
-import com.seu.magicfilter.filter.helper.SaveTask;
-import com.seu.magicfilter.filter.helper.SaveTask.onPictureSaveListener;
 import com.seu.magicfilter.utils.MagicSDK;
 import com.seu.magicfilter.utils.OpenGLUtils;
+import com.seu.magicfilter.utils.SaveTask;
 import com.seu.magicfilter.utils.TextureRotationUtil;
+import com.seu.magicfilter.utils.SaveTask.onPictureSaveListener;
 
 public class MagicImageDisplay extends MagicDisplay{
 	
@@ -61,6 +62,7 @@ public class MagicImageDisplay extends MagicDisplay{
         GLES20.glClearColor(0,0,0,0);
         GLES20.glEnable(GL10.GL_CULL_FACE);
         GLES20.glEnable(GL10.GL_DEPTH_TEST);	
+        MagicFilterParam.initMagicFilterParam(gl);
         mImageInput.init();
 	}
 

@@ -11,6 +11,7 @@ import android.opengl.GLES20;
 
 import com.seu.magicfilter.R;
 import com.seu.magicfilter.filter.base.gpuimage.GPUImageFilter;
+import com.seu.magicfilter.filter.helper.MagicFilterParam;
 import com.seu.magicfilter.utils.OpenGLUtils;
 
 
@@ -21,7 +22,10 @@ public class MagicBilateralFilter extends GPUImageFilter {
 	private int mSingleStepOffsetLocation;
 	
 	public MagicBilateralFilter(Context context) {
-		super(NO_FILTER_VERTEX_SHADER, OpenGLUtils.readShaderFromRawResource(context, R.raw.bilateralfilter));
+		super(NO_FILTER_VERTEX_SHADER, 
+				MagicFilterParam.mGPUPower == 1 ? 
+					OpenGLUtils.readShaderFromRawResource(context, R.raw.bilateralfilter):
+					OpenGLUtils.readShaderFromRawResource(context, R.raw.bilateralfilter_low));
 	}
 	
 	@Override
@@ -43,7 +47,7 @@ public class MagicBilateralFilter extends GPUImageFilter {
 	}
 	
 	private void setTexelSize(final float w, final float h) {
-		setFloatVec2(mSingleStepOffsetLocation, new float[] {1.0f / w, 1.0f / h});
+		setFloatVec2(mSingleStepOffsetLocation, new float[] {2.0f / w, 2.0f / h});
 	}
 	
 	@Override

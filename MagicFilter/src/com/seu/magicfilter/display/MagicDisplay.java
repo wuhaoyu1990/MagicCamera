@@ -15,8 +15,8 @@ import com.seu.magicfilter.filter.base.gpuimage.GPUImageFilter;
 import com.seu.magicfilter.filter.factory.MagicFilterFactory;
 import com.seu.magicfilter.filter.helper.MagicFilterAdjuster;
 import com.seu.magicfilter.filter.helper.MagicFilterType;
-import com.seu.magicfilter.filter.helper.SaveTask;
 import com.seu.magicfilter.utils.OpenGLUtils;
+import com.seu.magicfilter.utils.SaveTask;
 import com.seu.magicfilter.utils.TextureRotationUtil;
 
 public abstract class MagicDisplay implements Renderer{

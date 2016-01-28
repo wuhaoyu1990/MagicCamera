@@ -5,16 +5,18 @@ import android.opengl.GLES20;
 
 import com.seu.magicfilter.R;
 import com.seu.magicfilter.filter.base.gpuimage.GPUImageFilter;
+import com.seu.magicfilter.filter.helper.MagicFilterParam;
 import com.seu.magicfilter.utils.OpenGLUtils;
 
 public class MagicBeautyFilter extends GPUImageFilter {
 	private int mSingleStepOffsetLocation;
-    
 	private int mParamsLocation;
 	
     public MagicBeautyFilter(Context context) {
     	super(NO_FILTER_VERTEX_SHADER,
-    			OpenGLUtils.readShaderFromRawResource(context, R.raw.beautify_fragment));
+    			( MagicFilterParam.mGPUPower == 1 ? 
+    					OpenGLUtils.readShaderFromRawResource(context, R.raw.beautify_fragment) :
+    					OpenGLUtils.readShaderFromRawResource(context, R.raw.beautify_fragment_low)));
     }
     
     protected void onInit() {
@@ -37,7 +39,7 @@ public class MagicBeautyFilter extends GPUImageFilter {
         super.onOutputSizeChanged(width, height);
         setTexelSize(width, height);
     }
-	
+
 	public void setBeautyLevel(int level){
 		switch (level) {
 		case 1:

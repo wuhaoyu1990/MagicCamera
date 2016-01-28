@@ -19,11 +19,12 @@ import android.opengl.GLSurfaceView;
 
 import com.seu.magicfilter.camera.CameraEngine;
 import com.seu.magicfilter.filter.base.MagicCameraInputFilter;
-import com.seu.magicfilter.filter.helper.SaveTask;
-import com.seu.magicfilter.filter.helper.SaveTask.onPictureSaveListener;
+import com.seu.magicfilter.filter.helper.MagicFilterParam;
 import com.seu.magicfilter.utils.OpenGLUtils;
 import com.seu.magicfilter.utils.Rotation;
+import com.seu.magicfilter.utils.SaveTask;
 import com.seu.magicfilter.utils.TextureRotationUtil;
+import com.seu.magicfilter.utils.SaveTask.onPictureSaveListener;
 
 /**
  * MagicCameraDisplay is used for camera preview
@@ -52,6 +53,7 @@ public class MagicCameraDisplay extends MagicDisplay{
         GLES20.glClearColor(0,0,0,0);
         GLES20.glEnable(GL10.GL_CULL_FACE);
         GLES20.glEnable(GL10.GL_DEPTH_TEST);
+        MagicFilterParam.initMagicFilterParam(gl);
         mCameraInputFilter.init();
 	}
 
