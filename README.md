@@ -32,6 +32,11 @@ First release
 
 1.Try to fix beauty filter by reduce sampling point in low performance GPU and remove bilateral filter temporarily,if it's still lag please set MagicFilterParam.mGPUPower to 0
 
+2016-02-28
+
+Add Crayon Filter and Sketch Filter（Based on MeiTu's patent)
+
+
 #Introduction：
 
 a Camera APP which inlcudes：
