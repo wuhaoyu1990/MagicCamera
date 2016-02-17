@@ -83,81 +83,165 @@ import com.seu.magicfilter.filter.advance.common.MagicBeautyFilter
 #5.其他：
 参见：Android平台Camera实时滤镜实现方法探讨(七)--滤镜基本制作方法(一)
 import com.seu.magicfilter.filter.advance.common.MagicAmaroFilter
+
 ------Instagram中Amaro滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicAntiqueFilter
+
 ------“复古”滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicBlackCatFilter
+
 ------“黑猫”滤镜，增强阴影与色调，颜色加深
+
 import com.seu.magicfilter.filter.advance.common.MagicBrannanFilter
+
 ------Instagram中Brannan滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicBrooklynFilter
+
 ------Instagram中Brooklyn滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicCalmFilter
+
 ------“平静”滤镜，偏棕灰
+
 import com.seu.magicfilter.filter.advance.common.MagicCoolFilter
+
 ------“冰冷”滤镜，偏蓝
+
 import com.seu.magicfilter.filter.advance.common.MagicEarlyBirdFilter
+
 ------Instagram中EarlyBird滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicEmeraldFilter
+
 ------“祖母绿”滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicEvergreenFilter
+
 ------“常青”滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicFairytaleFilter
+
 ------“童话”滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicFreudFilter
+
 ------Instagram中Freud滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicHealthyFilter
+
 ------“健康”滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicHefeFilter
+
 ------Instagram中Hefe滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicHudsonFilter
+
 ------Instagram中Hudson滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicInkwellFilter
+
 ------Instagram中Inkwell滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicKevinFilter
+
 ------Instagram中Kevin滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicLatteFilter
+
 ------“拿铁”滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicLomoFilter
+
 ------Instagram中Lomo滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicN1977Filter
+
 ------Instagram中N1977滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicNashvilleFilter
+
 ------Instagram中Nashville滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicNostalgiaFilter
+
 ------“怀旧”滤镜，偏绿系
+
 import com.seu.magicfilter.filter.advance.common.MagicPixarFilter
+
 ------Instagram中Pixar滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicRiseFilter
+
 ------Instagram中Rise滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicRomanceFilter
+
 ------"浪漫"滤镜，粉红系
+
 import com.seu.magicfilter.filter.advance.common.MagicSakuraFilter
+
 ------"樱花“滤镜，粉红系
+
 import com.seu.magicfilter.filter.advance.common.MagicSierraFilter
+
 ------Instagram中Sierra滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicSkinWhitenFilter
+
 ------”美白“滤镜，增白皮肤
+
 import com.seu.magicfilter.filter.advance.common.MagicSunriseFilter
+
 ------”日出“滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicSunsetFilter
+
 ------”日落“滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicSutroFilter
+
 ------Instagram中Sutro滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicSweetsFilter
+
 ------”甜美“滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicTenderFilter
+
 ------”温和“滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicToasterFilter
+
 ------Instagram中Toaster滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicValenciaFilter
+
 ------Instagram中Valencia滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicWarmFilter
+
 ------”温暖“滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicWhiteCatFilter
+
 ------”白猫“滤镜
+
 import com.seu.magicfilter.filter.advance.common.MagicXproIIFilter
+
 ------Instagram中XproII滤镜
+
+import com.seu.magicfilter.filter.advance.common.MagicCrayonFilter
+
+------蜡笔画滤镜
+
+import com.seu.magicfilter.filter.advance.common.MagicSketchFilter
+
+------素描滤镜
+
 
 #6.JNI部分（jni文件夹下）：
 包含一个磨皮算法与一个美白算法
