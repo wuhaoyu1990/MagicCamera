@@ -13,6 +13,7 @@ import com.seu.magicfilter.filter.advance.common.MagicBrannanFilter;
 import com.seu.magicfilter.filter.advance.common.MagicBrooklynFilter;
 import com.seu.magicfilter.filter.advance.common.MagicCalmFilter;
 import com.seu.magicfilter.filter.advance.common.MagicCoolFilter;
+import com.seu.magicfilter.filter.advance.common.MagicCrayonFilter;
 import com.seu.magicfilter.filter.advance.common.MagicEarlyBirdFilter;
 import com.seu.magicfilter.filter.advance.common.MagicEmeraldFilter;
 import com.seu.magicfilter.filter.advance.common.MagicEvergreenFilter;
@@ -33,6 +34,7 @@ import com.seu.magicfilter.filter.advance.common.MagicRiseFilter;
 import com.seu.magicfilter.filter.advance.common.MagicRomanceFilter;
 import com.seu.magicfilter.filter.advance.common.MagicSakuraFilter;
 import com.seu.magicfilter.filter.advance.common.MagicSierraFilter;
+import com.seu.magicfilter.filter.advance.common.MagicSketchFilter;
 import com.seu.magicfilter.filter.advance.common.MagicSkinWhitenFilter;
 import com.seu.magicfilter.filter.advance.common.MagicSunriseFilter;
 import com.seu.magicfilter.filter.advance.common.MagicSunsetFilter;
@@ -148,6 +150,11 @@ public class MagicFilterFactory{
 			return new MagicSunriseFilter(mContext);
 		case MagicFilterType.SUNSET:
 			return new MagicSunsetFilter(mContext);
+		case MagicFilterType.CRAYON:
+			return new MagicCrayonFilter(mContext);
+		case MagicFilterType.SKETCH:
+			return new MagicSketchFilter(mContext);
+			
 		case MagicFilterType.BRIGHTNESS:
 			return new GPUImageBrightnessFilter();
 		case MagicFilterType.CONTRAST:

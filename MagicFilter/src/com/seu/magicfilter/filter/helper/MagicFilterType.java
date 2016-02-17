@@ -32,7 +32,10 @@ public class MagicFilterType {
 	public static final int EMERALD = COOL + 1;
 	public static final int EVERGREEN = EMERALD + 1;	
 		
-	public static final int AMARO = EVERGREEN + 1;
+	public static final int CRAYON = EVERGREEN + 1;	
+	public static final int SKETCH = CRAYON + 1;	
+	
+	public static final int AMARO = SKETCH + 1;
 	public static final int BRANNAN = AMARO + 1;
 	public static final int BROOKLYN = BRANNAN + 1;
 	public static final int EARLYBIRD = BROOKLYN + 1;

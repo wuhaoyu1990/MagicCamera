@@ -21,6 +21,8 @@
 	<string name="filter_sunrise">日出</string>
 	<string name="filter_sunset">日落</string>
 	<string name="filter_skinwhiten">美白</string>
+	<string name="filter_crayon">蜡笔</string>
+	<string name="filter_sketch">素描</string>
 	
 	<string name="edit_filter">滤镜</string>
 	<string name="edit_edit">编辑</string>

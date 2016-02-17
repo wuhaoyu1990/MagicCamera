@@ -27,7 +27,7 @@ import com.seu.magiccamera.common.view.edit.beauty.ImageEditBeautyView;
 import com.seu.magiccamera.common.view.edit.filter.ImageEditFilterView;
 import com.seu.magiccamera.common.view.edit.frame.ImageEditFrameView;
 import com.seu.magicfilter.display.MagicImageDisplay;
-import com.seu.magicfilter.filter.helper.SaveTask.onPictureSaveListener;
+import com.seu.magicfilter.utils.SaveTask.onPictureSaveListener;
 
 public class ImageActivity extends Activity{
 	private RadioGroup mRadioGroup;

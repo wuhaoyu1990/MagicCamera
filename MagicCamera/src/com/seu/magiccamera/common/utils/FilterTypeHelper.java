@@ -148,6 +148,10 @@ public class FilterTypeHelper {
 			return R.drawable.filter_thumb_sunrise;
 		case MagicFilterType.SUNSET:
 			return R.drawable.filter_thumb_sunset;
+		case MagicFilterType.CRAYON:
+			return R.drawable.filter_thumb_crayon;
+		case MagicFilterType.SKETCH:
+			return R.drawable.filter_thumb_sketch;
 		default:
 			return R.drawable.filter_thumb_original;
 		}
@@ -237,6 +241,10 @@ public class FilterTypeHelper {
 			return R.string.filter_sunset;
 		case MagicFilterType.SKINWHITEN:
 			return R.string.filter_skinwhiten;
+		case MagicFilterType.CRAYON:
+			return R.string.filter_crayon;
+		case MagicFilterType.SKETCH:
+			return R.string.filter_sketch;
 		default:
 			return R.string.filter_none;
 		}

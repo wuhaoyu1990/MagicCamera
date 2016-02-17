@@ -46,7 +46,7 @@ public class MagicBeautyFilter extends GPUImageFilter {
 			setFloatVec4(mParamsLocation, new float[] {1.0f, 1.0f, 0.15f, 0.15f});
 			break;
 		case 2:
-			setFloatVec3(mParamsLocation, new float[] {0.8f, 0.9f, 0.2f, 0.2f});
+			setFloatVec4(mParamsLocation, new float[] {0.8f, 0.9f, 0.2f, 0.2f});
 			break;
 		case 3:
 			setFloatVec4(mParamsLocation, new float[] {0.6f, 0.8f, 0.25f, 0.25f});
