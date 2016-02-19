@@ -27,7 +27,7 @@ MagicBeauty::MagicBeauty()
 	mImageData_yuv = NULL;
 	mSkinMatrix = NULL;
 	mImageData_rgb = NULL;
-	mWhitenLevel = 0.0;
+	mSmoothLevel = 0.0;
 	mWhitenLevel = 0.0;
 }
 
@@ -77,6 +77,7 @@ void MagicBeauty::startWhiteSkin(float whitenlevel){
 }
 
 void MagicBeauty::_startBeauty(float smoothlevel, float whitenlevel){
+	LOGE("smoothlevel=%f---whitenlevel=%f",smoothlevel,whitenlevel);
 	if(smoothlevel >= 10.0 && smoothlevel <= 510.0){
 		mSmoothLevel = smoothlevel;
 		_startSkinSmooth(mSmoothLevel);
@@ -93,10 +94,12 @@ void MagicBeauty::_startWhiteSkin(float whitenlevel){
 		for(int j = 0; j < mImageWidth; j++){
 			int offset = i*mImageWidth+j;
 			ARGB RGB;
-			BitmapOperation::convertIntToArgb(storedBitmapPixels[offset],&RGB);
-			RGB.red = 255 * (log(div255(RGB.red) * (whitenlevel - 1) + 1) / a);
-			RGB.green = 255 * (log(div255(RGB.green) * (whitenlevel - 1) + 1) / a);
-			RGB.blue = 255 * (log(div255(RGB.blue) * (whitenlevel - 1) + 1) / a);
+			BitmapOperation::convertIntToArgb(mImageData_rgb[offset],&RGB);
+			if(a != 0){
+				RGB.red = 255 * (log(div255(RGB.red) * (whitenlevel - 1) + 1) / a);
+				RGB.green = 255 * (log(div255(RGB.green) * (whitenlevel - 1) + 1) / a);
+				RGB.blue = 255 * (log(div255(RGB.blue) * (whitenlevel - 1) + 1) / a);
+			}
 			storedBitmapPixels[offset] = BitmapOperation::convertArgbToInt(RGB);
 		}
 	}
