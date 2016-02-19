@@ -2,7 +2,6 @@ package com.seu.magiccamera.common.view.edit.adjust;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +9,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.seu.magiccamera.R;
 import com.seu.magiccamera.common.view.edit.ImageEditFragment;
-import com.seu.magiccamera.widget.BubbleSeekBar;
-import com.seu.magiccamera.widget.BubbleSeekBar.OnBubbleSeekBarChangeListener;
 import com.seu.magiccamera.widget.TwoLineSeekBar;
 import com.seu.magiccamera.widget.TwoLineSeekBar.OnSeekChangeListener;
 import com.seu.magicfilter.display.MagicImageDisplay;
@@ -131,7 +127,7 @@ public class ImageEditAdjustView extends ImageEditFragment{
 	}
 	
 	protected boolean isChanged(){
-		return contrast != 0.0f || exposure != 0.0f || saturation != 0.0f
+		return contrast != -50.0f || exposure != 0.0f || saturation != 0.0f
 				|| sharpness != 0.0f || brightness != 0.0f || hue != 0.0f;
 	}
 	
