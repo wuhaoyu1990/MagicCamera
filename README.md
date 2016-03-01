@@ -38,7 +38,7 @@ Add Crayon Filter and Sketch Filter（Based on MeiTu's patent)
 
 Add Android Studio Project(not finished)
 
-Add Video Recording Support in Android Studio Project(not finished and have unknow bugs,still lag when take video of 1080P)
+Add Video Recording Support in Android Studio Project(not finished and have unknow bugs,still lag when take video of 1080P),Based on https://github.com/google/grafika
 
 #Introduction：
 
