@@ -1,12 +1,10 @@
-# MagicCamera
+# MagicCamera 
 
 Idea from:android-gpuimage
 
-#ScreenShot
+Real-time Filter Camera&VideoRecorder And ImageEditor With Face Beauty For Android
 
-![alt text](https://github.com/wuhaoyu1990/MagicCamera/blob/master/Screenshot_1.png)![alt text](https://github.com/wuhaoyu1990/MagicCamera/blob/master/Screenshot_2.png)![alt text](https://github.com/wuhaoyu1990/MagicCamera/blob/master/Screenshot_3.png)![alt text](https://github.com/wuhaoyu1990/MagicCamera/blob/master/Screenshot_4.png)
-
-
+包含美颜等40余种实时滤镜相机，可拍照、录像、图片修改 
 
 #Log:
 
@@ -24,7 +22,7 @@ First release
 
 1.Fix bugs
 
-2.Add real time face beautify 
+2.Add real time face beautify （Based on MeiTu's patent)
 
 3.Add ImageAdjustFilter(Hue,Contrast,Sharpenness,Saturation,Exposure,Brightness)
 
@@ -36,6 +34,11 @@ First release
 
 Add Crayon Filter and Sketch Filter（Based on MeiTu's patent)
 
+2016-01-01
+
+Add Android Studio Project(not finished)
+
+Add Video Recording Support in Android Studio Project(not finished and have unknow bugs,still lag when take video of 1080P)
 
 #Introduction：
 
@@ -247,7 +250,6 @@ import com.seu.magicfilter.filter.advance.common.MagicSketchFilter
 包含一个磨皮算法与一个美白算法
 参见Android平台Camera实时滤镜实现方法探讨(九)--磨皮算法探讨(一)
 
-#7.正在编码部分：
-渐晕滤镜
-文字、图片等与原图合成
-美颜（眼睛、唇部等）
+#ScreenShot
+
+![alt text](https://github.com/wuhaoyu1990/MagicCamera/blob/master/Screenshot_1.png)![alt text](https://github.com/wuhaoyu1990/MagicCamera/blob/master/Screenshot_2.png)![alt text](https://github.com/wuhaoyu1990/MagicCamera/blob/master/Screenshot_3.png)![alt text](https://github.com/wuhaoyu1990/MagicCamera/blob/master/Screenshot_4.png)
