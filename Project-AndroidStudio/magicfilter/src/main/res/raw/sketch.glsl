@@ -1,5 +1,5 @@
 varying highp vec2 textureCoordinate;
-precision highp float;
+precision mediump float;
 
 uniform sampler2D inputImageTexture;
 uniform vec2 singleStepOffset; 
@@ -25,7 +25,7 @@ void main()
 			maxValue.r = max(maxValue.r,tempColor.r);
 			maxValue.g = max(maxValue.g,tempColor.g);
 			maxValue.b = max(maxValue.b,tempColor.b);
-			threshold += dot(tempColor.rgb, W); 
+			threshold += dot(tempColor.rgb, W);
 		}
 	}
 	//pic3
@@ -36,9 +36,9 @@ void main()
 	
 	//pic5
 	float contour = gray1 / gray2;
-	
+
 	threshold = threshold / 25.;
-	float alpha = max(strength,gray1>threshold?1.0:(gray1/threshold));
+	float alpha = max(1.0,gray1>threshold?1.0:(gray1/threshold));
 	
 	float result = contour * alpha + (1.0-alpha)*gray1;
 	

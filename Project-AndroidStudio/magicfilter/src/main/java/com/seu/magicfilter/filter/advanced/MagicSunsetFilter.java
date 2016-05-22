@@ -7,6 +7,7 @@ import android.opengl.GLES20;
 import com.seu.magicfilter.MagicEngine;
 import com.seu.magicfilter.R;
 import com.seu.magicfilter.filter.base.gpuimage.GPUImageFilter;
+import com.seu.magicfilter.utils.MagicParams;
 import com.seu.magicfilter.utils.OpenGlUtils;
 
 public class MagicSunsetFilter extends GPUImageFilter{
@@ -107,8 +108,8 @@ public class MagicSunsetFilter extends GPUImageFilter{
 		          arrayOfByte[(3 + (1024 + j * 4))] = -1;
 		        }
 		        GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, 256, 2, 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, ByteBuffer.wrap(arrayOfByte));
-		        mMaskGrey1TextureId = OpenGlUtils.loadTexture(MagicEngine.getContext(), "filter/rise_mask1.jpg");
-		        mMaskGrey2TextureId = OpenGlUtils.loadTexture(MagicEngine.getContext(), "filter/rise_mask2.jpg");
+		        mMaskGrey1TextureId = OpenGlUtils.loadTexture(MagicParams.context, "filter/rise_mask1.jpg");
+		        mMaskGrey2TextureId = OpenGlUtils.loadTexture(MagicParams.context, "filter/rise_mask2.jpg");
 		    }
 	    });
 	}

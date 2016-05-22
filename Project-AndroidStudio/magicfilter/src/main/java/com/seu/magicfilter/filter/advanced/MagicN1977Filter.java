@@ -5,6 +5,7 @@ import android.opengl.GLES20;
 import com.seu.magicfilter.MagicEngine;
 import com.seu.magicfilter.R;
 import com.seu.magicfilter.filter.base.gpuimage.GPUImageFilter;
+import com.seu.magicfilter.utils.MagicParams;
 import com.seu.magicfilter.utils.OpenGlUtils;
 
 public class MagicN1977Filter extends GPUImageFilter{
@@ -47,8 +48,8 @@ public class MagicN1977Filter extends GPUImageFilter{
 		setFloat(mGLStrengthLocation, 1.0f);
 	    runOnDraw(new Runnable(){
 		    public void run(){
-		    	inputTextureHandles[0] = OpenGlUtils.loadTexture(MagicEngine.getContext(), "filter/n1977map.png");
-				inputTextureHandles[1] = OpenGlUtils.loadTexture(MagicEngine.getContext(), "filter/n1977blowout.png");
+		    	inputTextureHandles[0] = OpenGlUtils.loadTexture(MagicParams.context, "filter/n1977map.png");
+				inputTextureHandles[1] = OpenGlUtils.loadTexture(MagicParams.context, "filter/n1977blowout.png");
 		    }
 	    });
 	}

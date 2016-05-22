@@ -5,6 +5,7 @@ import android.opengl.GLES20;
 import com.seu.magicfilter.MagicEngine;
 import com.seu.magicfilter.R;
 import com.seu.magicfilter.filter.base.gpuimage.GPUImageFilter;
+import com.seu.magicfilter.utils.MagicParams;
 import com.seu.magicfilter.utils.OpenGlUtils;
 
 public class MagicHefeFilter extends GPUImageFilter{
@@ -54,10 +55,10 @@ public class MagicHefeFilter extends GPUImageFilter{
 		setFloat(mGLStrengthLocation, 1.0f);
 	    runOnDraw(new Runnable(){
 		    public void run(){
-		    	inputTextureHandles[0] = OpenGlUtils.loadTexture(MagicEngine.getContext(), "filter/edgeburn.png");
-				inputTextureHandles[1] = OpenGlUtils.loadTexture(MagicEngine.getContext(), "filter/hefemap.png");
-				inputTextureHandles[2] = OpenGlUtils.loadTexture(MagicEngine.getContext(), "filter/hefemetal.png");
-				inputTextureHandles[3] = OpenGlUtils.loadTexture(MagicEngine.getContext(), "filter/hefesoftlight.png");
+		    	inputTextureHandles[0] = OpenGlUtils.loadTexture(MagicParams.context, "filter/edgeburn.png");
+				inputTextureHandles[1] = OpenGlUtils.loadTexture(MagicParams.context, "filter/hefemap.png");
+				inputTextureHandles[2] = OpenGlUtils.loadTexture(MagicParams.context, "filter/hefemetal.png");
+				inputTextureHandles[3] = OpenGlUtils.loadTexture(MagicParams.context, "filter/hefesoftlight.png");
 		    }
 	    });
 	}

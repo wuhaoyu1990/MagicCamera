@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.Buffer;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -213,7 +216,7 @@ public class OpenGlUtils {
 	}
 	
 	public static String readShaderFromRawResource(final int resourceId){
-		final InputStream inputStream = MagicEngine.getContext().getResources().openRawResource(
+		final InputStream inputStream = MagicParams.context.getResources().openRawResource(
 				resourceId);
 		final InputStreamReader inputStreamReader = new InputStreamReader(
 				inputStream);
@@ -235,10 +238,10 @@ public class OpenGlUtils {
 		return body.toString();
 	}
 
-	public static Bitmap drawToBitmapByFilter(Bitmap bitmap, GPUImageFilter filter,
-            int displayWidth, int displayHeight){
-		if(filter == null)
-			return null;
+    public static Bitmap drawToBitmapByFilter(Bitmap bitmap, GPUImageFilter filter,
+                                              int displayWidth, int displayHeight, boolean rotate){
+        if(filter == null)
+            return null;
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         int[] mFrameBuffers = new int[1];
@@ -263,7 +266,20 @@ public class OpenGlUtils {
         filter.onInputSizeChanged(width, height);
         filter.onDisplaySizeChanged(displayWidth, displayHeight);
         int textureId = OpenGlUtils.loadTexture(bitmap, OpenGlUtils.NO_TEXTURE, true);
-        filter.onDrawFrame(textureId);
+        if(rotate){
+            FloatBuffer gLCubeBuffer = ByteBuffer.allocateDirect(TextureRotationUtil.CUBE.length * 4)
+                    .order(ByteOrder.nativeOrder())
+                    .asFloatBuffer();
+            gLCubeBuffer.put(TextureRotationUtil.CUBE).position(0);
+
+            FloatBuffer gLTextureBuffer = ByteBuffer.allocateDirect(TextureRotationUtil.TEXTURE_NO_ROTATION.length * 4)
+                    .order(ByteOrder.nativeOrder())
+                    .asFloatBuffer();
+            gLTextureBuffer.put(TextureRotationUtil.getRotation(Rotation.ROTATION_90, true, false)).position(0);
+            filter.onDrawFrame(textureId, gLCubeBuffer, gLTextureBuffer);
+        }else {
+            filter.onDrawFrame(textureId);
+        }
         IntBuffer ib = IntBuffer.allocate(width * height);
         GLES20.glReadPixels(0, 0, width, height, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, ib);
         Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
@@ -273,7 +289,7 @@ public class OpenGlUtils {
         GLES20.glDeleteTextures(1, mFrameBufferTextures, 0);
         filter.onInputSizeChanged(displayWidth, displayHeight);
         return result;
-	}
+    }
 
 	/**
 	 * Checks to see if a GLES error has been raised.

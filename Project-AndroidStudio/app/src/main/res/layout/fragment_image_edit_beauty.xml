@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" 
+    android:orientation="vertical">
+    <RelativeLayout 
+	    android:id="@+id/fragment_beauty_skin"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:padding="20dp"
+	    android:background="@android:color/black"
+	    android:gravity="center">
+	    <com.seu.magiccamera.widget.BubbleSeekBar
+	        android:id="@+id/fragment_beauty_skin_seekbar"
+	        android:layout_width="202dip"
+	        android:layout_height="wrap_content"
+	        style="@style/SeekBar.Light">
+	        
+	    </com.seu.magiccamera.widget.BubbleSeekBar>
+	</RelativeLayout>
+	<RelativeLayout 
+	    android:id="@+id/fragment_beauty_color"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:padding="20dp"
+	    android:background="@android:color/black"
+	    android:gravity="center"
+	    android:visibility="gone">
+	    <com.seu.magiccamera.widget.BubbleSeekBar
+	        android:id="@+id/fragment_beauty_white_seekbar"
+	        android:layout_width="202dip"
+	        android:layout_height="wrap_content"
+	        style="@style/SeekBar.Light">
+	        
+	    </com.seu.magiccamera.widget.BubbleSeekBar>
+	</RelativeLayout>
+    <RadioGroup 
+	    android:id="@+id/fragment_beauty_radiogroup"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:background="@android:color/background_dark"
+	    android:gravity="center">
+	    
+        <RadioButton     
+            android:id="@+id/fragment_beauty_btn_skinsmooth"  
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="磨皮"
+	        android:button="@null"
+	        android:gravity="center"
+	        android:paddingLeft="15dp"
+	    	android:paddingRight="15dp"
+	    	android:checked="true"
+	        android:textColor="@color/selector_image_edit"/>
+        
+        <RadioButton
+            android:id="@+id/fragment_beauty_btn_skincolor"  
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="美白"
+	        android:button="@null"
+	        android:gravity="center"
+	        android:textColor="@color/selector_image_edit"
+	        android:paddingLeft="15dp"
+	    	android:paddingRight="15dp"/>
+        
+    </RadioGroup>   
+
+</LinearLayout>

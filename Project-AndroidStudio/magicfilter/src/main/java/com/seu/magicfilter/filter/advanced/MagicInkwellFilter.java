@@ -5,6 +5,7 @@ import android.opengl.GLES20;
 import com.seu.magicfilter.MagicEngine;
 import com.seu.magicfilter.R;
 import com.seu.magicfilter.filter.base.gpuimage.GPUImageFilter;
+import com.seu.magicfilter.utils.MagicParams;
 import com.seu.magicfilter.utils.OpenGlUtils;
 
 public class MagicInkwellFilter extends GPUImageFilter{
@@ -54,7 +55,7 @@ public class MagicInkwellFilter extends GPUImageFilter{
 		setFloat(mGLStrengthLocation, 1.0f);
 	    runOnDraw(new Runnable(){
 		    public void run(){
-		    	inputTextureHandles[0] = OpenGlUtils.loadTexture(MagicEngine.getContext(), "filter/inkwellmap.png");
+		    	inputTextureHandles[0] = OpenGlUtils.loadTexture(MagicParams.context, "filter/inkwellmap.png");
 		    }
 	    });
 	}

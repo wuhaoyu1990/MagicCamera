@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+    <LinearLayout 
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_vertical" 
+        android:orientation="horizontal" 
+        android:id="@+id/seek_bar_item_menu" 
+        android:visibility="invisible" 
+        android:layout_width="fill_parent" 
+        android:layout_height="fill_parent" >
+       <ImageView 
+           android:id="@+id/item_label" 
+           android:layout_width="25.0dip" 
+           android:layout_height="25.0dip" 
+           android:layout_marginLeft="20.0dip" 
+           android:layout_marginRight="20.0dip" />
+       <com.seu.magiccamera.widget.TwoLineSeekBar
+           android:id="@+id/item_seek_bar" 
+           android:layout_width="0.0dip" 
+           android:layout_height="fill_parent" 
+           android:layout_weight="1.0" />
+       <TextView 
+           android:textColor="#ffffffff" 
+           android:id="@+id/item_val" 
+           android:layout_width="wrap_content" 
+           android:layout_height="wrap_content" 
+           android:layout_marginLeft="15.0dip" 
+           android:layout_marginRight="15.0dip"
+           android:minWidth="40.0dip" />
+    </LinearLayout>
+
+    <HorizontalScrollView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+        <RadioGroup 
+            android:id="@+id/fragment_adjust_radiogroup"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal"
+		    android:padding="10dp">
+		    
+		    <RadioButton 
+		        android:id="@+id/fragment_radio_contrast"  
+		        android:drawableTop="@drawable/selector_image_edit_adjust_contrast"
+		        android:text="@string/edit_contrast"
+		        style="@style/ImageEditor_adjust_radiobutton"/>
+		    
+		    <RadioButton 
+		        android:id="@+id/fragment_radio_exposure"  
+		        android:drawableTop="@drawable/selector_image_edit_adjust_exposure"
+		        android:text="@string/edit_exposure"
+		        style="@style/ImageEditor_adjust_radiobutton"/>
+		    
+		    <RadioButton 
+		        android:id="@+id/fragment_radio_saturation"  
+		        android:drawableTop="@drawable/selector_image_edit_adjust_saturation"
+		        android:text="@string/edit_saturation"
+		        style="@style/ImageEditor_adjust_radiobutton"/>
+		    
+		    <RadioButton 
+		        android:id="@+id/fragment_radio_sharpness"  
+		        android:drawableTop="@drawable/selector_image_edit_adjust_sharpness"
+		        android:text="@string/edit_sharpness"
+		        style="@style/ImageEditor_adjust_radiobutton"/>
+		    
+		    <RadioButton 
+		        android:id="@+id/fragment_radio_bright"  
+		        android:drawableTop="@drawable/selector_image_edit_adjust_bright"
+		        android:text="@string/edit_brightness"
+		        style="@style/ImageEditor_adjust_radiobutton"/>
+		    
+		    <RadioButton 
+		        android:id="@+id/fragment_radio_hue"  
+		        android:drawableTop="@drawable/selector_image_edit_adjust_hue"
+		        android:text="@string/edit_hue"
+		        style="@style/ImageEditor_adjust_radiobutton"/>
+		</RadioGroup>
+    </HorizontalScrollView>
+</LinearLayout>

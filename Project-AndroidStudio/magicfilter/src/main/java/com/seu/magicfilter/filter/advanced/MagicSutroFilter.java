@@ -5,6 +5,7 @@ import android.opengl.GLES20;
 import com.seu.magicfilter.MagicEngine;
 import com.seu.magicfilter.R;
 import com.seu.magicfilter.filter.base.gpuimage.GPUImageFilter;
+import com.seu.magicfilter.utils.MagicParams;
 import com.seu.magicfilter.utils.OpenGlUtils;
 
 public class MagicSutroFilter extends GPUImageFilter{
@@ -54,11 +55,11 @@ public class MagicSutroFilter extends GPUImageFilter{
 		setFloat(mGLStrengthLocation, 1.0f);
 	    runOnDraw(new Runnable(){
 		    public void run(){
-		    	inputTextureHandles[0] = OpenGlUtils.loadTexture(MagicEngine.getContext(), "filter/vignette_map.png");
-				inputTextureHandles[1] = OpenGlUtils.loadTexture(MagicEngine.getContext(), "filter/sutrometal.png");
-				inputTextureHandles[2] = OpenGlUtils.loadTexture(MagicEngine.getContext(), "filter/softlight.png");
-				inputTextureHandles[3] = OpenGlUtils.loadTexture(MagicEngine.getContext(), "filter/sutroedgeburn.png");
-				inputTextureHandles[4] = OpenGlUtils.loadTexture(MagicEngine.getContext(), "filter/sutrocurves.png");
+		    	inputTextureHandles[0] = OpenGlUtils.loadTexture(MagicParams.context, "filter/vignette_map.png");
+				inputTextureHandles[1] = OpenGlUtils.loadTexture(MagicParams.context, "filter/sutrometal.png");
+				inputTextureHandles[2] = OpenGlUtils.loadTexture(MagicParams.context, "filter/softlight.png");
+				inputTextureHandles[3] = OpenGlUtils.loadTexture(MagicParams.context, "filter/sutroedgeburn.png");
+				inputTextureHandles[4] = OpenGlUtils.loadTexture(MagicParams.context, "filter/sutrocurves.png");
 		    }
 	    });
 	}

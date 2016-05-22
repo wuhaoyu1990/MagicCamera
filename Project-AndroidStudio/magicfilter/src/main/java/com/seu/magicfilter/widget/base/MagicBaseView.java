@@ -7,9 +7,9 @@ import android.util.AttributeSet;
 
 import com.seu.magicfilter.filter.base.gpuimage.GPUImageFilter;
 import com.seu.magicfilter.filter.helper.MagicFilterFactory;
-import com.seu.magicfilter.filter.helper.MagicFilterParam;
 import com.seu.magicfilter.filter.helper.MagicFilterType;
 import com.seu.magicfilter.utils.OpenGlUtils;
+import com.seu.magicfilter.utils.Rotation;
 import com.seu.magicfilter.utils.TextureRotationUtil;
 import com.seu.magicfilter.helper.SavePictureTask;
 
@@ -56,6 +56,8 @@ public abstract class MagicBaseView extends GLSurfaceView implements GLSurfaceVi
      */
     protected int imageWidth, imageHeight;
 
+    protected ScaleType scaleType = ScaleType.FIT_XY;
+
     public MagicBaseView(Context context) {
         this(context, null);
     }
@@ -83,7 +85,6 @@ public abstract class MagicBaseView extends GLSurfaceView implements GLSurfaceVi
         GLES20.glClearColor(0,0, 0, 0);
         GLES20.glEnable(GL10.GL_CULL_FACE);
         GLES20.glEnable(GL10.GL_DEPTH_TEST);
-        MagicFilterParam.initMagicFilterParam(gl);
     }
 
     @Override
@@ -105,18 +106,6 @@ public abstract class MagicBaseView extends GLSurfaceView implements GLSurfaceVi
             filter.onDisplaySizeChanged(surfaceWidth, surfaceHeight);
             filter.onInputSizeChanged(imageWidth, imageHeight);
         }
-    }
-
-    public void onResume(){
-
-    }
-
-    public void onPause(){
-
-    }
-
-    public void onDestroy(){
-
     }
 
     public void setFilter(final MagicFilterType type){
@@ -150,4 +139,52 @@ public abstract class MagicBaseView extends GLSurfaceView implements GLSurfaceVi
     }
 
     public abstract void savePicture(SavePictureTask savePictureTask);
+
+    protected void adjustSize(int rotation, boolean flipHorizontal, boolean flipVertical){
+        float[] textureCords = TextureRotationUtil.getRotation(Rotation.fromInt(rotation),
+                flipHorizontal, flipVertical);
+        float[] cube = TextureRotationUtil.CUBE;
+        float ratio1 = (float)surfaceWidth / imageWidth;
+        float ratio2 = (float)surfaceHeight / imageHeight;
+        float ratioMax = Math.max(ratio1, ratio2);
+        int imageWidthNew = Math.round(imageWidth * ratioMax);
+        int imageHeightNew = Math.round(imageHeight * ratioMax);
+
+        float ratioWidth = imageWidthNew / (float)surfaceWidth;
+        float ratioHeight = imageHeightNew / (float)surfaceHeight;
+
+        if(scaleType == ScaleType.CENTER_INSIDE){
+            cube = new float[]{
+                    TextureRotationUtil.CUBE[0] / ratioHeight, TextureRotationUtil.CUBE[1] / ratioWidth,
+                    TextureRotationUtil.CUBE[2] / ratioHeight, TextureRotationUtil.CUBE[3] / ratioWidth,
+                    TextureRotationUtil.CUBE[4] / ratioHeight, TextureRotationUtil.CUBE[5] / ratioWidth,
+                    TextureRotationUtil.CUBE[6] / ratioHeight, TextureRotationUtil.CUBE[7] / ratioWidth,
+            };
+        }else if(scaleType == ScaleType.FIT_XY){
+
+        }else if(scaleType == ScaleType.CENTER_CROP){
+            float distHorizontal = (1 - 1 / ratioWidth) / 2;
+            float distVertical = (1 - 1 / ratioHeight) / 2;
+            textureCords = new float[]{
+                    addDistance(textureCords[0], distVertical), addDistance(textureCords[1], distHorizontal),
+                    addDistance(textureCords[2], distVertical), addDistance(textureCords[3], distHorizontal),
+                    addDistance(textureCords[4], distVertical), addDistance(textureCords[5], distHorizontal),
+                    addDistance(textureCords[6], distVertical), addDistance(textureCords[7], distHorizontal),
+            };
+        }
+        gLCubeBuffer.clear();
+        gLCubeBuffer.put(cube).position(0);
+        gLTextureBuffer.clear();
+        gLTextureBuffer.put(textureCords).position(0);
+    }
+
+    private float addDistance(float coordinate, float distance) {
+        return coordinate == 0.0f ? distance : 1 - distance;
+    }
+
+    public enum  ScaleType{
+        CENTER_INSIDE,
+        CENTER_CROP,
+        FIT_XY;
+    }
 }

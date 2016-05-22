@@ -46,7 +46,7 @@ public class MagicImageView extends MagicBaseView{
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         super.onSurfaceChanged(gl, width, height);
-        adjustImageDisplaySize();
+        adjustSize(0, false, false);
     }
 
     @Override
@@ -54,11 +54,10 @@ public class MagicImageView extends MagicBaseView{
         super.onDrawFrame(gl);
         if(textureId == OpenGlUtils.NO_TEXTURE)
             textureId = OpenGlUtils.loadTexture(getBitmap(), OpenGlUtils.NO_TEXTURE);
-        if(filter == null){
+        if(filter == null)
             imageInput.onDrawFrame(textureId, gLCubeBuffer, gLTextureBuffer);
-        }else{
+        else
             filter.onDrawFrame(textureId, gLCubeBuffer, gLTextureBuffer);
-        }
     }
 
     @Override
@@ -72,42 +71,8 @@ public class MagicImageView extends MagicBaseView{
         setBitmap(bitmap);
         imageWidth = bitmap.getWidth();
         imageHeight = bitmap.getHeight();
-        adjustImageDisplaySize();
+        adjustSize(0, false, false);
         requestRender();
-    }
-
-    private void adjustImageDisplaySize() {
-        float ratio1 = (float)surfaceWidth / imageWidth;
-        float ratio2 = (float)surfaceHeight / imageHeight;
-        float ratioMax = Math.max(ratio1, ratio2);
-        int imageWidthNew = Math.round(imageWidth * ratioMax);
-        int imageHeightNew = Math.round(imageHeight * ratioMax);
-
-        float ratioWidth = imageWidthNew / (float)surfaceWidth;
-        float ratioHeight = imageHeightNew / (float)surfaceHeight;
-
-        float[] cube = new float[]{
-                TextureRotationUtil.CUBE[0] / ratioHeight, TextureRotationUtil.CUBE[1] / ratioWidth,
-                TextureRotationUtil.CUBE[2] / ratioHeight, TextureRotationUtil.CUBE[3] / ratioWidth,
-                TextureRotationUtil.CUBE[4] / ratioHeight, TextureRotationUtil.CUBE[5] / ratioWidth,
-                TextureRotationUtil.CUBE[6] / ratioHeight, TextureRotationUtil.CUBE[7] / ratioWidth,
-        };
-        gLCubeBuffer.clear();
-        gLCubeBuffer.put(cube).position(0);
-    }
-
-    public void onResume(){
-        super.onResume();
-    }
-
-    public void onPause(){
-        super.onPause();
-    }
-
-    public void onDestroy(){
-        super.onDestroy();
-        freeBitmap();
-        MagicJni.jniUnInitMagicBeautify();
     }
 
     public void initMagicBeautify(){

@@ -7,12 +7,15 @@ import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import android.hardware.Camera.Parameters;
 import android.hardware.Camera.Size;
+import android.view.SurfaceView;
 
 import com.seu.magicfilter.camera.utils.CameraUtils;
 
 public class CameraEngine {
     private static Camera camera = null;
     private static int cameraID = 0;
+    private static SurfaceTexture surfaceTexture;
+    private static SurfaceView surfaceView;
 
     public static Camera getCamera(){
         return camera;
@@ -22,6 +25,20 @@ public class CameraEngine {
         if(camera == null){
             try{
                 camera = Camera.open(cameraID);
+                setDefaultParameters();
+                return true;
+            }catch(RuntimeException e){
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public static boolean openCamera(int id){
+        if(camera == null){
+            try{
+                camera = Camera.open(id);
+                cameraID = id;
                 setDefaultParameters();
                 return true;
             }catch(RuntimeException e){
@@ -54,6 +71,13 @@ public class CameraEngine {
         return null;
     }
 
+    public static void switchCamera(){
+        releaseCamera();
+        cameraID = cameraID == 0 ? 1 : 0;
+        openCamera(cameraID);
+        startPreview(surfaceTexture);
+    }
+
     private static void setDefaultParameters(){
         Parameters parameters = camera.getParameters();
         if (parameters.getSupportedFocusModes().contains(
@@ -80,6 +104,7 @@ public class CameraEngine {
         if(camera != null)
             try {
                 camera.setPreviewTexture(surfaceTexture);
+                CameraEngine.surfaceTexture = surfaceTexture;
                 camera.startPreview();
             } catch (IOException e) {
                 e.printStackTrace();

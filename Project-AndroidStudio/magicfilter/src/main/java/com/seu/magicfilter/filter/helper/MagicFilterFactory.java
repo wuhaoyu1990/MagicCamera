@@ -2,7 +2,6 @@ package com.seu.magicfilter.filter.helper;
 
 import com.seu.magicfilter.filter.advanced.MagicAmaroFilter;
 import com.seu.magicfilter.filter.advanced.MagicAntiqueFilter;
-import com.seu.magicfilter.filter.advanced.MagicBeautyFilter;
 import com.seu.magicfilter.filter.advanced.MagicBlackCatFilter;
 import com.seu.magicfilter.filter.advanced.MagicBrannanFilter;
 import com.seu.magicfilter.filter.advanced.MagicBrooklynFilter;
@@ -62,8 +61,6 @@ public class MagicFilterFactory{
 			return new MagicWhiteCatFilter();
 		case BLACKCAT:
 			return new MagicBlackCatFilter();
-		case BEAUTY:
-			return new MagicBeautyFilter();
 		case SKINWHITEN:
 			return new MagicSkinWhitenFilter();
 		case ROMANCE:

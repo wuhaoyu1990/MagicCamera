@@ -5,49 +5,34 @@ import java.nio.FloatBuffer;
 import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
 
+import com.seu.magicfilter.R;
 import com.seu.magicfilter.filter.base.gpuimage.GPUImageFilter;
+import com.seu.magicfilter.utils.MagicParams;
 import com.seu.magicfilter.utils.OpenGlUtils;
 
 public class MagicCameraInputFilter extends GPUImageFilter{
-    private static final String CAMERA_INPUT_VERTEX_SHADER = ""+
-            "attribute vec4 position;\n" +
-            "attribute vec4 inputTextureCoordinate;\n" +
-            "\n" +
-            "uniform mat4 textureTransform;\n" +
-            "varying vec2 textureCoordinate;\n" +
-            "\n" +
-            "void main()\n" +
-            "{\n" +
-            "	textureCoordinate = (textureTransform * inputTextureCoordinate).xy;\n" +
-            "	gl_Position = position;\n" +
-            "}";
-
-    private static final String CAMERA_INPUT_FRAGMENT_SHADER = ""+
-            "#extension GL_OES_EGL_image_external : require\n" +
-            "varying highp vec2 textureCoordinate;\n" +
-            "\n" +
-            "uniform samplerExternalOES inputImageTexture;\n" +
-            "\n" +
-            "void main()\n" +
-            "{\n" +
-            "	gl_FragColor = texture2D(inputImageTexture, textureCoordinate);\n" +
-            "}";
 
     private float[] mTextureTransformMatrix;
     private int mTextureTransformMatrixLocation;
+    private int mSingleStepOffsetLocation;
+    private int mParamsLocation;
 
-    protected static int[] mFrameBuffers = null;
-    protected static int[] mFrameBufferTextures = null;
+    private int[] mFrameBuffers = null;
+    private int[] mFrameBufferTextures = null;
     private int mFrameWidth = -1;
     private int mFrameHeight = -1;
 
     public MagicCameraInputFilter(){
-        super(CAMERA_INPUT_VERTEX_SHADER, CAMERA_INPUT_FRAGMENT_SHADER);
+        super(OpenGlUtils.readShaderFromRawResource(R.raw.default_vertex) ,
+                OpenGlUtils.readShaderFromRawResource(R.raw.default_fragment));
     }
 
     protected void onInit() {
         super.onInit();
         mTextureTransformMatrixLocation = GLES20.glGetUniformLocation(mGLProgId, "textureTransform");
+        mSingleStepOffsetLocation = GLES20.glGetUniformLocation(getProgram(), "singleStepOffset");
+        mParamsLocation = GLES20.glGetUniformLocation(getProgram(), "params");
+        setBeautyLevel(MagicParams.beautyLevel);
     }
 
     public void setTextureTransformMatrix(float[] mtx){
@@ -57,6 +42,7 @@ public class MagicCameraInputFilter extends GPUImageFilter{
     @Override
     public int onDrawFrame(int textureId) {
         GLES20.glUseProgram(mGLProgId);
+        runPendingOnDrawTasks();
         if(!isInitialized()) {
             return OpenGlUtils.NOT_INIT;
         }
@@ -84,6 +70,7 @@ public class MagicCameraInputFilter extends GPUImageFilter{
     @Override
     public int onDrawFrame(int textureId, FloatBuffer vertexBuffer, FloatBuffer textureBuffer) {
         GLES20.glUseProgram(mGLProgId);
+        runPendingOnDrawTasks();
         if(!isInitialized()) {
             return OpenGlUtils.NOT_INIT;
         }
@@ -111,6 +98,7 @@ public class MagicCameraInputFilter extends GPUImageFilter{
     public int onDrawToTexture(final int textureId) {
         if(mFrameBuffers == null)
             return OpenGlUtils.NO_TEXTURE;
+        runPendingOnDrawTasks();
         GLES20.glViewport(0, 0, mFrameWidth, mFrameHeight);
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, mFrameBuffers[0]);
         GLES20.glUseProgram(mGLProgId);
@@ -150,7 +138,6 @@ public class MagicCameraInputFilter extends GPUImageFilter{
             mFrameBufferTextures = new int[1];
 
             GLES20.glGenFramebuffers(1, mFrameBuffers, 0);
-
             GLES20.glGenTextures(1, mFrameBufferTextures, 0);
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mFrameBufferTextures[0]);
             GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, width, height, 0,
@@ -163,11 +150,9 @@ public class MagicCameraInputFilter extends GPUImageFilter{
                     GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
             GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
                     GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
-
             GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, mFrameBuffers[0]);
             GLES20.glFramebufferTexture2D(GLES20.GL_FRAMEBUFFER, GLES20.GL_COLOR_ATTACHMENT0,
                     GLES20.GL_TEXTURE_2D, mFrameBufferTextures[0], 0);
-
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
             GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
         }
@@ -185,4 +170,50 @@ public class MagicCameraInputFilter extends GPUImageFilter{
         mFrameWidth = -1;
         mFrameHeight = -1;
     }
+
+    private void setTexelSize(final float w, final float h) {
+        setFloatVec2(mSingleStepOffsetLocation, new float[] {2.0f / w, 2.0f / h});
+    }
+
+    @Override
+    public void onInputSizeChanged(final int width, final int height) {
+        super.onInputSizeChanged(width, height);
+        setTexelSize(width, height);
+    }
+
+    public void setBeautyLevel(int level){
+        switch (level) {
+            case 0:
+                setFloat(mParamsLocation, 0.0f);
+                break;
+            case 1:
+                setFloat(mParamsLocation, 1.0f);
+                break;
+            case 2:
+                setFloat(mParamsLocation, 0.8f);
+                break;
+            case 3:
+                setFloat(mParamsLocation,0.6f);
+                break;
+            case 4:
+                setFloat(mParamsLocation, 0.4f);
+                break;
+            case 5:
+                setFloat(mParamsLocation,0.33f);
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        destroyFramebuffers();
+    }
+
+    public void onBeautyLevelChanged(){
+        setBeautyLevel(MagicParams.beautyLevel);
+    }
+
 }

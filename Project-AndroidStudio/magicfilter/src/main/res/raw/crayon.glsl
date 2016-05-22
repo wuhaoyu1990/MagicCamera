@@ -1,5 +1,5 @@
 varying highp vec2 textureCoordinate;
-precision highp float;
+precision mediump float;
 
 uniform sampler2D inputImageTexture;
 uniform vec2 singleStepOffset; 
@@ -44,9 +44,9 @@ void main()
 	textureColor = textureColor * alpha + (1.-alpha)*oralColor.rgb;
 	
 	vec3 yiqColor = textureColor * rgb2yiqMatrix;
-	
+
 	yiqColor.r = max(0.0,min(1.0,pow(gray,strength)));
-	
+
 	textureColor = yiqColor * yiq2rgbMatrix;
 	
 	gl_FragColor = vec4(textureColor, oralColor.w);

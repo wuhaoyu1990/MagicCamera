@@ -4,6 +4,7 @@ import android.opengl.GLES20;
 
 import com.seu.magicfilter.MagicEngine;
 import com.seu.magicfilter.filter.base.gpuimage.GPUImageFilter;
+import com.seu.magicfilter.utils.MagicParams;
 import com.seu.magicfilter.utils.OpenGlUtils;
 
 public class MagicLookupFilter extends GPUImageFilter {
@@ -62,7 +63,7 @@ public class MagicLookupFilter extends GPUImageFilter {
 		super.onInitialized();
     	runOnDraw(new Runnable(){
     		public void run(){
-    			mLookupSourceTexture = OpenGlUtils.loadTexture(MagicEngine.getContext(), table);
+    			mLookupSourceTexture = OpenGlUtils.loadTexture(MagicParams.context, table);
     		}
     	});
     }

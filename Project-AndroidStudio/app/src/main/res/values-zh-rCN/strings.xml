@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="filter_none">原图</string>
+	<string name="filter_whitecat">白猫</string>
+	<string name="filter_blackcat">黑猫</string>
+	<string name="filter_romance">浪漫</string>
+	<string name="filter_sakura">樱花</string>
+	<string name="filter_antique">复古</string>
+	<string name="filter_beauty">美肤</string>
+	<string name="filter_calm">平静</string>
+	<string name="filter_cool">冰冷</string>
+	<string name="filter_emerald">祖母绿</string>
+	<string name="filter_evergreen">常青</string>
+	<string name="filter_fairytale">童话</string>
+	<string name="filter_healthy">健康</string>
+	<string name="filter_latte">拿铁</string>
+	<string name="filter_nostalgia">怀旧</string>
+	<string name="filter_tender">温柔</string>
+	<string name="filter_warm">温暖</string>
+	<string name="filter_sweets">甜品</string>
+	<string name="filter_sunrise">日出</string>
+	<string name="filter_sunset">日落</string>
+	<string name="filter_skinwhiten">美白</string>
+	<string name="filter_crayon">蜡笔</string>
+	<string name="filter_sketch">素描</string>
+	
+	<string name="edit_filter">滤镜</string>
+	<string name="edit_edit">编辑</string>
+	<string name="edit_adds">装饰</string>
+	<string name="edit_frame">边框</string>
+	<string name="edit_beauty">美颜</string>
+	
+	<string name="edit_contrast">对比度</string>
+	<string name="edit_exposure">曝光</string>
+	<string name="edit_vibrance">自然饱和度</string>
+	<string name="edit_saturation">饱和度</string>
+	<string name="edit_sharpness">锐化</string>
+	<string name="edit_brightness">亮度</string>
+	<string name="edit_hue">色调</string>
+</resources>

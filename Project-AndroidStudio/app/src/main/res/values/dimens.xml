@@ -1,6 +1,13 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
+	<dimen name="seekbar_progress_height">3.0dip</dimen> 
+	<dimen name="seekbar_thumb_offset">6.0dip</dimen>
+	<dimen name="seekbar_button_height">60.0dip</dimen>
+    <dimen name="seekbar_gradient_seek_bar_line_width">12.0px</dimen>
+    <dimen name="seekbar_layout_height">220.0dip</dimen>
+    <dimen name="seekbar_line_width">2.0px</dimen>
+    <dimen name="seekbar_margin_left">34.0dip</dimen>
+    <dimen name="seekbar_margin_right">34.0dip</dimen>
+    <dimen name="seekbar_nail_radius">8.0px</dimen>
+    <dimen name="seekbar_nail_stroke_width">2.0px</dimen>
+    <dimen name="seekbar_thumb_radius">24.0px</dimen>
 </resources>

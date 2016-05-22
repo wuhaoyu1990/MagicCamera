@@ -7,6 +7,7 @@ import android.opengl.GLES20;
 import com.seu.magicfilter.MagicEngine;
 import com.seu.magicfilter.R;
 import com.seu.magicfilter.filter.base.gpuimage.GPUImageFilter;
+import com.seu.magicfilter.utils.MagicParams;
 import com.seu.magicfilter.utils.OpenGlUtils;
 
 public class MagicSunriseFilter extends GPUImageFilter{
@@ -127,11 +128,11 @@ public class MagicSunriseFilter extends GPUImageFilter{
 		        }
 		        GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, 256, 2, 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, ByteBuffer.wrap(arrayOfByte));
 		        GLES20.glActiveTexture(GLES20.GL_TEXTURE4);
-		        mMaskGrey1TextureId = OpenGlUtils.loadTexture(MagicEngine.getContext(), "filter/amaro_mask1.jpg");
+		        mMaskGrey1TextureId = OpenGlUtils.loadTexture(MagicParams.context, "filter/amaro_mask1.jpg");
 		        GLES20.glActiveTexture(GLES20.GL_TEXTURE5);
-		        mMaskGrey2TextureId = OpenGlUtils.loadTexture(MagicEngine.getContext(), "filter/amaro_mask2.jpg");
+		        mMaskGrey2TextureId = OpenGlUtils.loadTexture(MagicParams.context, "filter/amaro_mask2.jpg");
 		        GLES20.glActiveTexture(GLES20.GL_TEXTURE6);
-		        mMaskGrey3TextureId = OpenGlUtils.loadTexture(MagicEngine.getContext(), "filter/toy_mask1.jpg");
+		        mMaskGrey3TextureId = OpenGlUtils.loadTexture(MagicParams.context, "filter/toy_mask1.jpg");
 		    }
 	    });
 	}

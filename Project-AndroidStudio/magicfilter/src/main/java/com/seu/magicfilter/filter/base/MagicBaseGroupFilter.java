@@ -138,7 +138,7 @@ public class MagicBaseGroupFilter extends GPUImageFilter{
         }
     }
     
-    public int getFilterCount(){
+    public int getSize(){
     	return filters.size();
     }
 }
