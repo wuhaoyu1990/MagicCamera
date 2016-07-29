@@ -28,3 +28,21 @@ This project is still under coding and will be updated later,only used eclipse b
 #ScreenShot
 
 ![alt text](https://github.com/wuhaoyu1990/MagicCamera/blob/master/Screenshot_1.png)![alt text](https://github.com/wuhaoyu1990/MagicCamera/blob/master/Screenshot_2.png)![alt text](https://github.com/wuhaoyu1990/MagicCamera/blob/master/Screenshot_3.png)![alt text](https://github.com/wuhaoyu1990/MagicCamera/blob/master/Screenshot_4.png)
+
+
+
+# 美颜开启测试结果 (Beauty mode ON)
+
+Test result for these devices: 
+
+现有机型就这么几款，如下表：
+
+|       机型（Phone）        | 流畅度 (Performance)（5星满分） |
+| :--------------------: | :---------------------: |
+|        Mi5 标配版         |          ★★★★★          |
+|         Mi-4C          |            ★            |
+|        红米Note3         |           ★★★           |
+|          红米2A          |           ★★            |
+| Huawei Mate8  (3G RAM) |          ★★★★★          |
+|     Huawei 荣耀畅玩4C      |           ★★            |
+|     MEIZU MX4 Pro      |           ★★★           |
