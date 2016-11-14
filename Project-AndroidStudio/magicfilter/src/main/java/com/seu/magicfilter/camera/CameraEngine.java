@@ -85,7 +85,8 @@ public class CameraEngine {
             parameters.setFocusMode(Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
         }
         Size previewSize = CameraUtils.getLargePreviewSize(camera);
-        parameters.setPreviewSize(previewSize.width, previewSize.height);
+//        parameters.setPreviewSize(previewSize.width, previewSize.height);
+        parameters.setPreviewSize(640, 480);
         Size pictureSize = CameraUtils.getLargePictureSize(camera);
         parameters.setPictureSize(pictureSize.width, pictureSize.height);
         parameters.setRotation(90);

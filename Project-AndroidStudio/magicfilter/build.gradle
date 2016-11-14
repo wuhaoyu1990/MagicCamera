@@ -1,36 +1,66 @@
-apply plugin: 'com.android.model.library'
+apply plugin: 'com.android.library'
 
-model {
-    android {
-        compileSdkVersion = 23
-        buildToolsVersion = "23.0.3"
+android {
+    compileSdkVersion = 23
+    buildToolsVersion = "23.0.3"
 
-        defaultConfig.with {
-            minSdkVersion.apiLevel = 18
-            targetSdkVersion.apiLevel = 21
-            versionCode = 1
-            versionName = "1.0"
+    defaultConfig {
+        minSdkVersion 18
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+
+        externalNativeBuild {
+            cmake {
+//                targets "YoloLive"
+                // Passes optional arguments to CMake.
+                arguments "-DANDROID_TOOLCHAIN=clang",
+                        "-DANDROID_STL=stlport_static",
+                        "-DANDROID_ARM_MODE=arm"
+
+                // Sets optional flags for the C compiler.
+//            cFlags
+
+                // Sets a flag to enable format macro constants for the C++ compiler.
+                cppFlags "-std=c++11", "-fexceptions", "-fpermissive"
+            }
+            ndk {
+                // Specifies the ABI configurations of your native
+                // libraries Gradle should build and package with your APK.
+                abiFilters 'armeabi'
+            }
         }
     }
 
-    android.ndk {
-        moduleName = "MagicBeautify"
-        cppFlags.add("-DANDROID_NDK")
-        cppFlags.add("-D_DEBUG")
-        ldLibs.add("log")
-        ldLibs.add("jnigraphics")
-        stl = "stlport_static"
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
     }
 
-    android.buildTypes {
+    buildTypes {
         release {
-            minifyEnabled = false
-            proguardFiles.add(file('proguard-rules.txt'))
+            minifyEnabled false
+            externalNativeBuild {
+                debuggable true
+            }
         }
+    }
+
+    dependencies {
+        compile fileTree(dir: 'libs', include: ['*.jar'])
+        testCompile 'junit:junit:4.12'
+        compile "com.jakewharton.timber:timber:4.1.2"
     }
 }
 
-dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-}
+//android.ndk {
+//    moduleName = "MagicBeautify"
+//    cppFlags.add("-DANDROID_NDK")
+//    cppFlags.add("-D_DEBUG")
+//    ldLibs.add("log")
+//    ldLibs.add("jnigraphics")
+//    stl = "stlport_static"
+//}
+
+

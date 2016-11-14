@@ -26,7 +26,7 @@ import javax.microedition.khronos.opengles.GL10;
 public abstract class MagicBaseView extends GLSurfaceView implements GLSurfaceView.Renderer{
     /**
      * 所选择的滤镜，类型为MagicBaseGroupFilter
-     * 1.mCameraInputFilter将SurfaceTexture中YUV数据绘制到FrameBuffer
+     * 1.mCameraInputFilter(cameraInputFilter?)将SurfaceTexture中YUV数据绘制到FrameBuffer
      * 2.filter将FrameBuffer中的纹理绘制到屏幕中
      */
     protected GPUImageFilter filter;
