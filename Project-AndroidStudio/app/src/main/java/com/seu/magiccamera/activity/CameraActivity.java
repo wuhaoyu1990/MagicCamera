@@ -1,6 +1,5 @@
 package com.seu.magiccamera.activity;
 
-import android.Manifest;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -11,11 +10,10 @@ import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.PermissionChecker;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -32,10 +30,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import timber.log.Timber;
+
 /**
  * Created by why8222 on 2016/3/17.
  */
-public class CameraActivity extends Activity{
+public class CameraActivity extends Activity {
     private LinearLayout mFilterLayout;
     private RecyclerView mFilterListView;
     private FilterAdapter mAdapter;
@@ -95,22 +95,30 @@ public class CameraActivity extends Activity{
             MagicFilterType.XPROII
     };
 
+    static boolean timberPlanted = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (!timberPlanted) {
+            Timber.plant(new Timber.DebugTree());
+            timberPlanted = true;
+        }
+
         setContentView(R.layout.activity_camera);
         MagicEngine.Builder builder = new MagicEngine.Builder();
         magicEngine = builder
-                .build((MagicCameraView)findViewById(R.id.glsurfaceview_camera));
+                .build((MagicCameraView) findViewById(R.id.glsurfaceview_camera));
         initView();
     }
 
-    private void initView(){
-        mFilterLayout = (LinearLayout)findViewById(R.id.layout_filter);
+    private void initView() {
+        mFilterLayout = (LinearLayout) findViewById(R.id.layout_filter);
         mFilterListView = (RecyclerView) findViewById(R.id.filter_listView);
 
-        btn_shutter = (ImageView)findViewById(R.id.btn_camera_shutter);
-        btn_mode = (ImageView)findViewById(R.id.btn_camera_mode);
+        btn_shutter = (ImageView) findViewById(R.id.btn_camera_shutter);
+        btn_mode = (ImageView) findViewById(R.id.btn_camera_mode);
 
         findViewById(R.id.btn_camera_filter).setOnClickListener(btn_listener);
         findViewById(R.id.btn_camera_closefilter).setOnClickListener(btn_listener);
@@ -127,19 +135,19 @@ public class CameraActivity extends Activity{
         mFilterListView.setAdapter(mAdapter);
         mAdapter.setOnFilterChangeListener(onFilterChangeListener);
 
-        animator = ObjectAnimator.ofFloat(btn_shutter,"rotation",0,360);
+        animator = ObjectAnimator.ofFloat(btn_shutter, "rotation", 0, 360);
         animator.setDuration(500);
         animator.setRepeatCount(ValueAnimator.INFINITE);
         Point screenSize = new Point();
         getWindowManager().getDefaultDisplay().getSize(screenSize);
-        MagicCameraView cameraView = (MagicCameraView)findViewById(R.id.glsurfaceview_camera);
+        MagicCameraView cameraView = (MagicCameraView) findViewById(R.id.glsurfaceview_camera);
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) cameraView.getLayoutParams();
         params.width = screenSize.x;
         params.height = screenSize.x * 4 / 3;
         cameraView.setLayoutParams(params);
     }
 
-    private FilterAdapter.onFilterChangeListener onFilterChangeListener = new FilterAdapter.onFilterChangeListener(){
+    private FilterAdapter.onFilterChangeListener onFilterChangeListener = new FilterAdapter.onFilterChangeListener() {
 
         @Override
         public void onFilterChanged(MagicFilterType filterType) {
@@ -151,7 +159,7 @@ public class CameraActivity extends Activity{
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults) {
         if (grantResults.length != 1 || grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            if(mode == MODE_PIC)
+            if (mode == MODE_PIC)
                 takePhoto();
             else
                 takeVideo();
@@ -160,41 +168,57 @@ public class CameraActivity extends Activity{
         }
     }
 
+    private void zoomOut() {
+        ViewGroup.LayoutParams layoutParams = MagicParams.magicBaseView.getLayoutParams();
+        layoutParams.width /= 2;
+        layoutParams.height /= 2;
+        MagicParams.magicBaseView.setLayoutParams(layoutParams);
+    }
+
+    private void zoomIn() {
+        ViewGroup.LayoutParams layoutParams = MagicParams.magicBaseView.getLayoutParams();
+        layoutParams.width *= 2;
+        layoutParams.height *= 2;
+        MagicParams.magicBaseView.setLayoutParams(layoutParams);
+    }
+
     private View.OnClickListener btn_listener = new View.OnClickListener() {
 
         @Override
         public void onClick(View v) {
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.btn_camera_mode:
                     switchMode();
                     break;
                 case R.id.btn_camera_shutter:
-                    if (PermissionChecker.checkSelfPermission(CameraActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                            == PackageManager.PERMISSION_DENIED) {
-                        ActivityCompat.requestPermissions(CameraActivity.this, new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
-                                v.getId());
-                    } else {
-                        if(mode == MODE_PIC)
-                            takePhoto();
-                        else
-                            takeVideo();
-                    }
+//                    if (PermissionChecker.checkSelfPermission(CameraActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                            == PackageManager.PERMISSION_DENIED) {
+//                        ActivityCompat.requestPermissions(CameraActivity.this, new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
+//                                v.getId());
+//                    } else {
+//                        if(mode == MODE_PIC)
+//                            takePhoto();
+//                        else
+//                            takeVideo();
+//                    }
+                    zoomOut();
                     break;
                 case R.id.btn_camera_filter:
-                    showFilters();
+//                    showFilters();
+                    zoomIn();
                     break;
                 case R.id.btn_camera_switch:
                     magicEngine.switchCamera();
                     break;
                 case R.id.btn_camera_beauty:
                     new AlertDialog.Builder(CameraActivity.this)
-                            .setSingleChoiceItems(new String[] { "关闭", "1", "2", "3", "4", "5"}, MagicParams.beautyLevel,
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        magicEngine.setBeautyLevel(which);
-                                        dialog.dismiss();
-                                    }
-                                })
+                            .setSingleChoiceItems(new String[]{"关闭", "1", "2", "3", "4", "5"}, MagicParams.beautyLevel,
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            magicEngine.setBeautyLevel(which);
+                                            dialog.dismiss();
+                                        }
+                                    })
                             .setNegativeButton("取消", null)
                             .show();
                     break;
@@ -205,32 +229,32 @@ public class CameraActivity extends Activity{
         }
     };
 
-    private void switchMode(){
-        if(mode == MODE_PIC){
+    private void switchMode() {
+        if (mode == MODE_PIC) {
             mode = MODE_VIDEO;
             btn_mode.setImageResource(R.drawable.icon_camera);
-        }else{
+        } else {
             mode = MODE_PIC;
             btn_mode.setImageResource(R.drawable.icon_video);
         }
     }
 
-    private void takePhoto(){
-        magicEngine.savePicture(getOutputMediaFile(),null);
+    private void takePhoto() {
+        magicEngine.savePicture(getOutputMediaFile(), null);
     }
 
-    private void takeVideo(){
-        if(isRecording) {
+    private void takeVideo() {
+        if (isRecording) {
             animator.end();
             magicEngine.stopRecord();
-        }else {
+        } else {
             animator.start();
             magicEngine.startRecord();
         }
         isRecording = !isRecording;
     }
 
-    private void showFilters(){
+    private void showFilters() {
         ObjectAnimator animator = ObjectAnimator.ofFloat(mFilterLayout, "translationY", mFilterLayout.getHeight(), 0);
         animator.setDuration(200);
         animator.addListener(new Animator.AnimatorListener() {
@@ -259,8 +283,8 @@ public class CameraActivity extends Activity{
         animator.start();
     }
 
-    private void hideFilters(){
-        ObjectAnimator animator = ObjectAnimator.ofFloat(mFilterLayout, "translationY", 0 ,  mFilterLayout.getHeight());
+    private void hideFilters() {
+        ObjectAnimator animator = ObjectAnimator.ofFloat(mFilterLayout, "translationY", 0, mFilterLayout.getHeight());
         animator.setDuration(200);
         animator.addListener(new Animator.AnimatorListener() {
 

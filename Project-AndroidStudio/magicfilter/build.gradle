@@ -50,6 +50,7 @@ android {
     dependencies {
         compile fileTree(dir: 'libs', include: ['*.jar'])
         testCompile 'junit:junit:4.12'
+        compile "com.jakewharton.timber:timber:4.1.2"
     }
 }
 
